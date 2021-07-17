@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5fee31afae39b7c4ea97dc142c2ab854",
+    "content-hash": "7cf49f363dde480caa4abc01b1af92a1",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -2408,6 +2408,66 @@
             "time": "2020-08-18T17:17:46+00:00"
         },
         {
+            "name": "snapappointments/bootstrap-select",
+            "version": "v1.13.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/snapappointments/bootstrap-select.git",
+                "reference": "6c4c75f61e69ca54d5ab557a2b90ffdccf1c63cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/snapappointments/bootstrap-select/zipball/6c4c75f61e69ca54d5ab557a2b90ffdccf1c63cd",
+                "reference": "6c4c75f61e69ca54d5ab557a2b90ffdccf1c63cd",
+                "shasum": ""
+            },
+            "suggest": {
+                "components/jquery": "1.9.1 - 3",
+                "twbs/bootstrap": ">=3.0.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Casey Holzer",
+                    "homepage": "https://github.com/caseyjhol"
+                },
+                {
+                    "name": "Silvio Moreto",
+                    "homepage": "https://github.com/silviomoreto"
+                },
+                {
+                    "name": "SnapAppointments, LLC",
+                    "homepage": "https://snapappointments.com"
+                }
+            ],
+            "description": "The jQuery plugin that brings select elements into the 21st century with intuitive multiselection, searching, and much more. Now with Bootstrap 4 support.",
+            "homepage": "https://developer.snapappointments.com/bootstrap-select",
+            "keywords": [
+                "bootstrap",
+                "dropdown",
+                "form",
+                "javascript",
+                "jquery",
+                "replacement",
+                "select"
+            ],
+            "support": {
+                "issues": "https://github.com/snapappointments/bootstrap-select/issues",
+                "source": "https://github.com/snapappointments/bootstrap-select/tree/v1.13.18"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/caseyjhol",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-06-26T18:04:14+00:00"
+        },
+        {
             "name": "spatie/laravel-permission",
             "version": "4.2.0",
             "source": {
@@ -2792,16 +2852,16 @@
         },
         {
             "name": "symfony/error-handler",
-            "version": "v5.3.0",
+            "version": "v5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "0e6768b8c0dcef26df087df2bbbaa143867a59b2"
+                "reference": "43323e79c80719e8a4674e33484bca98270d223f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/0e6768b8c0dcef26df087df2bbbaa143867a59b2",
-                "reference": "0e6768b8c0dcef26df087df2bbbaa143867a59b2",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/43323e79c80719e8a4674e33484bca98270d223f",
+                "reference": "43323e79c80719e8a4674e33484bca98270d223f",
                 "shasum": ""
             },
             "require": {
@@ -2841,7 +2901,7 @@
             "description": "Provides tools to manage errors and ease debugging PHP code",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/error-handler/tree/v5.3.0"
+                "source": "https://github.com/symfony/error-handler/tree/v5.3.3"
             },
             "funding": [
                 {
@@ -2857,7 +2917,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-26T17:43:10+00:00"
+            "time": "2021-06-24T08:13:00+00:00"
         },
         {
             "name": "symfony/event-dispatcher",

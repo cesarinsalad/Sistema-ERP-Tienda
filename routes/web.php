@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ArticuloControler;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +13,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/','welcome');
 
 
+Route::get('admin/pagoempleados', 'PagoempleadosController@pagoempleados');
+Route::get('admin/empleados', 'EmpleadosController@empleados');
+
+Route::get('admin/index','Listordene@index');
+
+Route::get('admin/index', 'ArticuloControler@index');
+Route::get('admin/customer', 'ClientController@customer')->name('client.customer');
+Route::post('admin/home/searchclient', 'HomeController@searchClient')->name('client.search');
+Route::post('admin/home/searchproduct', 'HomeController@searchProduct')->name('product.search');
+Route::post('admin/guardarorden', 'HomeController@guardarorden')->name('home.guardarorden');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::resource('/articulo','ArticuloControler');
+
+Route::resource('/client','ClientController');
+
+Route::resource('/empleados','EmpleadosController');
+
+Route::resource('/pagoempleados','PagoempleadosController');
+
+Route::resource('/listorden', 'ListordeneController');

@@ -46,9 +46,9 @@ return [
     */
 
     'logo' => '<b>TRUCUPEY</b>, C.A.',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => '',
     'logo_img_class' => 'brand-image img-circle elevation-3',
-    'logo_img_xl' => null,
+    'logo_img_xl' => false,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'TRUCUPEY, C.A.',
 
@@ -87,7 +87,7 @@ return [
     'layout_boxed' => null,
     'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => true,
-    'layout_fixed_footer' => null,
+    'layout_fixed_footer' => true,
     'layout_dark_mode' => null,
 
     /*
@@ -103,11 +103,11 @@ return [
     */
 
     'classes_auth_card' => 'card-outline card-danger',
-'classes_auth_header' => 'bg-gradient-dark',
-'classes_auth_body' => 'bg-gradient-dark',
-'classes_auth_footer' => 'bg-gradient-dark',
-'classes_auth_icon' => '',
-'classes_auth_btn' => 'btn-flat btn-danger',
+    'classes_auth_header' => 'bg-gradient-dark',
+    'classes_auth_body' => 'bg-gradient-dark',
+    'classes_auth_footer' => 'bg-gradient-dark',
+    'classes_auth_icon' => '',
+    'classes_auth_btn' => 'btn-flat btn-danger',
 
 
     /*
@@ -169,7 +169,7 @@ return [
     */
 
     'right_sidebar' => true,
-    'right_sidebar_icon' => 'fas fa-arrow-alt-circle-down',
+    'right_sidebar_icon' => false,
     'right_sidebar_theme' => 'dark',
     'right_sidebar_slide' => true,
     'right_sidebar_push' => false,
@@ -227,98 +227,64 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
-        [
+        [' header'        => 'OPCIONES' ], 
+        [   'label_color'  => 'navbar-dark',
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
+            'label'       => 'ver',
+            'label_color' => 'success', 
         ],
 
         // Sidebar items:
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            // 'type' => 'sidebar-menu-search',
+            // 'text' => 'search',
         ],
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
-        [
-            'text'        => 'CRUD',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-clipboard',
-            'label'       => 'ver',
-            'label_color' => 'success',
+        
+        [' header'       => 'Ordenes' ], 
+        [     
+            'text'        => 'Ventas',
+            'url'         => '/home',
+            'icon'        => 'fas fa-cash-register',
+            /* 'label'       => 'ver',
+            'label_color' => 'success', */
+            
         ],
-        ['header' => 'Administrativo'],
+        ['header' => 'Inventario'],
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'text' => 'Productos',
+            'url'  => 'admin/index',
+            'icon' => 'far fa-fw fa-clipboard',
         ],
         [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
+            'text' => 'Clientes',
+            'url'  => 'admin/customer',
+            'icon' => 'fas fa-users',
         ],
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
+            'text' => 'Ordenes',
+            'url'  => '/listorden',
+            'icon' => 'fas fa-users',
         ],
+        ['header' => 'Nomina'],
         [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
+            'text' => 'Empleados',
+            'url'  => 'admin/empleados',
+            'icon' => 'far fa-user',
         ],
+        
+        [
+            'text'    => 'Pago/Empleados',
+            'url'     => 'admin/pagoempleados',
+            'icon'    => 'fas fa-dollar-sign',
+
+        ],
+               
     ],
 
     /*
@@ -396,8 +362,8 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                    'asset' => true,
+                    'location' => '/js/Chart.bundle.min.js',
                 ],
             ],
         ],
@@ -423,6 +389,26 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'Bootstrapselect' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => '/css/bootstrap-select.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '/js/popper.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '/js/bootstrap-select.min.js',
                 ],
             ],
         ],

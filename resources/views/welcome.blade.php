@@ -12,12 +12,17 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #F80000;
-                color: #000000;
+               /*  background-color: #F80000;
+                color: #f00000;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
-                margin: 0;
+                margin: 0; */
+                
+             height: 100%;
+            background:#F0FFFF;
+            color: #f00000;
+            
             }
 
             .full-height {
@@ -41,7 +46,7 @@
             }
 
             .content {
-                text-align: center;
+                text-align: right;
             }
 
             .title {
@@ -80,10 +85,15 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    TRUCUPEY, C.A.
+               
+                <div class="title m-b-md" >
+                 <img with="3000px" height="600px" src="{{ asset('imagenes/trucu2.jpeg')}}">
+                
+
                 </div>
+                <h5>J-40855270-1</h5>
             </div>
         </div>
     </body>
+    
 </html>

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'full_name'                   => 'Nom complet',
+    'full_name'                   => 'Nombre completo',
     'email'                       => 'Email',
     'password'                    => 'Contrasenya',
     'retype_password'             => 'Confirmar la contrasenya',
