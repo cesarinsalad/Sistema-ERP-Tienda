@@ -13,13 +13,17 @@ class CreateArticulosTable extends Migration
      */
     public function up()
     {
-        Schema::create('articulos', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('codigo',10);
             $table->string('nombre',100);
             $table->text('descripcion');
+            $table->foreignId('vendor_id')->constrained();
+            $table->foreignId('brand_id')->constrained();
+            $table->foreignId('category_id')->constrained();
             $table->integer('cantidad');
             $table->decimal('precio', 8, 2);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
