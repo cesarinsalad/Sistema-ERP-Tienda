@@ -5,42 +5,34 @@
 
 @section('content')
 
-    <form action="{{ route('articulo.store') }}" method="POST">
+    <form action="{{ route('categories.store') }}" method="POST">
         @csrf
 
         <div class="card bg-light mb-3">
             <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-                <h4> Agregar Nuevo Producto</h4>
+                <h4> Agregar Nueva Categoría</h4>
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">
-                <a class="btn btn-primary" href="{{ route('articulo.index') }}"><i class="fas fa-arrow-left"><text> Regresar</text></i></a>
+                <a class="btn btn-primary" href="{{ route('categories.index') }}"><i class="fas fa-arrow-left"><text> Regresar</text></i></a>
                 </span>
             </div>
             <div class="container">
                 <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                        <label>Codigo</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Código" name="codigo" >
-                        @error('codigo')
+                    <div class="col-md-12 mb-3">
+                        <label>Nombre</label>
+                        <input type="text" value="{{ @old('name') }}"
+                               class="form-control @error('name') is-invalid @enderror " name="name" placeholder="Nombre">
+                        @error('name')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label>Nombre</label>
-                        <input type="text" class="form-control" name="nombre" placeholder="Nombre" >
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Cantidad</label>
-                        <input type="text" class="form-control" name="cantidad" placeholder="Cantidad" >
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label>Precio</label>
-                        <input type="text" class="form-control" name="precio" placeholder="Precio" >
-                    </div>
                     <div class="col-md-12 mb-3">
-                        <label for="validationServer05">Descripcion</label>
-                        <textarea class="form-control" id="validationServer05" name="descripcion"
-                                  placeholder="Descripcion" ></textarea>
+                        <label>Descripción</label>
+                        <textarea value="{{ @old('description') }}"
+                                  class="form-control @error('description') is-invalid @enderror " name="description"
+                                  placeholder="Descripción"></textarea>
+                        @error('description')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
                 <div class="py-3 px-3 border-bottom d-flex justify-content-between">

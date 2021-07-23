@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Client;
-use App\Articulo;
-use App\Orden;
+use App\Product;
+use App\Order;
 use App\Metodo_de_pago;
 use App\Metodo_pago_orden;
 use App\Product_order;
+use App\Exchangerate;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -29,10 +30,12 @@ class HomeController extends Controller
     public function index()
     {
         $data = array();
+        $data['tasaDolar']  = Exchangerate::latest('created_at')->first()->value;
+        $data['valorDolar'] = number_format((float)(1 / $data['tasaDolar']), 2, '.', '');
         $data['paymentMethods'] = Metodo_de_pago::get();
         return view('home', $data);
     }
-    
+
     public function searchClient(Request $request)
     {
         $data = array();
@@ -47,17 +50,18 @@ class HomeController extends Controller
         $request->validate([
             'codigo'       => 'required|string'
         ]);
-        $articulos = Articulo::where('nombre','LIKE','%'.$request->codigo.'%')
+        $articulos = Product::where('nombre','LIKE','%'.$request->codigo.'%')
             ->orWhere('codigo', 'LIKE', '%'.$request['codigo'].'%')
             ->get();
         return response()->json($articulos);
     }
 
    public function guardarorden(Request $request){
+    $exchangerate =  Exchangerate::latest('created_at')->first();
     //Identificar cliente
     if(!$request['client_id_name']){
         $client = Client::create([
-            'cedula'        =>     $request['cedula_name'], 
+            'cedula'        =>     $request['cedula_name'],
             'nombres'       =>    $request['client_nom'],
             'apellidos'     =>  $request['client_ape'],
             'telefono'      =>   $request['client_tel'],
@@ -67,25 +71,22 @@ class HomeController extends Controller
     }else{
         $client_id = $request['client_id_name'];
     }
-    
+
     //Calculo de total general, y total por producto
     $total=0;
     $productTotals = array();
     foreach ($request['plist'] as  $value) {
-        $articulo = Articulo::find($value['id']);
+        $articulo = Product::find($value['id']);
         $productTotals[$value['id']] = $articulo['precio'] * $value['cantidad'];
         $total=$total+($productTotals[$value['id']]);
         $articulo->cantidad =  $articulo['cantidad']-$value['cantidad'];
-        $articulo->save(); 
+        $articulo->save();
     }
 
-    //Consultar tasa de cambio actual
-    //TODO
-
     //Registrar orden
-    $orden = Orden::create([
-        'cliente_id'     =>    (int)$client_id, 
-        'tasa_cambio'     =>    1, //<--- aqui va la tasa de cambio
+    $orden = Order::create([
+        'cliente_id'     =>    (int)$client_id,
+        'tasa_cambio'     =>    $exchangerate->id,
         'monto_orden'     =>    $total,
     ]);
 
@@ -93,14 +94,12 @@ class HomeController extends Controller
     $metodosDePago = array();
     foreach ($request['mlist'] as $value) {
         $metodosDePago[] = array(
-            'id_orden'             =>    $orden->id, 
+            'id_orden'             =>    $orden->id,
             'id_metodo_pago'       =>    $value['id'],
             'monto_pago_orden'     =>    $value['monto'],
             'created_at'           =>    date("Y-m-d H:i:s"),
             'updated_at'           =>    date("Y-m-d H:i:s"),
         );
-   
-   
     }
     Metodo_pago_orden::insert($metodosDePago);
 
@@ -115,11 +114,11 @@ class HomeController extends Controller
         );
     }
     Product_order::insert($productos);
-   
 
-        return redirect()->route('home')->with('success','Orden Generada');
+
+        return redirect()->route('home')->with('success','Order Generada');
    }
-   
+
 
 
 }

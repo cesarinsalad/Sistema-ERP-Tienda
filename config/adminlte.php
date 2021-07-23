@@ -45,9 +45,9 @@ return [
     |
     */
 
-    'logo' => '<b>TRUCUPEY</b>, C.A.',
-    'logo_img' => '',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
+    'logo' => '',
+    'logo_img' => 'imagenes/logo-trucupey.svg',
+    'logo_img_class' => 'brand-image img-circle elevation-3 logo_img_xl_class',
     'logo_img_xl' => false,
     'logo_img_xl_class' => 'brand-image-xs',
     'logo_img_alt' => 'TRUCUPEY, C.A.',
@@ -66,7 +66,7 @@ return [
 
     'usermenu_enabled' => true,
     'usermenu_header' => true,
-    'usermenu_header_class' => 'bg-danger',
+    'usermenu_header_class' => 'bg-light',
     'usermenu_image' => false,
     'usermenu_desc' => false,
     'usermenu_profile_url' => true,
@@ -102,12 +102,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-danger',
-    'classes_auth_header' => 'bg-gradient-dark',
-    'classes_auth_body' => 'bg-gradient-dark',
-    'classes_auth_footer' => 'bg-gradient-dark',
+    'classes_auth_card' => 'card-outline card-danger ',
+    'classes_auth_header' => '',
+    'classes_auth_body' => '',
+    'classes_auth_footer' => '',
     'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-danger',
+    'classes_auth_btn' => 'btn-flat btn-primary',
 
 
     /*
@@ -123,14 +123,14 @@ return [
     */
 
     'classes_body' => '',
-    'classes_brand' => 'bg-danger',
+    'classes_brand' => 'bg-dark',
     'classes_brand_text' => 'text-dark',
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-secondary navbar-light',
+    'classes_topnav' => 'navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -148,8 +148,8 @@ return [
 
     'sidebar_mini' => true,
     'sidebar_collapse' => true,
-    'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
+    'sidebar_collapse_auto_size' => true,
+    'sidebar_collapse_remember' => true,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
@@ -192,8 +192,8 @@ return [
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
+    'register_url' => false,
+    'password_reset_url' => false,
     'password_email_url' => 'password/email',
     'profile_url' => false,
 
@@ -227,13 +227,13 @@ return [
 
     'menu' => [
         // Navbar items:
-        [' header'        => 'OPCIONES' ], 
+       /*  [' header'        => 'OPCIONES' ],
         [   'label_color'  => 'navbar-dark',
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
             'label'       => 'ver',
-            'label_color' => 'success', 
-        ],
+            'label_color' => 'success',
+        ], */
 
         // Sidebar items:
         [
@@ -241,20 +241,25 @@ return [
             // 'text' => 'search',
         ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            // 'text' => 'blog',
+            // 'url'  => 'admin/blog',
+            // 'can'  => 'manage-blog',
         ],
-        
-        [' header'       => 'Ordenes' ], 
-        [     
-            'text'        => 'Ventas',
+
+        [' header'       => 'Ventas' ],
+        [
+            'text'        => 'Generar Order',
             'url'         => '/home',
             'icon'        => 'fas fa-cash-register',
             /* 'label'       => 'ver',
             'label_color' => 'success', */
-            
         ],
+        [
+            'text' => 'Lista de Ordenes',
+            'url'  => '/listorden',
+            'icon' => 'fas fa-list',
+        ],
+
         ['header' => 'Inventario'],
         [
             'text' => 'Productos',
@@ -262,29 +267,52 @@ return [
             'icon' => 'far fa-fw fa-clipboard',
         ],
         [
+            'text' => 'Proveedores',
+            'url'  => '/vendors',
+            'icon' => 'fas fa-user-tie',
+        ],
+        [
+            'text' => 'Categorías',
+            'url'  => '/categories',
+            'icon' => 'fas fa-tags',
+        ],
+        [
+            'text' => 'Marcas',
+            'url'  => '/brands',
+            'icon' => 'fas fa-copyright',
+        ],
+        ['header' => 'Clientela'],
+        [
             'text' => 'Clientes',
             'url'  => 'admin/customer',
             'icon' => 'fas fa-users',
         ],
         [
-            'text' => 'Ordenes',
-            'url'  => '/listorden',
-            'icon' => 'fas fa-users',
+            'text' => 'Tasa',
+            'url'  => 'admin/listadotasa',
+            'icon' => 'fas fa-coins',
         ],
+        [
+            'text' => 'Metricas',
+            'url'  => 'admin/metricas',
+            'icon' => 'far fa-chart-bar',
+        ],
+
+        /*
         ['header' => 'Nomina'],
         [
             'text' => 'Empleados',
             'url'  => 'admin/empleados',
             'icon' => 'far fa-user',
         ],
-        
+
         [
             'text'    => 'Pago/Empleados',
             'url'     => 'admin/pagoempleados',
             'icon'    => 'fas fa-dollar-sign',
 
         ],
-               
+        */
     ],
 
     /*
@@ -409,6 +437,16 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => '/js/bootstrap-select.min.js',
+                ],
+            ],
+        ],
+        'Customcss' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => '/css/admin.css',
                 ],
             ],
         ],

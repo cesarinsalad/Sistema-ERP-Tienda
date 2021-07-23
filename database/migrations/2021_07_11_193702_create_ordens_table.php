@@ -13,9 +13,9 @@ class CreateOrdensTable extends Migration
      */
     public function up()
     {
-        Schema::create('ordens', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreingId('cliente_id')->constrained('clients');
+            $table->foreignId('cliente_id')->constrained('clients');
             $table->decimal('tasa_cambio',8 ,2);
             $table->decimal('monto_orden',8 ,2);
             $table->timestamps();

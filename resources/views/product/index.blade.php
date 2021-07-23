@@ -41,6 +41,7 @@
                 <th width="15px">Cantidad</th>
                 <th width="10px">Precio</th>
                 <th width="5px">Referencia $</th>
+                <th width="10px">Marca</th>
                 <th width="45px">Acciones</th>
             </tr>
             @foreach ($articulos as $articulo)
@@ -52,6 +53,8 @@
                     <td>{{ $articulo->cantidad }}</td>
                     <td>{{ number_format((floatval($articulo->precio) * floatval($tasaDolar)), 2, ',', '.') }}Bs</td>
                     <td>{{ $articulo->precio }}$</td>
+                    <td>{{ $articulo->brand->name }}</td>
+
                     <td>
                         <form action="{{ route('articulo.destroy',$articulo->id) }}" method="POST">
                             @csrf

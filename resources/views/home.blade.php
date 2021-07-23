@@ -3,7 +3,7 @@
 @section('title', 'TRUCUPEY,C.A.')
 
 @section('plugins.Bootstrapselect', true)
- 
+
 @section('content_header')
 <div style="text-align:center;">
     <h1>PANEL DE VENTAS</h1>
@@ -11,8 +11,9 @@
 @stop
 
 @section('content')
+<script src="/js/jspdf/dist/jspdf.es.min.js" defer></script>
 <style>
- 
+
   #resultado-cliente{
 	display: none;
   }
@@ -41,6 +42,8 @@
     }
 </style>
 
+
+
 <form action="{{ route('home.guardarorden') }}" method="POST">
 	@csrf
 <div class="row">
@@ -51,31 +54,45 @@
 					<h2>Cliente</h2>
 					<br>
 				</div>
-				<div class="input-group mb-3">
-					<input id="busqueda" type="text" name="cedula_name" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2">
-					<div class="input-group-append">
-						<button id="busqueda_cliente_bttm" class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i>Buscar</button>
-					</div>
+
+		 <div class="input-group mb-3">
+				<input id="busqueda" type="text" name="cedula_name" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2">
+				<div class="input-group-append">
+					<button id="busqueda_cliente_bttm" class="btn btn-outline-secondary" type="button"><i class="fa fa-search"></i>Buscar</button>
 				</div>
+			</div>
+
 				<div id="resultado-cliente">
 					<div class="row">
 						<input id="client-id" name="client_id_name" type="hidden" />
 						<div class="col-md-6 col-xs-12">
-							<label for="client-nom">Nombres</label>
-							<input type="text" id="client-nom" name="client_nom" class="form-control" disabled />
-						</div>
+							<label for="client-nom">Nombres </label>
+							<input type="text" value="{{ @old('client_nom') }}" id="client-nom" name="client_nom" class="form-control @error('client_nom') is-invalid @enderror " disabled />
+                            @error('client_nom')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
 						<div class="col-md-6 col-xs-12">
 							<label for="client-ape">Apellidos</label>
-							<input type="text" id="client-ape" name="client_ape" class="form-control" disabled />
-						</div>
+							<input type="text" value="{{ @old('client_ape') }}" id="client-ape" name="client_ape" class="form-control @error('client_ape') is-invalid @enderror " disabled />
+                            @error('client_ape')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
 						<div class="col-md-6 col-xs-12">
-							<label for="client-tel">Telefono</label>
-							<input type="text" id="client-tel" name="client_tel" class="form-control" disabled />
-						</div>
+							<label for="client-tel">Teléfono</label>
+							<input type="text" value="{{ @old('client_tel') }}" id="client-tel" name="client_tel" class="form-control @error('client_tel') is-invalid @enderror " disabled />
+                            @error('client_tel')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
 						<div class="col-md-6 col-xs-12">
-							<label for="client-dir">Direccion</label>
-							<textarea id="client-dir" name="client_dir" class="form-control" disabled > </textarea>
-						</div>
+							<label for="client-dir">Dirección</label>
+							<textarea  value="{{ @old('client_dir') }}" id="client-dir" name="client_dir" class="form-control @error('client_dir') is-invalid @enderror " disabled > </textarea>
+                            @error('client_dir')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -88,14 +105,14 @@
 					<h2>Productos</h2>
 					<br>
 				</div>
-			    
+
 				<div id="select-container">
 					<select class="selectpicker" data-live-search="true" id="product-select">
-						<option data-tokens="">Escriba el código de producto deseado</option>
+						<option data-tokens="">Escriba el Código de Producto Deseado</option>
 					</select>
 					<button id="add-product" class="btn btn-md btn-success"><i class="fa fa-plus"></i> Añadir</button>
 				</div>
-				 
+
                 <div id="scroll">
 				<table class="table" id="product-table">
 					<thead>
@@ -107,7 +124,7 @@
 							<th scope="col">Acción</th>
 						</tr>
 					</thead>
-					<tbody>	  
+					<tbody>
 					</tbody>
 				</table>
 				</div>
@@ -115,16 +132,19 @@
 		</div>
 	</div>
 </div>
-<div class="col-md-6 col-xs-12">
+
+
+ <div class="row">
+ <div class="col-md-6 col-xs-12">
 		<div class="card">
 			<div class="card-body">
 				<div>
-					<h2>Seleccionar metodo de pago</h2>
+					<h2>Seleccionar Método de Pago</h2>
 					<br>
 				</div>
 				<div id="select-container2">
 					<select class="selectpicker" data-live-search="true" id="payment-select">
-					<option>Elija el  metodo de pago</option>
+					<option>Elija el  Método de Pago</option>
 						@foreach ($paymentMethods as $method)
 							<option data-tokens="{{$method->nombre_metodo}}" value="{{$method->id}}">{{$method->nombre_metodo}}</option>
 						@endforeach
@@ -140,22 +160,25 @@
 						</tr>
 					    </thead>
 					   <tbody>
-
 					</tbody>
 				</table>
 			</div>
 		</div>
-	</div>
+
 </div>
-<div class="row" style="position:left">
+
 <div class="col-md-6 col-xs-12">
-<div class="card" style=" float: left">
-  <div class="card-body" >
-  <button type="submit" class="btn btn-success">Generar Orden</button>
-  </div>
-  </div>
-  </div>
-  </div>
+		<div class="card" >
+		<div class="card-body" >
+		<button type="submit" class="btn btn-success">Generar Orden</button>
+		</div>
+		</div>
+		</div>
+      </div>
+    </div>
+
+
+
 </div>
 </div>
 </form>
@@ -166,10 +189,12 @@
 @stop
 
 @section('js')
-<script> 
+<script>
+
+
 $(document).ready(function() {
 	var _token = '{{ csrf_token() }}';
-	
+
 	$('.selectpicker').selectpicker();   //Cargo todos los registros
 	function cargar_datos_cliente(datos) {
 		var cedula = $('#busqueda').val();
@@ -177,7 +202,7 @@ $(document).ready(function() {
 			url:'{{ route("client.search") }}',
 			method:'POST',
 			data:{
-				cedula: cedula, 
+				cedula: cedula,
 				_token: _token
 			},
 			success:function(data)
@@ -197,9 +222,9 @@ $(document).ready(function() {
 					$('#client-ape').val('');
 					$('#client-tel').val('');
 					$('#client-dir').val('');
-				
+
 				}
-			}					
+			}
 		});
 	}
 	function cargar_datos_productos(codigo) {
@@ -207,7 +232,7 @@ $(document).ready(function() {
 			url:'{{ route("product.search") }}',
 			method:'POST',
 			data:{
-				codigo: codigo, 
+				codigo: codigo,
 				_token: _token
 			},
 			success:function(data)
@@ -223,7 +248,7 @@ $(document).ready(function() {
 			}
 		});
 	}
- 
+
 $('#busqueda_cliente_bttm').on( "click", function() {
 	var busqueda = $('#busqueda').val();
 	if (busqueda !='') {
@@ -239,17 +264,17 @@ $(document).on('keyup', '#select-container .bs-searchbox input', function (e) {
 //Tabla de Productos
 //Listado de productos
 var productList = [];
-Array.prototype.inArray = function(comparer) { 
-    for(var i=0; i < this.length; i++) { 
-        if(comparer(this[i])) return true; 
+Array.prototype.inArray = function(comparer) {
+    for(var i=0; i < this.length; i++) {
+        if(comparer(this[i])) return true;
     }
-    return false; 
-}; 
-Array.prototype.pushIfNotExist = function(element, comparer) { 
+    return false;
+};
+Array.prototype.pushIfNotExist = function(element, comparer) {
     if (!this.inArray(comparer)) {
         this.push(element);
     }
-}; 
+};
 //Refrescar tabla de productos
 function refreshProductTable(){
 	console.log(productList);
@@ -284,8 +309,8 @@ $('#add-product').on( "click", function(e) {
 			quantity: 1
 		};
 		//Añade el elemento a la lista, si no se encuentra ahi en este momento
-		productList.pushIfNotExist(newProduct, function(e) { 
-			return e.id === newProduct.id; 
+		productList.pushIfNotExist(newProduct, function(e) {
+			return e.id === newProduct.id;
 		});
 		//Regresca la tabla de productos
 		refreshProductTable();
@@ -304,7 +329,7 @@ $('body').on('click', '.btn-delete-product', function() {
 		}
 	});
 	//Se refresca la tabla de productos
-	refreshProductTable(); 
+	refreshProductTable();
 });
 
 $('body').on('change', '.quantity-product', function() {
@@ -317,7 +342,7 @@ $('body').on('change', '.quantity-product', function() {
 		}
 	});
 	productList[productId].quantity = parseInt(value);
-	refreshProductTable(); 
+	refreshProductTable();
 });
 //.............................AQUI.............AQUI...................AQUI.......................................................................
 //................................AQUI.............................AQUI.............................................................................
@@ -358,8 +383,8 @@ $('#add-orden').on( "click", function(e) {
 			monto: 0
 		};
 		//Añade el elemento a la lista, si no se encuentra ahi en este momento
-		ordenList.pushIfNotExist(newOrden, function(e) { 
-			return e.id === newOrden.id; 
+		ordenList.pushIfNotExist(newOrden, function(e) {
+			return e.id === newOrden.id;
 		});
 		//Regresca la tabla de productos
 		refreshOrdenTable();
@@ -378,7 +403,7 @@ $('body').on('click', '.btn-delete-orden', function() {
 		}
 	});
 	//Se refresca la tabla de productos
-	refreshOrdenTable(); 
+	refreshOrdenTable();
 });
 $('body').on('change', '.monto-orden', function() {
 	var id = $(this).attr('data-id');
@@ -390,11 +415,11 @@ $('body').on('change', '.monto-orden', function() {
 		}
 	});
 	ordenList[methodId].monto = parseInt(value);
-	refreshProductTable(); 
+	refreshProductTable();
 });
 
 });
-  
+
 </script>
 @stop
 

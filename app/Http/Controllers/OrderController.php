@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Orden;
-use App\Home;
+use App\Order;
 
-class ListordeneController extends Controller
+class OrderController extends Controller
 {
     public function index(){
-        $orders = Orden::with(['client','tasa'])->paginate(6);
+        $orders = Order::with(['client','tasa'])->paginate(6);
          return view('listorden',compact('orders'));
- 
+
     }
-    public function show(Orden $listorden)
+    public function show(Order $listorden)
     {
         $listorden->load([
             'client',
@@ -30,7 +29,7 @@ class ListordeneController extends Controller
     Route::get('home', function () {
         return redirect('listorden/home');
     });
-   
-   
+
+
     } */
 }

@@ -1,0 +1,13 @@
+img.brand-image.img-circle.elevation-3.logo_img_xl_class {
+    max-height: 70px;
+    float: none;
+    display: block;
+    margin: 0 auto;
+}
+.layout-navbar-fixed.layout-fixed .wrapper .sidebar {
+    margin-top: calc(6.5rem + 1px) !important;
+}
+.align-left{
+    text-align: right;
+    margin-left: auto;
+}

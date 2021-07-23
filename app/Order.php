@@ -4,7 +4,33 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Orden extends Model
+/**
+ * App\Order
+ *
+ * @property-read \App\Client $client
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Metodo_de_pago[] $paymentMethods
+ * @property-read int|null $payment_methods_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
+ * @property-read int|null $products_count
+ * @property-read \App\Exchangerate $tasa
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order query()
+ * @mixin \Eloquent
+ * @property int $id
+ * @property int $cliente_id
+ * @property string $tasa_cambio
+ * @property string $monto_orden
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereClienteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereMontoOrden($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereTasaCambio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
+ */
+class Order extends Model
 {
     protected $fillable = [
         'cliente_id', 'tasa_cambio', 'monto_orden'

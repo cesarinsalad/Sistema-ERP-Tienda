@@ -18,40 +18,102 @@
             </div>
             <div class="container">
                 <div class="form-row">
-                    <div class="col-md-3 mb-3">
-                        <label>Codigo</label>
-                        <input type="integer" class="form-control " value="{{ $articulo->codigo }}" placeholder="Cedula"
-                               name="cedula" required>
-
+                    <div class="col-md-6 mb-3">
+                        <label>Código</label>
+                        <input type="integer"  value="{{ @old('codigo') }}"class="form-control @error('codigo') is-invalid @enderror "  value="{{ $articulo->codigo }}" placeholder="Código"  name="codigo" required>
+                        @error('codigo')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
 
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Nombre</label>
-                        <input type="string" class="form-control " value="{{ $articulo->nombre }}" name="nombres"
-                               placeholder="Nombres" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="col-md-3 mb-3">
-                        <label>Cantidad</label>
-                        <input type="string" class="form-control " value="{{ $articulo->cantidad}}" name="apellidos"
-                               placeholder="Apellidos" required>
-                    </div>
-
-                    <div class="col-md-3 mb-3">
-                        <label>Precio</label>
-                        <input type="integer" class="form-control " value="{{ $articulo->precio }}" name="telefono"
-                               placeholder="telefono" required>
+                        <input type="string" value="{{ @old('nombre') }}" class="form-control  @error('nombre') is-invalid @enderror " value="{{ $articulo->nombre }}" name="nombre"  placeholder="Nombre" required>
+                        @error('nombre')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
-                        <label>Descripcion</label>
-                        <textarea class="form-control " name="descripcion" placeholder="Detail"
-                                  required>{{ $articulo->descripcion }} </textarea>
+                        <label>Cantidad</label>
+                        <input type="string" value="{{ @old('cantidad') }}" class="form-control  @error('cantidad') is-invalid @enderror" value="{{ $articulo->cantidad}}" name="cantidad"  placeholder="Cantidad" required>
+                        @error('cantidad')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
                     </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Precio</label>
+                        <input type="integer" value="{{ @old('precio') }}" class="form-control @error('precio') is-invalid @enderror "  value="{{ $articulo->precio }}" name="precio" placeholder="Precio" required>
+                        @error('precio')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label>Categoría</label>
+                    <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
+                        @foreach($categories as $category)
+                            <option
+                                value="{{ $category->id }}"
+                                @if(@old('çategory_id') == $category->id)
+                                selected
+                                @endif
+                            >{{ $category->name }}</option>
+                        @endforeach
+                        @error('category_id')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Marca</label>
+                    <select class="form-control @error('brand') is-invalid @enderror" name="brand_id">
+                        @foreach($brands as $brand)
+                            <option
+                                value="{{ $brand->id }}"
+                                @if(@old('brand_id') == $brand->id)
+                                selected
+                                @endif
+                            >{{ $brand->name }}</option>
+                        @endforeach
+                        @error('brand_id')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                    </select>
+                </div>
+                </div>
+
+                <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label>Proveedores</label>
+                    <select class="form-control @error('vendor') is-invalid @enderror" name="vendor_id">
+                        @foreach($vendors as $vendor)
+                            <option
+                                value="{{ $vendor->id }}"
+                                @if(@old('vendor_id') == $vendor->id)
+                                selected
+                                @endif
+                            >{{ $vendor->name }}</option>
+                        @endforeach
+                        @error('vendor_id')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                    </select>
+                </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Descripción</label>
+                        <textarea value="{{ @old('descripcion') }}" class="form-control @error('descripcion') is-invalid @enderror "  name="descripcion" placeholder="Descripción" required>{{ $articulo->descripcion }} </textarea>
+                        @error('descripcion')
+                        <span class="text-danger mt-2">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
                 </div>
 
                 <div class="py-3 px-3 border-bottom d-flex justify-content-between">
@@ -61,16 +123,7 @@
                 </div>
             </div>
         </div>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+
     </form>
 @endsection
 

@@ -1,133 +1,135 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Articulo;
+use App\Http\Requests\ProductRequest;
+use App\Product;
 use App\Brand;
 use App\Category;
 use App\Vendor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Orden;
+use App\Order;
 use App\Product_order;
 use App\Exchangerate;
 use Illuminate\Support\Facades\DB;
 
-class ArticuloControler extends Controller
+class ProductController extends Controller
 {
     public function index()
     {
         $data = array();
-        $data['articulos']  = Articulo::latest()->paginate(5);
+        $data['articulos']  = Product::with(['brand'])->orderBy('id','desc')->paginate(5);
         $data['tasaDolar']  = Exchangerate::latest('created_at')->first()->value;
-        return view('articulo',$data)
+        return view('product.index',$data)
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     public function create()
     {
-        return view('create',[
+        return view('product.create',[
             'brands' => Brand::get(),
             'categories' => Category::get(),
             'vendors' => Vendor::get(),
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'codigo' => 'required',
-            'descripcion' => 'required',
-            'cantidad' => 'required',
-            'precio' => 'required',
-        ]);
-
-        Articulo::create($request->all());
+        Product::create($request->all([
+            'codigo',
+            'nombre',
+            'descripcion',
+            'vendor_id',
+            'brand_id',
+            'category_id',
+            'cantidad',
+            'precio',
+        ]));
 
         return redirect()->route('articulo.index');
 
                        // ->with('success','Product created successfully.');
     }
 
-    /**
-     * @param Articulo $articulo
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Exception
-     */
-    public function show(Articulo $articulo)
+    public function show(Product $articulo)
     {
         $data = array();
         $data['articulo'] = $articulo;
 
-        //GRAFICA ESTIMACIÓN
-        //Consultar compras de un producto
-        $ordenes = DB::table('product_orders')
-        ->join('ordens', 'ordens.id', '=', 'product_orders.order_id')
-        ->select('product_orders.quantity', 'product_orders.precio', 'ordens.monto_orden',  'ordens.created_at')
-        ->where('product_orders.product_id', '=', $articulo->id)
-        ->get();
-        //Promedio de compra
-        $cantidadTotal = 0;
-        //Lista de compras realizadas al día
-        foreach ($ordenes as $orden) {
-            $cantidadTotal += $orden->quantity;
-        }
-        if(count($ordenes)){
-            $promedioCompra =  floor($cantidadTotal/count($ordenes));
-        }else{
-            $promedioCompra = 0;
+        $ordenes = Product_order::
+        join('orders', 'orders.id', '=', 'product_orders.order_id')
+            ->selectRaw('sum(quantity) as total, count(*) as quantity')
+            ->where('created_at','>', Carbon::now()->subDays(15))
+            ->first();
+
+        $promedioCompra = 0;
+        if ($ordenes->total){
+            //Promedio de compra
+            $promedioCompra =  floor($ordenes->total/$ordenes->quantity);
         }
 
         //Asignar fechas a la predicción
-        $begin = new \DateTime(date("Y-m-d"));
-        $end   = new \DateTime(date("Y-m-d"));
-        $end   = $end->modify('+14 day');
+        $begin = Carbon::now();
         //Realizar Predicción
         $listaFechas = array();
         $cantidadPorDia = array();
         $cantidadRestante = $articulo->cantidad;
-        for($i = $begin; $i <= $end; $i->modify('+1 day')){
+        for($i = 1; $i <= 15; $i++){
             if(($cantidadRestante -  $promedioCompra) > 0){
                 $cantidadRestante -=  $promedioCompra;
                 if($cantidadRestante<0){$cantidadRestante = 0;}
-                $listaFechas[] = $i->format("m-d");
+                $listaFechas[] = $begin->format("m-d");
                 $cantidadPorDia[] = $cantidadRestante;
             }else{
-                $listaFechas[] = $i->format("m-d");
+                $listaFechas[] = $begin->format("m-d");
                 $cantidadPorDia[] = 0;
             }
+            $begin->addDay();
         }
         $data['comprasPorDia']['listaFechas']    = json_encode($listaFechas);
         $data['comprasPorDia']['cantidadPorDia'] = json_encode($cantidadPorDia);
-        return view('show',$data);
+        return view('product.show',$data);
     }
 
-    public function edit(Articulo $articulo)
+    public function edit(Product $articulo)
     {
-        return view('edit',compact('articulo'));
-    }
-
-    public function update(Request $request, Articulo $articulo)
-    {
-        $request->validate([
-            'codigo' => 'required',
-            'descripcion' => 'required',
-            'cantidad' => 'required',
-            'precio' => 'required',
+        return view('product.edit',[
+            'articulo' => $articulo,
+            'brands' => Brand::get(),
+            'categories' => Category::get(),
+            'vendors' => Vendor::get(),
         ]);
-
-
-        $articulo->update($request->all());
-
-        return redirect()->route('articulo.index');
-
-
-                        //->with('success','se ha descontado del inventario');
     }
 
-    public function destroy(Articulo $articulo)
+    public function update(ProductRequest $request, Product $articulo)
     {
-        $articulo->delete();
+        $articulo->update($request->all([
+            'codigo',
+            'nombre',
+            'descripcion',
+            'vendor_id',
+            'brand_id',
+            'category_id',
+            'cantidad',
+            'precio',
+        ]));
 
         return redirect()->route('articulo.index');
-                        //->with('success','Product deleted successfully');
+         //->with('success','se ha descontado del inventario');
+    }
+
+
+    public function destroy(Product $product)
+    {
+
+        $product->delete();
+        return redirect()->route('products.index');
+    }
+
+    public function restore($product)
+    {
+        $product = Product::withTrashed()->where('id',$product)->first();
+        $product->restore();
+        return redirect()->back();
     }
 }

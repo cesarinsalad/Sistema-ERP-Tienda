@@ -72,7 +72,10 @@
 @section('js')
 <script> 
  
-<script>
+//--validacion
+<script src="jquery.js"></script>
+    <script src="dist/jquery.inputmask.js"></script>
+    <script src="dist/bindings/inputmask.binding.js"></script>
 
-    </script> 
+    </script>
 @stop

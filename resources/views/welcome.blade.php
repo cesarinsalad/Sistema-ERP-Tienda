@@ -1,99 +1,113 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>TRUCUPEY, C.A.</title>
+    <title>TRUCUPEY, C.A.</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-               /*  background-color: #F80000;
-                color: #f00000;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0; */
-                
-             height: 100%;
-            background:#F0FFFF;
+    <!-- Styles -->
+    <style>
+        html, body {
+            height: 100%;
+            background: #F0FFFF;
             color: #f00000;
-            
-            }
+            margin: 0;
+            font-family: sans-serif;
+        }
 
-            .full-height {
-                height: 100vh;
-            }
+        #menu-container {
+            height: 50px;
+            color: #FFFFFF;
+        }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+        .full-height {
+            height: 100vh;
+        }
 
-            .position-ref {
-                position: relative;
-            }
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            z-index: 5000;
+        }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+        .position-ref {
+            position: relative;
+        }
 
-            .content {
-                text-align: right;
-            }
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
 
-            .title {
-                font-size: 84px;
-            }
+        .content {
+            text-align: right;
+        }
 
-            .links > a {
-                color: #000000;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+        .title {
+            font-size: 84px;
+        }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">login</a>
+        .links > a {
+            color: #000000;
+            padding: 0 25px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Registro</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+        .m-b-md {
+            margin-bottom: 30px;
+        }
 
-            <div class="content">
-               
-                <div class="title m-b-md" >
-                 <img with="3000px" height="600px" src="{{ asset('imagenes/trucu2.jpeg')}}">
-                
+        #fondo_1 {
+            background-image: url(/imagenes/imagen1.jpg);
+            background-position: center;
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            text-align: center;
+        }
 
-                </div>
-                <h5>J-40855270-1</h5>
-            </div>
+        #fondo_1 > img {
+            width: 400px;
+            margin-top: 70px;
+            box-shadow: 0 4px 8px 0px #00000091;
+            border-radius: 100%;
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="flex-center position-ref" id="menu-container">
+    @if (Route::has('login'))
+        <div class="top-right links">
+            @auth
+                <a href="{{ url('/home') }}">Home</a>
+            @else
+
+                <a href="{{ route('login') }}">login</a>
+
+            @endauth
         </div>
-    </body>
-    
+    @endif
+</div>
+<div class="content">
+
+    <div class="" id="fondo_1">
+        <img src="{{asset('/imagenes/logo-trucupey.svg')}}" width="500">
+    </div>
+</div>
+</body>
 </html>

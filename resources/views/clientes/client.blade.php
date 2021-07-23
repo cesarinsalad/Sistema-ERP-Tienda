@@ -2,42 +2,42 @@
 
 @section('title', 'TRUCUPEY,C.A.')
 
-
-@section('content_header')
-     <div style="text-align:center">
-     <h1>PANEL DE CLIENTES</h1>
-     </div>
-           
-@stop
-
 @section('content')
+    <style>
+
+tr:hover {background-color:#C3E7FF;}
+    </style>
+
+
     <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Clientes</h2>
-            </div>
-            <div style="text-align: right;">
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Añadir Nuevo Cliente">
-            <a class="btn btn-success" href="{{ route('client.create') }}"style="position:relative"><i class="fas fa-plus-square"></i></a>
-            </span>
+            <div class="col-lg-12 margin-tb">
+
             </div>
         </div>
-    </div>
-   
+            <br>
+            <div class="card; card bg-light mb-3;">
+            <div class="py-3 px-3 border-bottom d-flex justify-content-between" >
+                <h4> Lista de Clientes</h4>
+
+            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Añadir Nuevo Cliente">
+            <a class="btn btn-success" href="{{ route('client.create') }}"style="position:relative"><i class="fas fa-plus"><text> Crear Cliente</text></i></a>
+            </span>
+
+            </div>
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
-    
-    <table class="table table-bordered">
+
+    <table class="table table-bordered ">
         <tr>
             <th width="2px">No</th>
-            <th width="5px">Cedula</th>
+            <th width="5px">Cédula</th>
             <th width="80px">Nombres</th>
             <th width="80px">Apellidos</th>
-            <th width="5px">Telefono</th>
-            <th width="110px">Direccion</th>
+            <th width="5px">Teléfono</th>
+            <th width="110px">Dirección</th>
             <th width="50px">Acciones</th>
         </tr>
         @foreach ($clients as $client)
@@ -50,7 +50,7 @@
             <td>{{ $client->direccion}}</td>
             <td>
                 <form action="{{ route('client.destroy',$client->id) }}" method="POST">
-   
+
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Ver">
                     <a class="btn btn-info" href="{{ route('client.show',$client->id) }}"><i class="fas fa-eye"></i></a>
                 </span>
@@ -69,7 +69,9 @@
     </table>
 
     {!! $clients->links() !!}
-      
+    </div>
+
+
 @stop
 
 @section('css')
@@ -77,7 +79,12 @@
 @stop
 
 @section('js')
-    <script> 
+    <script>
+    //--validacion
+    <script src="jquery.js"></script>
+    <script src="dist/jquery.inputmask.js"></script>
+    <script src="dist/bindings/inputmask.binding.js"></script>
+
  $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
