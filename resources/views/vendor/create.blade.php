@@ -8,7 +8,7 @@
     <form action="{{ route('vendors.store') }}" method="POST">
         @csrf
 
-        <div class="card bg-light mb-3">
+        <div class="card mb-3">
             <div class="py-3 px-3 border-bottom d-flex justify-content-between">
                 <h4> Agregar Nuevo Proveedor</h4>
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">

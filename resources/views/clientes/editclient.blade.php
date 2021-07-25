@@ -8,13 +8,13 @@
                     @csrf
                     @method('PUT')
 <br><br>
-   <div class="card; card bg-light mb-3;">
+   <div class="card; card mb-3;">
          <div class="py-3 px-3 border-bottom d-flex justify-content-between" >
                 <h4> Actualizar Datos del Cliente</h4>
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">
                 <a class="btn btn-primary" href="{{ route('client.customer') }}"><i class="fas fa-arrow-left"><text> Regresar</text></i></a>
                 </span>
-          </div> 
+          </div>
        <div class="container">
         <div class="form-row">
            <div class="col-md-3 mb-3">
@@ -37,15 +37,15 @@
                                  </ul>
                             </div>
                         @endif
-                                
-                      
+
+
 
     <div class="form-row">
         <div class="col-md-3 mb-3">
                  <label>Apellidos</label>
                  <input type="string" class="form-control " value="{{ $client->apellidos }}"  name="apellidos" placeholder="Apellidos" required>
-       </div> 
-                                   
+       </div>
+
        <div class="col-md-3 mb-3">
                 <label >Telefono</label>
                 <input type="integer" class="form-control " value="{{ $client->telefono }}" name="telefono"   placeholder="telefono" required>
@@ -55,12 +55,12 @@
     <div class="form-row">
          <div class="col-md-6 mb-3">
                   <label >Dirección</label>
-                  <textarea type="text" class="form-control" value="{{ $client->direccion }}"  name="direccion" placeholder="Direccion" required></textarea>
-             
+                  <textarea type="text" class="form-control" name="direccion" placeholder="Direccion" required>{{ $client->direccion }}</textarea>
+
          </div>
-    </div>  
-   
-       <div class="py-3 px-3 border-bottom d-flex justify-content-between" >     
+    </div>
+
+       <div class="py-3 px-3 border-bottom d-flex justify-content-between" >
             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Crear">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"><text> Guardar</text></i></button>
             </span>
@@ -75,15 +75,16 @@
 @stop
 
 @section('js')
-<script> 
+<script>
 //--validacion
 <script src="jquery.js"></script>
     <script src="dist/jquery.inputmask.js"></script>
     <script src="dist/bindings/inputmask.binding.js"></script>
-    
- $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+
+    <script>
+         $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
 
     </script>
 @stop

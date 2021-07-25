@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Client
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Client extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'cedula','nombres', 'apellidos', 'telefono', 'direccion'
     ];

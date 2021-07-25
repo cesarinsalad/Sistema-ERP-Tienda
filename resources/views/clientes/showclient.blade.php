@@ -9,7 +9,7 @@
         </div>
         </div>
     <br><br>
-    <div class="card; card bg-light mb-3">
+    <div class="card; card mb-3">
 
     <div class="py-3 px-3 border-bottom d-flex justify-content-between" ><h4> Detalles del cliente</h4>
 
@@ -30,16 +30,16 @@
 
         <div class="col-xs-12 col-sm-12 col-md-12">
         <h5> <div class="form-group">
-                <strong> Nombres:</strong>
-                {{ $client->nombres }}
+                <strong> Nombre:</strong>
+                {{ $client->nombres }} {{ $client->apellidos }}.
             </div> </h5>
         </div>
 
 
         <div class="col-xs-12 col-sm-12 col-md-12">
         <h5> <div class="form-group">
-                <strong>Apellidos:</strong>
-                {{ $client->apellidos }}
+                <strong>Status:</strong>
+                @if($client->deleted_at)Baneado desde el: {{$client->deleted_at}}@else Activo @endif
             </div> </h5>
         </div>
 

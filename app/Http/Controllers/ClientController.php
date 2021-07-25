@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Client;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class ClientController extends Controller
@@ -13,12 +14,12 @@ class ClientController extends Controller
      */
     public function customer()
     {
-        $clients = Client::latest()->paginate(5);
-  
+        $clients = Client::withTrashed()->latest()->paginate(5);
+
         return view('clientes.client',compact('clients'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
-   
+
     /**
      * Show the form for creating a new resource.
      *
@@ -28,7 +29,7 @@ class ClientController extends Controller
     {
         return view('clientes.createclient');
     }
-  
+
     /**
      * Store a newly created resource in storage.
      *
@@ -44,78 +45,36 @@ class ClientController extends Controller
             'telefono' => 'required',
             'direccion' => 'required',
         ]);
-  
+
         Client::create($request->all());
-   
-        return redirect()->route('client.customer');
-        
-                       // ->with('success','Product created successfully.');
+
+        return redirect()->route('client.customer')->with('success','Cliente Creado Exitosamente');
     }
-   
+
     /**
      * Display the specified resource.
      *
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
-    {/* 
-        $data = array();
-        $data['cliente_id'] = $client;
-
-        //GRAFICA ESTIMACIÓN
-        //Consultar compras de un producto
-        $client = DB::table('clients')
-        ->join('ordens', 'ordens.id', '=', 'cliente_id.order_id')
-        ->select('clients.quantity', 'clients.precio', 'ordens.monto_orden',  'ordens.created_at')
-        ->where('clientes.product_id', '=', $client->id)
-        ->get();
-        //Promedio de compra
-        $cantidadTotal = 0;
-        //Lista de compras realizadas al día
-        foreach ($ordenes as $client) {
-            $cantidadTotal += $client->quantity;
-        }
-       
-       
-        //Asignar fechas a la predicción
-        $begin = new \DateTime(date("Y-m-d"));
-        $end   = new \DateTime(date("Y-m-d"));
-        $end   = $end->modify('+30 day');
-        //Realizar Predicción
-        $listaFechas = array();
-        $cantidadPorDia = array();
-        $cantidadRestante = $client->cantidad; 
-        for($i = $begin; $i >= $end; $i->modify('+1 day')){
-            if(($cantidadRestante +  $promedioCompra) > 0){
-                $cantidadRestante +=  $promedioCompra;
-                if($cantidadRestante<0){$cantidadRestante = 0;}
-                $listaFechas[] = $i->format("m-d");
-                $cantidadPorDia[] = $cantidadRestante;
-            }else{
-                $listaFechas[] = $i->format("m-d");
-                $cantidadPorDia[] = 0;
-            }
-        }
-        $data['comprasPorDia']['listaFechas']    = json_encode($listaFechas);
-        $data['comprasPorDia']['cantidadPorDia'] = json_encode($cantidadPorDia);
-        return view('show',$data); */
-       
+    public function show($client)
+    {
+        $client = Client::withTrashed()->find($client);
         return view('clientes.showclient',compact('client'));
-            
     }
-   
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit($client)
     {
+        $client = Client::withTrashed()->find($client);
         return view('clientes.editclient',compact('client'));
     }
-  
+
     /**
      * Update the specified resource in storage.
      *
@@ -123,7 +82,7 @@ class ClientController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, $client)
     {
         $request->validate([
             'cedula' => 'required',
@@ -132,14 +91,13 @@ class ClientController extends Controller
             'telefono' => 'required',
             'direccion' => 'required',
         ]);
-        
-  
+
+        $client = Client::withTrashed()->find($client);
         $client->update($request->all());
-  
-        return redirect()->route('client.customer');
-                        //->with('success','Product updated successfully');
+
+        return redirect()->route('client.customer')->with('success','Cliente Editado Exitosamente');
     }
-  
+
     /**
      * Remove the specified resource from storage.
      *
@@ -149,10 +107,14 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $client->delete();
-  
-        return redirect()->route('client.customer');
+        return redirect()->back();
                         //->with('success','Product deleted successfully');
     }
+    public function restore($client)
+    {
+        $client = Client::withTrashed()->where('id',$client)->first();
+        $client->restore();
+        return redirect()->back();
+    }
 }
-    
-  
+

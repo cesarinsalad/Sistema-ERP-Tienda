@@ -39,6 +39,7 @@ Route::put('/brands/{brand}/restore','BrandController@restore')->name('brands.re
 Route::put('/categories/{category}/restore','CategoryController@restore')->name('categories.restore');
 Route::put('/vendors/{vendor}/restore','VendorController@restore')->name('vendors.restore');
 Route::put('/products/{product}/restore','ProductController@restore')->name('products.restore');
+Route::put('/clients/{client}/restore','ClientController@restore')->name('client.restore');
 
 Route::resource('/listorden', 'OrderController');
 

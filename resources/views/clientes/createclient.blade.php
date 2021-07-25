@@ -7,7 +7,7 @@
         @csrf
 
         <br><br>
-        <div class="card; card bg-light mb-3;">
+        <div class="card; card mb-3;">
             <div class="py-3 px-3 border-bottom d-flex justify-content-between">
                 <h4> Agregar Nuevo Cliente</h4>
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">

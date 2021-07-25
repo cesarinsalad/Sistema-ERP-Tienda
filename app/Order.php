@@ -38,7 +38,7 @@ class Order extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class,'cliente_id');
+        return $this->belongsTo(Client::class,'cliente_id')->withTrashed();
     }
     public function tasa()
     {
@@ -47,7 +47,7 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany('App\Product','product_orders', 'order_id', 'product_id')
-        ->withPivot('precio','quantity');
+        ->withPivot('precio','quantity')->withTrashed();
     }
     public function paymentMethods()
     {

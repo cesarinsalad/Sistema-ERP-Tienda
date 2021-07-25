@@ -33,12 +33,11 @@
             </div>
         @endif
         <div class="card-body">
-            <table class="table table-bordered  table-sm " id="table_nice">
+            <table class="table table-bordered table-sm " id="table_nice">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Tipo de Documento</th>
                     <th scope="col">Documento</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Cantidad de productos</th>
@@ -51,8 +50,7 @@
                     <tr>
                         <td>{{ $vendor->id }}</td>
                         <td>{{ $vendor->name }}</td>
-                        <td>{{ $vendor->type_document }}</td>
-                        <td>{{ $vendor->document }}</td>
+                        <td>{{ $vendor->type_document }}.: {{ $vendor->document }}</td>
                         <td>{{ $vendor->description }}</td>
                         <td>{{ $vendor->products_count }}</td>
                         <td>

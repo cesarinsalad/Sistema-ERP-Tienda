@@ -15,7 +15,7 @@ tr:hover {background-color:#C3E7FF;}
             </div>
         </div>
             <br>
-            <div class="card; card bg-light mb-3;">
+            <div class="card; card mb-3;">
             <div class="py-3 px-3 border-bottom d-flex justify-content-between" >
                 <h4> Lista de Clientes</h4>
 
@@ -30,45 +30,67 @@ tr:hover {background-color:#C3E7FF;}
         </div>
     @endif
 
-    <table class="table table-bordered ">
-        <tr>
-            <th width="2px">No</th>
-            <th width="5px">Cédula</th>
-            <th width="80px">Nombres</th>
-            <th width="80px">Apellidos</th>
-            <th width="5px">Teléfono</th>
-            <th width="110px">Dirección</th>
-            <th width="50px">Acciones</th>
-        </tr>
-        @foreach ($clients as $client)
-        <tr>
-            <td>{{ ++$i }}</td>
-            <td>{{ $client->cedula }}</td>
-            <td>{{ $client->nombres }}</td>
-            <td>{{ $client->apellidos}}</td>
-            <td>{{ $client->telefono }}</td>
-            <td>{{ $client->direccion}}</td>
-            <td>
-                <form action="{{ route('client.destroy',$client->id) }}" method="POST">
-
-                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Ver">
-                    <a class="btn btn-info" href="{{ route('client.show',$client->id) }}"><i class="fas fa-eye"></i></a>
-                </span>
-                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
-                    <a class="btn btn-primary" href="{{ route('client.edit',$client->id) }}"><i class="fas fa-pencil-alt"></i></a>
-                </span>
-                    @csrf
-                    @method('DELETE')
-                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Eliminar">
-                    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                    </span>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </table>
-
-    {!! $clients->links() !!}
+        <div class="card-body">
+            <table class="table table-bordered table-sm ">
+                <thead class="thead-dark">
+                <tr>
+                    <th width="2px">No</th>
+                    <th width="5px">Cédula</th>
+                    <th width="80px">Nombres</th>
+                    <th width="80px">Apellidos</th>
+                    <th width="5px">Teléfono</th>
+                    <th width="5px">Status</th>
+                    <th width="50px">Acciones</th>
+                </tr>
+                </thead>
+                @foreach ($clients as $client)
+                    <tr>
+                        <td>{{ ++$i }}</td>
+                        <td>{{ $client->cedula }}</td>
+                        <td>{{ $client->nombres }}</td>
+                        <td>{{ $client->apellidos}}</td>
+                        <td>{{ $client->telefono }}</td>
+                        <td>
+                            @if($client->deleted_at == null)
+                                <form action="{{ route('client.destroy',$client->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Desactivar">
+                                <button type="submit"  class="btn btn-success"><i class="fa fa-lightbulb"></i></button>
+                            </span>
+                                </form>
+                            @else
+                                <form action="{{ route('client.restore',$client->id) }}" method="POST">
+                                    @csrf
+                                    @method('put')
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Reactivar">
+                                <button type="submit"  class="btn btn-danger"><i class="fas fa-lightbulb"></i></button>
+                            </span>
+                                </form>
+                            @endif
+                        </td>
+                        <td>
+                            <form action="{{ route('client.destroy',$client->id) }}" method="POST">
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Ver">
+                                    <a class="btn btn-info" href="{{ route('client.show',$client->id) }}"><i class="fas fa-eye"></i></a>
+                                </span>
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
+                                    <a class="btn btn-primary" href="{{ route('client.edit',$client->id) }}"><i class="fas fa-pencil-alt"></i></a>
+                                </span>
+                                @csrf
+                                @method('DELETE')
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Eliminar">
+                                    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                </span>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+        <div class="pagination-container">
+            {!! $clients->links() !!}
+        </div>
     </div>
 
 
