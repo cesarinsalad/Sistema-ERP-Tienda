@@ -68,6 +68,76 @@ class MetricasController extends Controller
         }
         $response['listaFechasProducts']    = json_encode($listaFechasProducts);
         $response['cantidadPorDiaProducts'] = json_encode($cantidadPorDiaProducts);
+
+        //Top 10 sold products
+        $top10Products = Order::
+        join('product_orders', 'product_orders.order_id', '=', 'orders.id')
+            ->join('products', 'products.id', '=', 'product_orders.product_id')
+            ->selectRaw('products.id, products.nombre, sum(quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
+            ->whereBetween('orders.created_at', [
+                $data['fromDate'],
+                $data['toDate'],
+            ])
+            ->orderBy('total', 'DESC')
+            ->limit(10)
+            ->groupByRaw('products.id')
+            ->get();
+        $response['top10Products'] = array();
+        foreach ($top10Products as $product ) {
+            $response['top10Products'][] = array(
+                'id'        => $product->id,
+                'name'      => $product->nombre,
+                'total'     => $product->total,
+                'gain'      => $product->gain,
+            );
+        }
+
+        //Top 10 categories
+        $top10Categories = Order::
+        join('product_orders', 'product_orders.order_id', '=', 'orders.id')
+            ->join('products', 'products.id', '=', 'product_orders.product_id')
+            ->join('product_categories', 'product_categories.product_id', '=', 'products.id')
+            ->join('categories', 'categories.id', '=', 'product_categories.category_id')
+            ->selectRaw('categories.id, categories.name, sum(quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
+            ->whereBetween('orders.created_at', [
+                $data['fromDate'],
+                $data['toDate'],
+            ])
+            ->orderBy('total', 'DESC')
+            ->limit(10)
+            ->groupByRaw('categories.id')
+            ->get();
+        $response['top10Categories'] = array();
+        foreach ($top10Categories as $category ) {
+            $response['top10Categories'][] = array(
+                'id'        => $category->id,
+                'name'      => $category->name,
+                'total'     => $product->total,
+                'gain'      => $product->gain,
+            );
+        }
+        //Top 10 categories
+        $top10Clients = Order::
+        join('product_orders', 'product_orders.order_id', '=', 'orders.id')
+            ->join('clients', 'clients.id', '=', 'orders.cliente_id')
+            ->selectRaw('clients.id, CONCAT(clients.nombres , " " , clients.apellidos) as name, sum(quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
+            ->whereBetween('orders.created_at', [
+                $data['fromDate'],
+                $data['toDate'],
+            ])
+            ->orderBy('total', 'DESC')
+            ->limit(10)
+            ->groupByRaw('clients.id')
+            ->get();
+        $response['top10Clients'] = array();
+        foreach ($top10Clients as $client ) {
+            $response['top10Clients'][] = array(
+                'id'        => $client->id,
+                'name'      => $client->name,
+                'total'     => $client->total,
+                'gain'      => $client->gain,
+            );
+        }
         return $response;
     }
 
@@ -91,5 +161,28 @@ class MetricasController extends Controller
         $response['listaFechasWins']    = json_encode($listaFechasWins);
         $response['cantidadPorDiaWins'] = json_encode($cantidadPorDiaWins);
         return $response;
+    }
+    public function query(Request $request){
+        $data = array();
+        $data['fromDate'] = $request->fromDate;
+        $data['toDate'] = $request->toDate;
+
+        if(new \DateTime($data['fromDate']) >= new \DateTime($data['toDate'])){
+            return redirect()->back()->withErrors('Fechas Inválidas Ingresadas, Por Favor, Verifique e Intente Nuevamente');
+        }
+
+        $data = array_merge($data, $this->getOrderQuantityMetrics(array(
+            'fromDate'  => $data['fromDate'],
+            'toDate'    => $data['toDate'],
+        )));
+        $data = array_merge($data, $this->getProductQuantityMetrics(array(
+            'fromDate'  => $data['fromDate'],
+            'toDate'    => $data['toDate'],
+        )));
+        $data = array_merge($data, $this->getProductGainMetrics(array(
+            'fromDate'  => $data['fromDate'],
+            'toDate'    => $data['toDate'],
+        )));
+        return view ('metricas', $data);
     }
 }

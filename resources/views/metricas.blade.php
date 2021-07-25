@@ -10,6 +10,9 @@
             width: 100% !important;
             max-height: 400px;
         }
+        .submit-btn{
+            float: right;
+        }
     </style>
     <div class="">
         <div class="d-flex justify-content-between py-2">
@@ -19,25 +22,38 @@
             </span>
         </div>
     </div>
+
+    @if (Session::get('errors'))
+        <div class="alert alert-danger">
+            @foreach($errors->all() as $message)
+                <p>{{ $message }}</p>
+            @endforeach
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <h5>Opciones</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="date-from">Desde:</label>
-                                <input class="form-control" type="date" id="date-from" name="from" value="{{$fromDate}}">
+                    <form action="{{ route('metrics.query') }}" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date-from">Desde:</label>
+                                    <input class="form-control" type="date" id="date-from" name="fromDate" value="{{$fromDate}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date-to">Hasta:</label>
+                                    <input class="form-control" type="date" id="date-to" name="toDate" value="{{$toDate}}">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="date-to">Hasta:</label>
-                                <input class="form-control" type="date" id="date-to" name="to" value="{{$toDate}}">
-                            </div>
-                        </div>
-                    </div>
+                        @csrf
+                        <button type="submit" class="btn submit-btn btn-success"><i class="fa fa-search"></i> Buscar</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -73,15 +89,76 @@
                             <canvas id="ganancia" width="400" height="400" class="graphics px-4"></canvas>
                         </div>
                     </div>
+                    <p><b>Ganancia Neta Total:</b> {{$totalGain}}$</p>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5>Detalles de Venta</h5>
-                    <p><b>Ganancia Neta Total:</b> {{$totalGain}}$</p>
-                    <p><b>Productos Más Vendidos:</b> {{$totalGain}}$</p>
+                    <h5>Productos Más Vendidos:</h5>
+                    <table class="table table-bordered table-sm ">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th width="80px">Producto</th>
+                            <th width="80px">Cantidad</th>
+                            <th width="80px">Ganancia</th>
+                        </tr>
+                        </thead>
+                        @foreach ($top10Products as $product)
+                            <tr>
+                                <td><a href="{{ route('articulo.show', $product['id']) }}">{{ $product['name'] }}</a></td>
+                                <td>{{ $product['total'] }}</td>
+                                <td>{{ $product['gain'] }}$</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Categorías Más Vendidas</h5>
+                    <table class="table table-bordered table-sm ">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th width="80px">Producto</th>
+                            <th width="80px">Cantidad</th>
+                            <th width="80px">Ganancia</th>
+                        </tr>
+                        </thead>
+                        @foreach ($top10Categories as $category)
+                            <tr>
+                                <td><a href="{{ route('categories.show', $category['id']) }}">{{ $category['name'] }}</a></td>
+                                <td>{{ $category['total'] }}</td>
+                                <td>{{ $category['gain'] }}$</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Mejores Clientes</h5>
+                    <table class="table table-bordered table-sm ">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th width="80px">Nombre</th>
+                            <th width="80px">Cantidad</th>
+                            <th width="80px">Ganancia</th>
+                        </tr>
+                        </thead>
+                        @foreach ($top10Clients as $client)
+                            <tr>
+                                <td><a href="{{ route('client.show', $client['id']) }}">{{ $client['name'] }}</a></td>
+                                <td>{{ $client['total'] }}</td>
+                                <td>{{ $client['gain'] }}$</td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>
@@ -330,13 +407,17 @@
         function pdf() {
             const {jsPDF} = window.jspdf
             let graphics = document.querySelectorAll('.graphics');
-            const doc = new jsPDF('landscape', 'mm')
+            const doc = new jsPDF('mm')
+            var x = 10;
+            var y = 10;
             graphics.forEach((el, i) => {
-                const width = (150 / (el.height / el.width))
-                doc.addImage(el, 'PNG', 10, 10, width, 150)
-                //if(graphics.lenght > (i + 1)){
-                //}
-                doc.addPage()
+                const width = (100 / (el.height / el.width))
+                doc.addImage(el, 'PNG', x, y, width, 100)
+                y =  y + 130;
+                if(y > 200){
+                    y = 10;
+                    doc.addPage()
+                }
             })
             doc.save()
         }

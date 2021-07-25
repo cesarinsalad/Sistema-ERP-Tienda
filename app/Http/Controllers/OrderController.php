@@ -8,7 +8,7 @@ use App\Order;
 class OrderController extends Controller
 {
     public function index(){
-        $orders = Order::with(['client','tasa'])->paginate(6);
+        $orders = Order::with(['client','tasa'])->latest()->paginate(6);
          return view('listorden',compact('orders'));
 
     }

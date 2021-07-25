@@ -12,6 +12,8 @@ Route::get('admin/listadotasa', 'ExchangerateController@index')->name('listadota
 Route::get('admin/index','Listordene@index');
 
 Route::get('admin/metricas','MetricasController@index');
+Route::post('admin/metricas','MetricasController@query')->name('metrics.query');
+
 Route::get('admin/index', 'ProductController@index');
 Route::get('admin/customer', 'ClientController@customer')->name('client.customer');
 
