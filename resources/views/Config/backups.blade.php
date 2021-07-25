@@ -50,13 +50,16 @@
                         <td>{{ $backup->id }}</td>
                         <td>{{ $backup->file_name }}</td>
                         <td>
-{{--                            <form action="{{ route('articulo.destroy',$articulo->id) }}" method="POST">--}}
-{{--                                @csrf--}}
-{{--                                @method('DELETE')--}}
-{{--                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Desactivar">--}}
-{{--                                    <button type="submit"  class="btn btn-success"><i class="fa fa-lightbulb"></i></button>--}}
-{{--                                </span>--}}
-{{--                            </form>--}}
+                            <form action="{{ route('restore.index') }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="text" hidden class="d-none" value="{{ $backup->file_name }}" name="file">
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Desactivar">
+                                    <button type="submit"  class="btn btn-success">
+                                        <i class="fa fa-lightbulb" />
+                                    </button>
+                                </span>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
