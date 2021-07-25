@@ -2,9 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a22c9059-449f-493d-a2d3-5a7fe9c823d5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Dump.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Backup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/DeleteOldBackup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/BackupFile.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/BackupHandler.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/Base.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/Console.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/ConsoleColors.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/DatabaseBuilder.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/DatabaseContract.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/MySQLDatabase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/PostgresDatabase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Depends/SqliteDatabase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/DB/Restore.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/backup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2019_02_20_000001_add_dumps_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Config/backups.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MetricasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MetricasController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/metricas.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/metricas.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/filesystems.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/filesystems.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +175,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/database/migrations" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -170,9 +188,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\sistema-erp\database\migrations" />
+      <recent name="C:\laragon\www\sistema-erp\app\Actions" />
       <recent name="C:\wamp\www\sistema-erp\resources\views" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\sistema-erp\app" />
+      <recent name="C:\laragon\www\sistema-erp\config" />
+      <recent name="C:\laragon\www\sistema-erp\app\Http\Controllers" />
       <recent name="C:\wamp\www\sistema-erp\resources\views\product" />
     </key>
   </component>
@@ -193,6 +216,7 @@
       <workItem from="1626887670832" duration="48450000" />
       <workItem from="1627050574895" duration="37529000" />
       <workItem from="1627223681929" duration="17212000" />
+      <workItem from="1627243385574" duration="2830000" />
     </task>
     <servers />
   </component>
