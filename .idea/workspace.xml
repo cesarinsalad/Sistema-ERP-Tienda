@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MetricasController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MetricasController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Config/backups.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Config/backups.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/metricas.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/metricas.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -159,7 +160,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/database/migrations" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -172,9 +173,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\sistema-erp\database\migrations" />
+      <recent name="C:\laragon\www\sistema-erp\app\Actions" />
       <recent name="C:\wamp\www\sistema-erp\resources\views" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\laragon\www\sistema-erp\app" />
+      <recent name="C:\laragon\www\sistema-erp\config" />
+      <recent name="C:\laragon\www\sistema-erp\app\Http\Controllers" />
       <recent name="C:\wamp\www\sistema-erp\resources\views\product" />
     </key>
   </component>
@@ -195,6 +201,8 @@
       <workItem from="1626887670832" duration="48450000" />
       <workItem from="1627050574895" duration="37529000" />
       <workItem from="1627223681929" duration="23685000" />
+      <workItem from="1627223681929" duration="17212000" />
+      <workItem from="1627243385574" duration="3173000" />
     </task>
     <servers />
   </component>

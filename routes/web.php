@@ -47,3 +47,6 @@ Route::resource('/listorden', 'OrderController');
 
 Route::resource('/listadotasa', 'ExchangerateController');
 
+Route::get('/backups','DB\Restore@index')->name('backups.index');
+Route::post('/backups','DB\Backup@store')->name('backups.store');
+Route::post('/restore','DB\Restore@index')->name('restore.index');
