@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Order;
 use App\Product_order;
 use App\Exchangerate;
+use App\Product_category;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -18,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         $data = array();
-        $data['articulos']  = Product::with(['brand'])->orderBy('id','desc')->paginate(5);
+        $data['articulos']  = Product::withTrashed()->with(['brand'])->orderBy('id','desc')->paginate(5);
         $data['tasaDolar']  = Exchangerate::latest('created_at')->first()->value;
         return view('product.index',$data)
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -35,26 +36,33 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        Product::create($request->all([
+        $product = Product::create($request->all([
             'codigo',
             'nombre',
             'descripcion',
             'vendor_id',
             'brand_id',
-            'category_id',
             'cantidad',
             'precio',
         ]));
-
-        return redirect()->route('articulo.index');
-
-                       // ->with('success','Product created successfully.');
+        //Save Categories
+        $categories = array();
+        foreach ($request['category_id'] as $value) {
+            $categories[] = array(
+                'product_id' => $product->id,
+                'category_id' => $value,
+            );
+        }
+        Product_category::insert($categories);
+        return redirect()->route('articulo.index')->with('success','Producto Creado Exitosamente.');
     }
 
     public function show(Product $articulo)
     {
         $data = array();
-        $data['articulo'] = $articulo;
+        $data['articulo'] = $articulo->load([
+            'category',
+        ]);
 
         $ordenes = Product_order::
         join('orders', 'orders.id', '=', 'product_orders.order_id')
@@ -93,10 +101,18 @@ class ProductController extends Controller
 
     public function edit(Product $articulo)
     {
+        $articulo->load([
+            'category',
+        ]);
+        $selectedCategories = array();
+        foreach ($articulo->category as $category) {
+            $selectedCategories[] = $category->id;
+        }
         return view('product.edit',[
             'articulo' => $articulo,
             'brands' => Brand::get(),
             'categories' => Category::get(),
+            'selectedCategories' => json_encode($selectedCategories),
             'vendors' => Vendor::get(),
         ]);
     }
@@ -109,21 +125,27 @@ class ProductController extends Controller
             'descripcion',
             'vendor_id',
             'brand_id',
-            'category_id',
             'cantidad',
             'precio',
         ]));
+        $categories = array();
+        foreach ($request['category_id'] as $value) {
+            $categories[] = array(
+                'product_id' => $articulo->id,
+                'category_id' => $value,
+            );
+        }
+        Product_category::where('product_id', $articulo->id)->delete();
+        Product_category::insert($categories);
 
-        return redirect()->route('articulo.index');
-         //->with('success','se ha descontado del inventario');
+        return redirect()->route('articulo.index')->with('success','Se Ha Actualizado El Inventario');
     }
 
 
-    public function destroy(Product $product)
+    public function destroy(Product $articulo)
     {
-
-        $product->delete();
-        return redirect()->route('products.index');
+        $articulo->delete();
+        return redirect()->back();
     }
 
     public function restore($product)

@@ -41,7 +41,7 @@
                     <p><strong>Nombre:</strong> <a
                             href="{{ route('client.show', $order->client->id) }}">{{ $order->client->nombres }} {{$order->client->apellidos}}</a>
                     </p>
-                    <p><strong>Cedula:</strong> {{ $order->client->cedula }}</p>
+                    <p><strong>Cédula:</strong> {{ $order->client->cedula }}</p>
                     <p><strong>Teléfono:</strong> {{ $order->client->telefono }}</p>
                 </div>
             </div>
@@ -81,29 +81,30 @@
                         <thead class="thead-dark">
                         <tr>
                             <th width="45px">Método de Pago</th>
-                            <th width="35px">Moneda</th>
                             <th width="35px">Monto</th>
                         </tr>
                         </thead>
                         @foreach ($order->paymentMethods as $pMethod)
                             <tr>
                                 <td>{{ $pMethod->nombre_metodo }}</td>
-                                <td>{{ number_format((float)$pMethod->moneda,2,',','.') }}</td>
                                 <td>
                                     @if($pMethod->moneda == '$')
-                                        {{ number_format($pMethod->pivot->monto_pago_orden * $order->tasa->value,2,',','.') }}
+                                        {{ number_format($pMethod->pivot->monto_pago_orden * $order->tasa->value,2,',','.') }} $
                                     @else
-                                        {{ $pMethod->pivot->monto_pago_orden }}
+                                        {{ number_format($pMethod->pivot->monto_pago_orden,2,',','.') }} Bs
                                     @endif
-                                    Bs
                                 </td>
 
                             </tr>
                         @endforeach
                         <tfoot>
                         <tr>
-                            <td colspan="2"><b>Total:</b></td>
+                            <td colspan="1"><b>Total:</b></td>
                             <td>{{ number_format($order->monto_orden * $order->tasa->value,2,',','.') }} Bs</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1"><b>Referencia:</b></td>
+                            <td>{{ number_format($order->monto_orden,2,',','.') }} $</td>
                         </tr>
                         </tfoot>
                     </table>

@@ -246,7 +246,7 @@ return [
             // 'can'  => 'manage-blog',
         ],
 
-        [' header'       => 'Ventas' ],
+
         [
             'text'        => 'Generar Order',
             'url'         => '/home',
@@ -260,7 +260,7 @@ return [
             'icon' => 'fas fa-list',
         ],
 
-        ['header' => 'Inventario'],
+
         [
             'text' => 'Productos',
             'url'  => 'admin/index',
@@ -281,7 +281,7 @@ return [
             'url'  => '/brands',
             'icon' => 'fas fa-copyright',
         ],
-        ['header' => 'Clientela'],
+
         [
             'text' => 'Clientes',
             'url'  => 'admin/customer',
@@ -437,6 +437,11 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => '/js/bootstrap-select.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '/js/i18n/defaults-es_ES.js',
                 ],
             ],
         ],

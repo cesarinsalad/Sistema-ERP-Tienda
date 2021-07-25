@@ -27,6 +27,6 @@ use Illuminate\Database\Eloquent\Model;
 class Metodo_pago_orden extends Model
 {
     protected $fillable = [
-        'id_orden','id_metodo_pago', 'monto_pago_orden', 'created_at', 'updated_at',
+        'id_orden','id_metodo_pago', 'monto_pago_orden', 'reference', 'created_at', 'updated_at',
     ];
 }

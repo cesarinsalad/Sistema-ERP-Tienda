@@ -18,6 +18,7 @@ class CreateMetodoPagoOrdensTable extends Migration
             $table->string('id_orden');
             $table->string('id_metodo_pago');
             $table->decimal('monto_pago_orden', 8, 2);
+            $table->string('reference', 100)->nullable();
             $table->timestamps();
         });
     }

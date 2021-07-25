@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdensTable extends Migration
+class CreateProductCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateOrdensTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cliente_id')->constrained('clients');
-            $table->foreignId('tasa_cambio')->constrained('exchangerates');
-            $table->decimal('monto_orden',8 ,2);
-            $table->timestamps();
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('product_id')->constrained();
         });
     }
 
@@ -29,6 +27,6 @@ class CreateOrdensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ordens');
+        Schema::dropIfExists('product_categories');
     }
 }

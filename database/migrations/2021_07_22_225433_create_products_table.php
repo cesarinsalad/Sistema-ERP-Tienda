@@ -20,7 +20,6 @@ class CreateProductsTable extends Migration
             $table->text('descripcion');
             $table->foreignId('vendor_id')->constrained();
             $table->foreignId('brand_id')->constrained();
-            $table->foreignId('category_id')->constrained();
             $table->bigInteger('cantidad')->unsigned();
             $table->decimal('precio', 8, 2);
             $table->softDeletes();

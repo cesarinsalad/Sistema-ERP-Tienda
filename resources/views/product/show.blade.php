@@ -61,6 +61,16 @@
                             </div>
                         </h5>
                     </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <h5>
+                            <div class="form-group">
+                                <strong>Categorías:</strong>
+                                @foreach ($articulo->category as $category)
+                                    <a href="{{route('categories.show', $category->id)}}">{{$category->name}}</a>@if($loop->last).@else,@endif
+                                @endforeach
+                            </div>
+                        </h5>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <canvas id="prediccion" width="200" height="200"></canvas>

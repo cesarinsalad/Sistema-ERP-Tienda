@@ -48,7 +48,7 @@ class Product extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'codigo', 'descripcion', 'nombre', 'cantidad', 'precio', 'vendor_id', 'brand_id', 'category_id'
+        'codigo', 'descripcion', 'nombre', 'cantidad', 'precio', 'vendor_id', 'brand_id',
     ];
 
     public function vendor(): BelongsTo
@@ -59,8 +59,8 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-    public function category(): BelongsTo
+    public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany('App\Category','product_categories', 'product_id', 'category_id');
     }
 }

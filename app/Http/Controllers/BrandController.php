@@ -12,7 +12,7 @@ class BrandController extends Controller
     public function index()
     {
         return view('brand.index',[
-            'brands' => Brand::withCount('products')->paginate()
+            'brands' => Brand::withTrashed('products')->paginate(5)
         ]);
     }
 

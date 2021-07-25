@@ -16,6 +16,7 @@ class CreateMetodoDePagosTable extends Migration
         Schema::create('metodo_de_pagos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_metodo');
+            $table->boolean('ref');
             $table->string('moneda');
             $table->timestamps();
         });

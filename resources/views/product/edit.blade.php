@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'TRUCUPEY,C.A.')
+@section('plugins.Bootstrapselect', true)
 
 @section('content')
 
@@ -9,7 +10,7 @@
         @method('PUT')
 
         <br><br>
-        <div class="card; card bg-light mb-3;">
+        <div class="card; card mb-3;">
             <div class="py-3 px-3 border-bottom d-flex justify-content-between">
                 <h4> Actualizar Datos del Producto</h4>
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">
@@ -20,7 +21,7 @@
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label>Código</label>
-                        <input type="integer"  value="{{ @old('codigo') }}"class="form-control @error('codigo') is-invalid @enderror "  value="{{ $articulo->codigo }}" placeholder="Código"  name="codigo" required>
+                        <input type="integer"  value="@if(@old('codigo')){{ @old('codigo') }}@else{{ $articulo->codigo }}@endif" class="form-control @error('codigo') is-invalid @enderror "   placeholder="Código"  name="codigo" required>
                         @error('codigo')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -28,7 +29,7 @@
 
                     <div class="col-md-6 mb-3">
                         <label>Nombre</label>
-                        <input type="string" value="{{ @old('nombre') }}" class="form-control  @error('nombre') is-invalid @enderror " value="{{ $articulo->nombre }}" name="nombre"  placeholder="Nombre" required>
+                        <input type="string" value="@if(@old('nombre')){{ @old('nombre') }}@else{{ $articulo->nombre }}@endif" class="form-control  @error('nombre') is-invalid @enderror " name="nombre"  placeholder="Nombre" required>
                         @error('nombre')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -38,15 +39,15 @@
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label>Cantidad</label>
-                        <input type="string" value="{{ @old('cantidad') }}" class="form-control  @error('cantidad') is-invalid @enderror" value="{{ $articulo->cantidad}}" name="cantidad"  placeholder="Cantidad" required>
+                        <input type="string" value="@if(@old('cantidad')){{ @old('cantidad') }}@else{{ $articulo->cantidad }}@endif" class="form-control  @error('cantidad') is-invalid @enderror" name="cantidad"  placeholder="Cantidad" required>
                         @error('cantidad')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label>Precio</label>
-                        <input type="integer" value="{{ @old('precio') }}" class="form-control @error('precio') is-invalid @enderror "  value="{{ $articulo->precio }}" name="precio" placeholder="Precio" required>
+                        <label>Precio ($)</label>
+                        <input type="integer" value="@if(@old('precio')){{ @old('precio') }}@else{{ $articulo->precio }}@endif" class="form-control @error('precio') is-invalid @enderror " name="precio" placeholder="Precio" required>
                         @error('precio')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -55,19 +56,21 @@
                 <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label>Categoría</label>
-                    <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
-                        @foreach($categories as $category)
-                            <option
-                                value="{{ $category->id }}"
-                                @if(@old('çategory_id') == $category->id)
-                                selected
-                                @endif
-                            >{{ $category->name }}</option>
-                        @endforeach
-                        @error('category_id')
-                        <span class="text-danger mt-2">{{ $message }}</span>
-                        @enderror
-                    </select>
+                    <div class="bs-container">
+                        <select class="form-control selectpicker  @error('category_id') is-invalid @enderror" multiple name="category_id[]" id="select-category" data-live-search="true" data-size="5">
+                            @foreach($categories as $category)
+                                <option data-tokens="{{ $category->name }}"
+                                        value="{{ $category->id }}"
+                                        @if(@old('çategory_id') == $category->id)
+                                        selected
+                                    @endif
+                                >{{ $category->name }}</option>
+                            @endforeach
+                            @error('category_id')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </select>
+                    </div>
                 </div>
 
                 <div class="col-md-6 mb-3">
@@ -108,7 +111,7 @@
 
                     <div class="col-md-6 mb-3">
                         <label>Descripción</label>
-                        <textarea value="{{ @old('descripcion') }}" class="form-control @error('descripcion') is-invalid @enderror "  name="descripcion" placeholder="Descripción" required>{{ $articulo->descripcion }} </textarea>
+                        <textarea class="form-control @error('descripcion') is-invalid @enderror "  name="descripcion" placeholder="Descripción" required>{{ $articulo->descripcion }} </textarea>
                         @error('descripcion')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -134,6 +137,8 @@
 @section('js')
     <script>
         $(function () {
+            $('.selectpicker').selectpicker({ language: 'ES' });
+            $('#select-category').selectpicker('val', {{$selectedCategories}});
             $('[data-toggle="tooltip"]').tooltip()
         })
 

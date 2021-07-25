@@ -31,19 +31,25 @@
         @endif
         <div class="card-body">
             <div class="row">
-                <table class="table ">
-                    <tr>
-                        <th width="30px">No</th>
-                        <th width="45px">Cliente</th>
-                        <th width="35px">Fecha</th>
-                        <th width="35px">Tasa de Cambio</th>
-                        <th width="15px">Acciones</th>
-                    </tr>
+                <table  class="table table-bordered table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th width="30px">No</th>
+                            <th width="45px">Cliente</th>
+                            <th width="70px">Fecha</th>
+                            <th width="35px">Monto</th>
+                            <th width="35px">Referencia</th>
+                            <th width="35px">Tasa de Cambio</th>
+                            <th width="15px">Acciones</th>
+                        </tr>
+                    </thead>
                     @foreach ($orders as $order)
                         <tr>
                             <td>{{ $order->id }}</td>
-                            <td>{{ $order->client->nombres }}</td>
+                            <td>{{ $order->client->nombres }} {{ $order->client->apellidos }}</td>
                             <td>{{ $order->created_at }}</td>
+                            <td>{{ number_format($order->monto_orden * $order->tasa->value, 2, ',', '.') }}Bs</td>
+                            <td>{{ number_format($order->monto_orden, 2, ',', '.') }}$</td>
                             <td>{{ number_format($order->tasa->value, 2, ',', '.') }}Bs</td>
                             <td>
 
@@ -56,8 +62,9 @@
                         </tr>
                     @endforeach
                 </table>
-
-                {!! $orders->links() !!}
+                <div class="pagination-container">
+                    {!! $orders->links() !!}
+                </div>
             </div>
         </div>
 

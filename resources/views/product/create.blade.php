@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
 @section('title', 'TRUCUPEY,C.A.')
-
+@section('plugins.Bootstrapselect', true)
 
 @section('content')
 
     <form action="{{ route('articulo.store') }}" method="POST">
         @csrf
 
-        <div class="card bg-light mb-3">
+        <div class="card mb-3">
             <div class="py-3 px-3 border-bottom d-flex justify-content-between">
                 <h4> Agregar Nuevo Producto</h4>
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">
@@ -46,7 +46,7 @@
                         @enderror
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label>Precio</label>
+                        <label>Precio ($)</label>
                         <input type="text" value="{{ @old('precio') }}"
                                class="form-control @error('precio') is-invalid @enderror " name="precio"
                                placeholder="Precio">
@@ -56,19 +56,21 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label>Categoría</label>
-                        <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
-                            @foreach($categories as $category)
-                                <option
-                                    value="{{ $category->id }}"
-                                    @if(@old('çategory_id') == $category->id)
-                                        selected
-                                    @endif
-                                >{{ $category->name }}</option>
-                            @endforeach
-                            @error('category_id')
-                            <span class="text-danger mt-2">{{ $message }}</span>
-                            @enderror
-                        </select>
+                        <div class="bs-container">
+                            <select class="form-control selectpicker  @error('category_id') is-invalid @enderror" multiple name="category_id[]" id="select-category" data-live-search="true" data-size="5">
+                                @foreach($categories as $category)
+                                    <option data-tokens="{{ $category->name }}"
+                                            value="{{ $category->id }}"
+                                            @if(@old('çategory_id') == $category->id)
+                                            selected
+                                        @endif
+                                    >{{ $category->name }}</option>
+                                @endforeach
+                                @error('category_id')
+                                <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                            </select>
+                        </div>
                     </div>
 
                     <div class="col-md-4 mb-3">
@@ -109,7 +111,7 @@
                         <label>Descripción</label>
                         <textarea value="{{ @old('descripcion') }}"
                                   class="form-control @error('descripcion') is-invalid @enderror " name="descripcion"
-                                  placeholder="Descripción"></textarea>
+                                  placeholder="Descripción">{{ @old('descripcion') }}</textarea>
                         @error('descripcion')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -133,6 +135,8 @@
     <script>
 
         $(function () {
+            //select-category
+            $('.selectpicker').selectpicker({ language: 'ES' });
             $('[data-toggle="tooltip"]').tooltip()
         })
 

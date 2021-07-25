@@ -16,7 +16,7 @@ class VendorController extends Controller
     public function index()
     {
         return view('vendor.index',[
-            'vendors' => Vendor::paginate()
+            'vendors' => Vendor::withTrashed()->withCount('products')->paginate(5)
         ]);
     }
 

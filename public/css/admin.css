@@ -11,3 +11,14 @@ img.brand-image.img-circle.elevation-3.logo_img_xl_class {
     text-align: right;
     margin-left: auto;
 }
+.pagination-container{
+    display: flex;
+    justify-content: center;
+}
+.bs-container{
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+.bs-container .dropdown-toggle{
+    background: white;
+}
