@@ -3,6 +3,14 @@
 @section('title', 'TRUCUPEY,C.A.')
 
 @section('content')
+    <style>
+        #prediccion{
+            max-height: 400px;
+            max-width: 400px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
     <div class="row">
         <div class="col-lg-12 margin-tb">
 
@@ -153,19 +161,40 @@
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: 'Chart.js Line Chart - Logarithmic'
-                                },
+                                    text: 'Predicción de Cantidad Restante para 15 Días'
+                                }
                             },
                             scales: {
                                 x: {
                                     display: true,
+                                    title: {
+                                        display: true,
+                                        text: '#Días',
+                                        color: '#000',
+                                        font: {
+                                            family: 'Source Sans Pro',
+                                            size: 12,
+                                            weight: 'normal'
+                                        },
+                                        padding: {top: 10, left: 0, right: 0, bottom: 0}
+                                    }
                                 },
                                 y: {
                                     display: true,
-                                    type: 'logarithmic',
+                                    title: {
+                                        display: true,
+                                        text: '#Cantidad',
+                                        color: '#000',
+                                        font: {
+                                            family: 'Source Sans Pro',
+                                            size: 12,
+                                            style: 'normal'
+                                        },
+                                        padding: {top: 0, left: 0, right: 0, bottom: 10}
+                                    }
                                 }
                             }
-                        },
+                        }
                     });
                 })
             </script>

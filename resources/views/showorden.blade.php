@@ -21,7 +21,7 @@
         </div>
     </div>
     <br><br>
-    <div class="card bg-light mb-3">
+    <div class="card mb-3">
         <div class="py-3 px-3 border-bottom d-flex justify-content-between">
             <h4>Orden</h4>
             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">

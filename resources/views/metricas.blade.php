@@ -12,83 +12,92 @@
      </span>
         </div>
         <div class="col-12 col-md-8">
-            <div class="d-flex">
-                <div class="flex-grow-1 col-12 col-md-6">
-                    <canvas id="prediccion" width="200" height="200" class="graphics px-4"></canvas>
-                </div>
-                <dv class="card" style="width: 40rem;background:#EFF4F4 ">
-                    <div class="card-body">
-                        <h5 class="card-title">Cantidad de ordenes por dia</h5>
-                        <table class="table table-bordered " style="border-color:black;">
-                            <thead>
-                            <tr>
-                                <th scope="col">Eje X</th>
-                                <th scope="col">Eje Y</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>El tiempo</td>
-                                <td>Cantidad de ordenes efectuadas por día</td>
-                            </tbody>
-                        </table>
-
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1 col-12 col-md-6">
+                            <canvas id="prediccion" width="200" height="200" class="graphics px-4"></canvas>
+                        </div>
+                        <div class="card" style="width: 40rem;background:#EFF4F4 ">
+                            <div class="card-body">
+                                <h5 class="card-title">Cantidad de ordenes por dia</h5>
+                                <table class="table table-bordered " style="border-color:black;">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Eje X</th>
+                                        <th scope="col">Eje Y</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>El tiempo</td>
+                                        <td>Cantidad de ordenes efectuadas por día</td>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12 col-md-8">
-        <div class="d-flex">
-            <div class="flex-grow-1 col-12 col-md-6">
-                <canvas id="products" width="200" height="200" class="graphics px-4"></canvas>
-            </div>
-
-            <div class="card" style="width: 40 rem;background:#EFF4F4  ">
-                <div class="card-body">
-                    <h5 class="card-title">Cantidad de productos vendidos por dia</h5>
-
-                    <table class="table table-bordered " style="border-color:black;">
-                        <thead>
-                        <tr>
-                            <th scope="col">Eje X</th>
-                            <th scope="col">Eje Y</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>El tiempo</td>
-                            <td>Cantidad de productos vendidos por día</td>
-                        </tbody>
-                    </table>
-
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="col-12 col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1 col-12 col-md-6">
+                        <canvas id="products" width="200" height="200" class="graphics px-4"></canvas>
+                    </div>
+                    <div class="card" style="width: 40 rem;background:#EFF4F4  ">
+                        <div class="card-body">
+                            <h5 class="card-title">Cantidad de productos vendidos por dia</h5>
+
+                            <table class="table table-bordered " style="border-color:black;">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Eje X</th>
+                                    <th scope="col">Eje Y</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>El tiempo</td>
+                                    <td>Cantidad de productos vendidos por día</td>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-12 col-md-8">
-        <div class="d-flex">
-            <div class="flex-grow-1 col-12 col-md-6">
-                <canvas id="ganancia" width="200" height="200" class="graphics px-4"></canvas>
-            </div>
-            <div class="card" style="width: 40rem;background:#EFF4F4  ">
-                <div class="card-body">
-                    <h5 class="card-title">Ganancia Diaria</h5>
-                    <table class="table table-bordered " style="border-color:black;">
-                        <thead>
-                        <tr>
-                            <th scope="col">Eje X</th>
-                            <th scope="col">Eje Y</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>El tiempo</td>
-                            <td>La ganancia día</td>
-                        </tbody>
-                    </table>
-
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1 col-12 col-md-6">
+                        <canvas id="ganancia" width="200" height="200" class="graphics px-4"></canvas>
+                    </div>
+                    <div class="card" style="width: 40rem;background:#EFF4F4  ">
+                        <div class="card-body">
+                            <h5 class="card-title">Ganancia Diaria</h5>
+                            <table class="table table-bordered " style="border-color:black;">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Eje X</th>
+                                    <th scope="col">Eje Y</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>El tiempo</td>
+                                    <td>La ganancia día</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

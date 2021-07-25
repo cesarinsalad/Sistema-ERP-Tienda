@@ -16,7 +16,7 @@
         </div>
     </div>
     <br>
-    <div class="card; card bg-light mb-3;">
+    <div class="card; card  mb-3;">
         <div class="py-3 px-3 border-bottom d-flex justify-content-between">
             <h4> Lista de Ordenes</h4>
 
@@ -46,7 +46,7 @@
                     @foreach ($orders as $order)
                         <tr>
                             <td>{{ $order->id }}</td>
-                            <td>{{ $order->client->nombres }} {{ $order->client->apellidos }}</td>
+                            <td><a href="{{ route('client.show',$order->client->id) }}">{{ $order->client->nombres }} {{ $order->client->apellidos }}</a></td>
                             <td>{{ $order->created_at }}</td>
                             <td>{{ number_format($order->monto_orden * $order->tasa->value, 2, ',', '.') }}Bs</td>
                             <td>{{ number_format($order->monto_orden, 2, ',', '.') }}$</td>

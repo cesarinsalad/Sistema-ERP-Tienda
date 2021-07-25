@@ -17,17 +17,17 @@ class MetricasController extends Controller
             ->get();
 
         $statisticsProducts = Product_order::
-            join('ordens', 'ordens.id', '=', 'product_orders.order_id')
-            ->selectRaw('sum(quantity) as total, CONCAT(EXTRACT(DAY FROM ordens.created_at),"-",EXTRACT(MONTH FROM ordens.created_at)) AS date')
+            join('orders', 'orders.id', '=', 'product_orders.order_id')
+            ->selectRaw('sum(quantity) as total, CONCAT(EXTRACT(DAY FROM orders.created_at),"-",EXTRACT(MONTH FROM orders.created_at)) AS date')
             ->where('created_at','>', \Carbon\Carbon::now()->subWeek())
             ->groupByRaw('date')
             ->get();
 
         $statisticsWins = Product_order::
-             join('ordens', 'ordens.id', '=', 'product_orders.order_id')
-            ->join('articulos', 'articulos.id', '=', 'product_orders.product_id')
-            ->selectRaw('sum(product_orders.quantity * articulos.precio) as total, CONCAT(EXTRACT(DAY FROM ordens.created_at),"-",EXTRACT(MONTH FROM ordens.created_at)) AS date')
-            ->where('ordens.created_at','>', \Carbon\Carbon::now()->subWeek())
+             join('orders', 'orders.id', '=', 'product_orders.order_id')
+            ->join('products', 'products.id', '=', 'product_orders.product_id')
+            ->selectRaw('sum(product_orders.quantity * products.precio) as total, CONCAT(EXTRACT(DAY FROM orders.created_at),"-",EXTRACT(MONTH FROM orders.created_at)) AS date')
+            ->where('orders.created_at','>', \Carbon\Carbon::now()->subWeek())
             ->groupByRaw('date')
             ->get();
 
