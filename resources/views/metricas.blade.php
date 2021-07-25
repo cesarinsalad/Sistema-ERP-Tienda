@@ -4,104 +4,87 @@
 
 @section('content')
 
+    <style>
+        .graphics{
+            max-width: 400px;
+            width: 100% !important;
+            max-height: 400px;
+        }
+    </style>
     <div class="">
         <div class="d-flex justify-content-between py-2">
             <h2>Metricas</h2>
             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="PDF">
-        <button onclick="pdf()" class="btn btn-danger"><i class="far fa-file-pdf"></i></button>
-     </span>
+                <button onclick="pdf()" class="btn btn-danger"><i class="far fa-file-pdf"></i></button>
+            </span>
         </div>
-        <div class="col-12 col-md-8">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-grow-1 col-12 col-md-6">
-                            <canvas id="prediccion" width="200" height="200" class="graphics px-4"></canvas>
+                    <h5>Opciones</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="date-from">Desde:</label>
+                                <input class="form-control" type="date" id="date-from" name="from" value="{{$fromDate}}">
+                            </div>
                         </div>
-                        <div class="card" style="width: 40rem;background:#EFF4F4 ">
-                            <div class="card-body">
-                                <h5 class="card-title">Cantidad de ordenes por dia</h5>
-                                <table class="table table-bordered " style="border-color:black;">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Eje X</th>
-                                        <th scope="col">Eje Y</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>El tiempo</td>
-                                        <td>Cantidad de ordenes efectuadas por día</td>
-                                    </tbody>
-                                </table>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="date-to">Hasta:</label>
+                                <input class="form-control" type="date" id="date-to" name="to" value="{{$toDate}}">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-12 col-md-8">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div class="flex-grow-1 col-12 col-md-6">
-                        <canvas id="products" width="200" height="200" class="graphics px-4"></canvas>
-                    </div>
-                    <div class="card" style="width: 40 rem;background:#EFF4F4  ">
-                        <div class="card-body">
-                            <h5 class="card-title">Cantidad de productos vendidos por dia</h5>
-
-                            <table class="table table-bordered " style="border-color:black;">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Eje X</th>
-                                    <th scope="col">Eje Y</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>El tiempo</td>
-                                    <td>Cantidad de productos vendidos por día</td>
-                                </tbody>
-                            </table>
-
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <canvas id="prediccion" width="400" height="400" class="graphics px-4"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-12 col-md-8">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div class="flex-grow-1 col-12 col-md-6">
-                        <canvas id="ganancia" width="200" height="200" class="graphics px-4"></canvas>
-                    </div>
-                    <div class="card" style="width: 40rem;background:#EFF4F4  ">
-                        <div class="card-body">
-                            <h5 class="card-title">Ganancia Diaria</h5>
-                            <table class="table table-bordered " style="border-color:black;">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Eje X</th>
-                                    <th scope="col">Eje Y</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>El tiempo</td>
-                                    <td>La ganancia día</td>
-                                </tbody>
-                            </table>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <canvas id="products" width="400" height="400" class="graphics px-4"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <canvas id="ganancia" width="400" height="400" class="graphics px-4"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Detalles de Venta</h5>
+                    <p><b>Ganancia Neta Total:</b> {{$totalGain}}$</p>
+                    <p><b>Productos Más Vendidos:</b> {{$totalGain}}$</p>
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -127,7 +110,7 @@
             let data = {
                 labels: {!! $listaFechasOrders !!},
                 datasets: [{
-                    label: 'Cantidad de ordenes por dia',
+                    label: 'Cantidad de ordenes',
                     data: {!! $cantidadPorDiaOrders !!},
                     backgroundColor: [
                         'rgba(0, 23, 153 )',
@@ -161,16 +144,37 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Chart.js Line Chart - Logarithmic'
+                            text: 'Cantidad de Ordenes por Día'
                         },
                     },
                     scales: {
                         x: {
                             display: true,
+                            title: {
+                                display: true,
+                                text: '#Días',
+                                color: '#000',
+                                font: {
+                                    family: 'Source Sans Pro',
+                                    size: 12,
+                                    weight: 'normal'
+                                },
+                                padding: {top: 10, left: 0, right: 0, bottom: 0}
+                            }
                         },
                         y: {
                             display: true,
-                            type: 'logarithmic',
+                            title: {
+                                display: true,
+                                text: '#Cantidad',
+                                color: '#000',
+                                font: {
+                                    family: 'Source Sans Pro',
+                                    size: 12,
+                                    style: 'normal'
+                                },
+                                padding: {top: 0, left: 0, right: 0, bottom: 10}
+                            }
                         }
                     }
                 },
@@ -180,7 +184,7 @@
             data = {
                 labels: {!! $listaFechasProducts !!},
                 datasets: [{
-                    label: 'Cantidad de productos vendidos por dia',
+                    label: 'Cantidad de productos',
                     data: {!! $cantidadPorDiaProducts !!},
                     backgroundColor: [
                         'rgba(0, 155, 7 )',
@@ -213,16 +217,37 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Chart.js Line Chart - Logarithmic'
+                            text: 'Cantidad de Productos Vendidos por Día'
                         },
                     },
                     scales: {
                         x: {
                             display: true,
+                            title: {
+                                display: true,
+                                text: '#Días',
+                                color: '#000',
+                                font: {
+                                    family: 'Source Sans Pro',
+                                    size: 12,
+                                    weight: 'normal'
+                                },
+                                padding: {top: 10, left: 0, right: 0, bottom: 0}
+                            }
                         },
                         y: {
                             display: true,
-                            type: 'logarithmic',
+                            title: {
+                                display: true,
+                                text: '#Cantidad',
+                                color: '#000',
+                                font: {
+                                    family: 'Source Sans Pro',
+                                    size: 12,
+                                    style: 'normal'
+                                },
+                                padding: {top: 0, left: 0, right: 0, bottom: 10}
+                            }
                         }
                     }
                 },
@@ -232,7 +257,7 @@
             data = {
                 labels: {!! $listaFechasWins !!},
                 datasets: [{
-                    label: 'Ganancia Diaria',
+                    label: 'Ganancia',
                     data: {!! $cantidadPorDiaWins !!},
                     backgroundColor: [
                         'rgba(250, 68, 0 )',
@@ -265,16 +290,37 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Chart.js Line Chart - Logarithmic'
+                            text: 'Cantidad de Ingresos por Día'
                         },
                     },
                     scales: {
                         x: {
                             display: true,
+                            title: {
+                                display: true,
+                                text: '#Días',
+                                color: '#000',
+                                font: {
+                                    family: 'Source Sans Pro',
+                                    size: 12,
+                                    weight: 'normal'
+                                },
+                                padding: {top: 10, left: 0, right: 0, bottom: 0}
+                            }
                         },
                         y: {
                             display: true,
-                            type: 'logarithmic',
+                            title: {
+                                display: true,
+                                text: '#Cantidad',
+                                color: '#000',
+                                font: {
+                                    family: 'Source Sans Pro',
+                                    size: 12,
+                                    style: 'normal'
+                                },
+                                padding: {top: 0, left: 0, right: 0, bottom: 10}
+                            }
                         }
                     }
                 },
@@ -287,7 +333,7 @@
             const doc = new jsPDF('landscape', 'mm')
             graphics.forEach((el, i) => {
                 const width = (150 / (el.height / el.width))
-                doc.addImage(el, 'JPEG', 10, 10, width, 150)
+                doc.addImage(el, 'PNG', 10, 10, width, 150)
                 //if(graphics.lenght > (i + 1)){
                 //}
                 doc.addPage()
