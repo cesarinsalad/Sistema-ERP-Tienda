@@ -44,7 +44,7 @@ class HomeController extends Controller
         $request->validate([
             'cedula' => 'required|max:20'
         ]);
-        $data['client'] = Client::where('cedula', '=', $request['cedula'])->first();
+        $data['client'] = Client::withTrashed()->where('cedula', '=', $request['cedula'])->first();
         return response()->json($data);
     }
 

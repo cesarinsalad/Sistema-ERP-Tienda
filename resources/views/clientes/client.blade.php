@@ -70,19 +70,12 @@ tr:hover {background-color:#C3E7FF;}
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('client.destroy',$client->id) }}" method="POST">
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Ver">
-                                    <a class="btn btn-info" href="{{ route('client.show',$client->id) }}"><i class="fas fa-eye"></i></a>
-                                </span>
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
-                                    <a class="btn btn-primary" href="{{ route('client.edit',$client->id) }}"><i class="fas fa-pencil-alt"></i></a>
-                                </span>
-                                @csrf
-                                @method('DELETE')
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Eliminar">
-                                    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                                </span>
-                            </form>
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Ver">
+                                <a class="btn btn-info" href="{{ route('client.show',$client->id) }}"><i class="fas fa-eye"></i></a>
+                            </span>
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Editar">
+                                <a class="btn btn-primary" href="{{ route('client.edit',$client->id) }}"><i class="fas fa-pencil-alt"></i></a>
+                            </span>
                         </td>
                     </tr>
                 @endforeach

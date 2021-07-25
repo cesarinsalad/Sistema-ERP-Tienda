@@ -255,6 +255,11 @@
                     success: function (data) {
                         $('#resultado-cliente').show();
                         if (data.client) {
+                            if(data.client.deleted_at){
+                                $('#errorModal').modal();
+                                $('#err-description').html('El cliente se encuentra baneado desde el: <br><i>'+data.client.deleted_at+'</i>');
+                                return false;
+                            }
                             $('#resultado-cliente .form-control').attr("disabled", true);
                             $('#client-id').val(data.client.id);
                             $('#client-nom').val(data.client.nombres);
@@ -262,6 +267,8 @@
                             $('#client-tel').val(data.client.telefono);
                             $('#client-dir').val(data.client.direccion);
                         } else {
+                            $('#errorModal').modal();
+                            $('#err-description').html('El cliente no ha sido registrado anteriormente <br> Por favor, regístrelo para poder continuar');
                             $('#resultado-cliente .form-control').attr("disabled", false);
                             $('#client-id').val('');
                             $('#client-nom').val('');

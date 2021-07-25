@@ -16,7 +16,7 @@
         </div>
     </div>
     <br>
-    <div class="card; card bg-light mb-3;">
+    <div class="card; card mb-3;">
         <div class="py-3 px-3 border-bottom d-flex justify-content-between">
             <h4> Lista de Categorías</h4>
 
