@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Client;
+use App\Order;
 use App\Product;
+use App\Product_order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class ClientController extends Controller
@@ -59,8 +61,30 @@ class ClientController extends Controller
      */
     public function show($client)
     {
-        $client = Client::withTrashed()->find($client);
-        return view('clientes.showclient',compact('client'));
+        $data = array();
+        $data['client'] = Client::withTrashed()->find($client);
+
+        $preferedProducts = Order::
+        join('product_orders', 'product_orders.order_id', '=', 'orders.id')
+            ->join('clients', 'clients.id', '=', 'orders.cliente_id')
+            ->join('products', 'products.id', '=', 'product_orders.product_id')
+            ->selectRaw('products.id, products.nombre, sum(quantity) as total')
+            ->where('clients.id', '=', $data['client']->id)
+            ->orderBy('total', 'DESC')
+            ->limit(3)
+            ->groupByRaw('products.id')
+            ->get();
+
+        $data['preferedProducts'] = array();
+        foreach($preferedProducts as $product){
+            $data['preferedProducts'][] = array(
+                'id'            =>  $product->id,
+                'name'          =>  $product->nombre,
+                'total'         =>  $product->total,
+            );
+        }
+
+        return view('clientes.showclient',$data);
     }
 
     /**

@@ -13,7 +13,11 @@
         .submit-btn{
             float: right;
         }
+        .hidden{
+            display: none;
+        }
     </style>
+    <img src="{{asset('imagenes\logo-trucupey.png')}}" class="hidden" id="img-logo" width="64">
     <div class="">
         <div class="d-flex justify-content-between py-2">
             <h2>Metricas</h2>
@@ -97,7 +101,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5>Productos Más Vendidos:</h5>
-                    <table class="table table-bordered table-sm ">
+                    <table class="table table-bordered table-sm " id="table-sold-products">
                         <thead class="thead-dark">
                         <tr>
                             <th width="80px">Producto</th>
@@ -107,7 +111,7 @@
                         </thead>
                         @foreach ($top10Products as $product)
                             <tr>
-                                <td><a href="{{ route('articulo.show', $product['id']) }}">{{ $product['name'] }}</a></td>
+                                <td><a href="{{ route('articulo.show', $product['id']) }}">{{ ucfirst($product['name']) }}</a></td>
                                 <td>{{ $product['total'] }}</td>
                                 <td>{{ $product['gain'] }}$</td>
                             </tr>
@@ -120,7 +124,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5>Categorías Más Vendidas</h5>
-                    <table class="table table-bordered table-sm ">
+                    <table class="table table-bordered table-sm " id="table-sold-categories">
                         <thead class="thead-dark">
                         <tr>
                             <th width="80px">Producto</th>
@@ -130,7 +134,7 @@
                         </thead>
                         @foreach ($top10Categories as $category)
                             <tr>
-                                <td><a href="{{ route('categories.show', $category['id']) }}">{{ $category['name'] }}</a></td>
+                                <td><a href="{{ route('categories.show', $category['id']) }}">{{ ucfirst($category['name']) }}</a></td>
                                 <td>{{ $category['total'] }}</td>
                                 <td>{{ $category['gain'] }}$</td>
                             </tr>
@@ -143,7 +147,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5>Mejores Clientes</h5>
-                    <table class="table table-bordered table-sm ">
+                    <table class="table table-bordered table-sm " id="table-best-clients">
                         <thead class="thead-dark">
                         <tr>
                             <th width="80px">Nombre</th>
@@ -153,7 +157,7 @@
                         </thead>
                         @foreach ($top10Clients as $client)
                             <tr>
-                                <td><a href="{{ route('client.show', $client['id']) }}">{{ $client['name'] }}</a></td>
+                                <td><a href="{{ route('client.show', $client['id']) }}">{{ ucfirst($client['name']) }}</a></td>
                                 <td>{{ $client['total'] }}</td>
                                 <td>{{ $client['gain'] }}$</td>
                             </tr>
@@ -176,7 +180,7 @@
 
 @section('js')
     <script src="/js/jspdf/dist/jspdf.umd.min.js" defer></script>
-
+    <script src="/js/jspdf/dist/jspdf.plugin.autotable.min.js" defer></script>
     <script>
 
 
@@ -407,20 +411,52 @@
         function pdf() {
             const {jsPDF} = window.jspdf
             let graphics = document.querySelectorAll('.graphics');
-            const doc = new jsPDF('mm')
-            var x = 10;
-            var y = 10;
+            const doc = new jsPDF('mm');
+            var x = 30;
+            var y = 30;
+            var from= document.getElementById('date-from').value;
+            var to= document.getElementById('date-to').value;
+            doc.setFontSize(12);
+            doc.text("TRUCUPEY C.A.", x, y);
+            let logo = document.querySelectorAll('#img-logo');
+            doc.addImage(logo[0], 'PNG', x+120, y-10, 28, 28);
+            doc.text("RIF:. J-40855270-1", x, y+=5);
+            doc.text("Desde: "+from, x, y+=5);
+            doc.text("Hasta: "+to, x, y+=5);
+            doc.setFontSize(20);
+            doc.text("INFORME", x+55, y+=20);
+            doc.setFontSize(12);
+            y+=10;
             graphics.forEach((el, i) => {
                 const width = (100 / (el.height / el.width))
                 doc.addImage(el, 'PNG', x, y, width, 100)
-                y =  y + 130;
+                y =  y + 110;
                 if(y > 200){
-                    y = 10;
+                    y = 30;
                     doc.addPage()
                 }
             })
+            y = 135;
+            doc.text("Ganancia Neta Total: {{$totalGain}}$", x, y+=5);
+
+            doc.setFontSize(14);
+            doc.text("-Productos Más Vendidos:", x, y+=15);
+            doc.setFontSize(12);
+            doc.autoTable({ html: '#table-sold-products', startY: y += 10});
+
+            y = 30;
+            doc.addPage()
+
+            doc.setFontSize(14);
+            doc.text("-Categorías Más Vendidas:", x, y+=15);
+            doc.setFontSize(12);
+            doc.autoTable({ html: '#table-sold-categories', startY: y += 10});
+
+            doc.setFontSize(14);
+            doc.text("-Mejores Clientes:", x, y+=100);
+            doc.setFontSize(12);
+            doc.autoTable({ html: '#table-best-clients', startY: y += 10});
             doc.save()
         }
-
     </script>
 @stop

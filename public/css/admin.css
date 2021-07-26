@@ -22,3 +22,6 @@ img.brand-image.img-circle.elevation-3.logo_img_xl_class {
 .bs-container .dropdown-toggle{
     background: white;
 }
+.table{
+    text-transform: capitalize;
+}
