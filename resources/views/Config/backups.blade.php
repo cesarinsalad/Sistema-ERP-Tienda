@@ -42,7 +42,8 @@
                 <tr>
                     <th width="5px">ID</th>
                     <th width="40px">Nombre</th>
-                    <th width="45px">Acciones</th>
+                    <th width="45px">Descargar</th>
+                    <th width="45px">Restaurar</th>
                 </tr>
                 </thead>
                 @foreach ($backups as $backup)
@@ -53,6 +54,13 @@
                             <a href="{{route('backups.download', $backup->file_name)}}" target="_blank" class="btn btn-success">
                                 <i class="fa fa-download"></i>
                             </a>
+                        </td>
+                        <td>
+                            <form action="{{ route('restore.index')  }}" method="POST">
+                                @csrf
+                                <input type="text" hidden class="d-none" value="{{$backup->file_name}}" name="file">
+                                <button class="btn btn-primary"><i class="fa fa-window-restore"></i></button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
