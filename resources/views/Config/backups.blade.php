@@ -50,16 +50,9 @@
                         <td>{{ $backup->id }}</td>
                         <td>{{ $backup->file_name }}</td>
                         <td>
-                            <form action="{{ route('restore.index') }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input type="text" hidden class="d-none" value="{{ $backup->file_name }}" name="file">
-                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Desactivar">
-                                    <button type="submit"  class="btn btn-success">
-                                        <i class="fa fa-lightbulb" />
-                                    </button>
-                                </span>
-                            </form>
+                            <a href="{{route('backups.download', $backup->file_name)}}" target="_blank" class="btn btn-success">
+                                <i class="fa fa-download"></i>
+                            </a>
                         </td>
                     </tr>
                 @endforeach

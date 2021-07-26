@@ -133,4 +133,9 @@ class Restore extends Controller
     {
         return preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
     }
+    public function download(Request $backup){
+        $file = explode('download',(url()->current()));
+        $file = $file[1];
+        return \Storage::disk('dumps')->download($file);
+    }
 }

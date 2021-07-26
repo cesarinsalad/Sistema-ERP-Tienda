@@ -297,6 +297,11 @@ return [
             'url'  => 'admin/metricas',
             'icon' => 'far fa-chart-bar',
         ],
+        [
+            'text' => 'Backups',
+            'url'  => '/backups',
+            'icon' => 'fa fa-arrow-down',
+        ],
 
         /*
         ['header' => 'Nomina'],
