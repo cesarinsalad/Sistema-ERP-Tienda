@@ -10,3 +10,12 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+# IDE and Helper files
+.idea/
+_ide_helper.php
+.antigravity/
+
+# Backups and Dumps
+/storage/dumps/
+node_modules
