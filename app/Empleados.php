@@ -4,15 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * App\Empleados
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Empleados newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Empleados newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Empleados query()
- * @mixin \Eloquent
- */
 class Empleados extends Model
 {
-    //
+    protected $table = 'empleados';
+
+    protected $fillable = [
+        'user_id', 'document', 'phone', 'position', 'salary', 'is_active'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pagoempleados::class, 'empleado_id');
+    }
 }

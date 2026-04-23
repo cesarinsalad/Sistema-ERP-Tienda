@@ -34,7 +34,17 @@ class HomeController extends Controller
         $data = array();
         $data['tasaDolar'] = Exchangerate::latest('created_at')->first()->value;
         $data['valorDolar'] = number_format((float)(1 / $data['tasaDolar']), 2, '.', '');
-        $data['paymentMethods'] = Metodo_de_pago::get();
+        $data['paymentMethods'] = Metodo_de_pago::get()->sortBy(function($method) {
+            $name = $method->nombre_metodo;
+            $currency = $method->moneda;
+            
+            if (mb_stripos($name, 'TARJETA') !== false) return 1;
+            if (mb_stripos($name, 'MOVIL') !== false || mb_stripos($name, 'MÓVIL') !== false) return 2;
+            if (mb_stripos($name, 'EFECTIVO') !== false && $currency == 'Bs') return 3;
+            if (mb_stripos($name, 'EFECTIVO') !== false && $currency == '$') return 4;
+            if (mb_stripos($name, 'ZELLE') !== false) return 5;
+            return 6;
+        });
         return view('home', $data);
     }
 
@@ -44,7 +54,7 @@ class HomeController extends Controller
         $request->validate([
             'cedula' => 'required|max:20'
         ]);
-        $data['client'] = Client::withTrashed()->where('cedula', '=', $request['cedula'])->first();
+        $data['client'] = Client::where('cedula', '=', $request['cedula'])->first();
         return response()->json($data);
     }
 
@@ -53,8 +63,11 @@ class HomeController extends Controller
         $request->validate([
             'codigo' => 'required|string'
         ]);
-        $articulos = Product::where('nombre', 'LIKE', '%' . $request->codigo . '%')
-            ->orWhere('codigo', 'LIKE', '%' . $request['codigo'] . '%')
+        $articulos = Product::where('is_active', true)
+            ->where(function($query) use ($request) {
+                $query->where('nombre', 'LIKE', '%' . $request->codigo . '%')
+                      ->orWhere('codigo', 'LIKE', '%' . $request['codigo'] . '%');
+            })
             ->get();
         return response()->json($articulos);
     }
@@ -90,6 +103,7 @@ class HomeController extends Controller
         //Registrar orden
         $orden = Order::create([
             'cliente_id' => (int)$client_id,
+            'user_id'    => auth()->id(),
             'tasa_cambio' => $exchangerate->id,
             'monto_orden' => $total,
         ]);
@@ -120,7 +134,7 @@ class HomeController extends Controller
         Product_order::insert($productos);
 
 
-        return redirect()->route('home')->with('success', 'Order Generada');
+        return redirect()->route('home')->with('success', 'Orden Generada');
     }
 
 

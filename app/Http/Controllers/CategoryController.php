@@ -11,11 +11,28 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('category.index',[
-            'categories' => Category::withTrashed()->withCount('products')->paginate(5)
-        ]);
+        $query = Category::where('is_active', true)->withCount('products');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        return view('category.index', ['categories' => $query->latest()->paginate(10)->appends($request->query())]);
+    }
+
+    public function inactivos(Request $request)
+    {
+        $query = Category::where('is_active', false)->withCount('products');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        return view('category.inactivos', ['categories' => $query->latest()->paginate(10)->appends($request->query())]);
     }
 
     public function create()
@@ -69,15 +86,16 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        $category->products()->delete();
-        $category->delete();
-        return redirect()->route('categories.index');
+        $category->is_active = !$category->is_active;
+        $category->save();
+        return redirect()->back()->with('success', 'Estado de la categoría actualizado.');
     }
 
     public function restore($category)
     {
-        $category = Category::withTrashed()->where('id',$category)->first();
-        $category->restore();
-        return redirect()->back();
+        $category = Category::where('id',$category)->first();
+        $category->is_active = true;
+        $category->save();
+        return redirect()->back()->with('success', 'Categoría reactivada.');
     }
 }

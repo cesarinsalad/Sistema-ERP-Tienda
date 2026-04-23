@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>TRUCUPEY, C.A.</title>
+    <title>GIGI FASHION IMPORT</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
     <style>
         html, body {
             height: 100%;
-            background: #F0FFFF;
+            background: #FFFFFF;
             color: #f00000;
             margin: 0;
             font-family: sans-serif;
@@ -80,10 +80,10 @@
         }
 
         #fondo_1 > img {
-            width: 400px;
-            margin-top: 70px;
-            box-shadow: 0 4px 8px 0px #00000091;
-            border-radius: 100%;
+            width: 500px;
+            max-width: 90%;
+            margin-top: 15vh;
+            filter: drop-shadow(0 4px 20px rgba(0,0,0,0.15));
 
         }
 
@@ -97,7 +97,7 @@
                 <a href="{{ url('/home') }}">Home</a>
             @else
 
-                <a href="{{ route('login') }}">login</a>
+                <a href="{{ route('login') }}">Iniciar Sesión</a>
 
             @endauth
         </div>
@@ -106,7 +106,7 @@
 <div class="content">
 
     <div class="" id="fondo_1">
-        <img src="{{asset('/imagenes/logo-trucupey.svg')}}" width="500">
+        <img src="{{asset('/imagenes/logo-gigi.png')}}" width="500">
     </div>
 </div>
 </body>

@@ -1,8 +1,312 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// ===== DASHBOARD AESTHETIC OVERRIDES =====
+
+// 1. Sleek Backgrounds
+body, .content-wrapper, .wrapper {
+    background-color: #F4F5F7 !important;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+// Custom brand logo size
+.brand-image {
+    max-height: 65px !important;
+    width: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    float: none !important;
+}
+
+// 2. Main Sidebar & Links (Charcoal)
+.main-sidebar, .sidebar-dark-primary {
+    background-color: #1a1c23 !important;
+    border-right: none !important;
+    box-shadow: none !important;
+    
+    .brand-link {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 1.5rem 0 !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        height: auto !important;
+    }
+    
+    .sidebar {
+        padding-top: 3rem !important;
+    }
+
+    .nav-sidebar {
+        margin-top: 1.5rem !important;
+    }
+    
+    .nav-sidebar > .nav-item > .nav-link {
+        border-radius: 50px !important; // Pill shape
+        margin: 0.25rem 1rem !important;
+        padding: 0.6rem 1rem !important;
+        color: #A0AEC0 !important;
+        font-weight: 500;
+        transition: all 0.25s ease;
+        
+        i { color: #A0AEC0 !important; transition: all 0.25s; }
+        
+        &:hover {
+            color: #FFFFFF !important;
+            background-color: rgba(255,255,255,0.05) !important;
+            transform: translateX(4px);
+            i { color: #FFFFFF !important; }
+        }
+        
+        &.active, &:active {
+            background-color: #75226D !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 4px 12px rgba(117, 34, 109, 0.3) !important;
+            i { color: #FFFFFF !important; }
+        }
+    }
+}
+
+// 3. Ultra-Modern Cards (Concept Match)
+.card {
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.03), 0px 4px 10px rgba(0,0,0,0.01) !important;
+    margin-bottom: 2rem !important;
+    overflow: hidden;
+    background-color: #FFFFFF !important;
+    
+    .card-body {
+        padding: 2rem !important;
+    }
+    
+    .card-header {
+        background-color: #FFFFFF !important;
+        border-bottom: 1px solid rgba(0,0,0,0.03) !important;
+        padding: 1.5rem 2rem 1rem;
+        font-weight: 600;
+    }
+    
+    h2 { // Title inside card for home.blade
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #2D3748;
+        margin-bottom: 1rem;
+    }
+}
+
+table {
+    th { color: #4A5568; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; border-top: none !important; }
+    td { color: #2D3748; vertical-align: middle !important; border-top: 1px solid rgba(0,0,0,0.04) !important;}
+}
+
+
+// 4. Subtle Top Navbar Extracted
+.main-header {
+    background-color: #FFFFFF !important;
+    border-bottom: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02) !important;
+    margin-bottom: 0 !important;
+}
+
+// Global content top spacing for consistency across all views
+.content {
+    padding-top: 1.5rem !important;
+}
+
+// 5. Soft Pill-Shaped Buttons & Inputs
+.btn, .page-link, .dt-button {
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important; // Enforce font across all pages
+    padding: 0.5rem 1.2rem !important;
+    transition: all 0.2s ease;
+    
+    &:not(.dropdown-toggle):hover {
+        transform: translateY(-2px);
+    }
+}
+
+// 6. Page Titles Standardization
+.content-header {
+    padding: 1.5rem 1rem !important;
+    
+    .container-fluid > .row {
+        align-items: center !important;
+    }
+    
+    h1 {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        font-weight: 800 !important; // Extra weight to stand out
+        font-size: 1.85rem !important;
+        color: #1F2937 !important;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+}
+
+// Fix for custom headers rendered inside Cards instead of AdminLTE content-header
+.card > .d-flex.justify-content-between {
+    align-items: center !important;
+    
+    h1, h2, h3, h4, h5, h6 {
+        margin-bottom: 0 !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 1.5rem !important;
+        letter-spacing: -0.5px;
+        color: #1F2937 !important;
+    }
+}
+
+// Fix for bad HTML structure where <text> was placed inside <i> fontawesome tags
+text {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+    font-weight: 700 !important;
+}
+
+// Sidebar Densification
+.brand-link {
+    padding: 0.5rem 0.5rem !important;
+    height: auto !important;
+}
+.nav-sidebar {
+    margin-top: -15px !important;
+}
+.nav-sidebar .nav-item {
+    margin-bottom: 0 !important;
+}
+.nav-sidebar .nav-link {
+    padding: 0.35rem 1rem !important;
+    font-size: 0.875rem !important;
+}
+.nav-sidebar .nav-header {
+    padding: 0.5rem 1rem 0.25rem !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.5px;
+}
+
+// 7. Modern Tables (Stripe & Hover aesthetic)
+.table {
+    margin-bottom: 0 !important;
+    border-collapse: separate !important;
+    border-spacing: 0;
+    width: 100%;
+    
+    // Header
+    thead, thead.thead-dark th, thead th {
+        background-color: #F8FAFC !important;
+        color: #64748B !important;
+        font-family: 'Inter', system-ui, sans-serif !important;
+        font-size: 0.75rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border: none !important;
+        border-bottom: 2px solid #E2E8F0 !important;
+        padding: 1rem 1.25rem !important;
+    }
+
+    // Rows
+    tbody tr {
+        background-color: #FFFFFF !important;
+        transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        
+        &:hover {
+            background-color: #F8FAFC !important;
+            box-shadow: inset 3px 0 0 #75226D !important; // Brand color edge highlight
+        }
+        
+        td {
+            padding: 1rem 1.25rem !important;
+            vertical-align: middle !important;
+            border: none !important;
+            border-bottom: 1px solid #F1F5F9 !important;
+            color: #334155 !important;
+            font-size: 0.95rem !important;
+        }
+        
+        &:last-child td {
+            border-bottom: none !important; // Unify bottom of table
+        }
+    }
+}
+
+// Annihilate the ugly HTML borders
+.table-bordered, .table-bordered th, .table-bordered td {
+    border: none !important;
+}
+
+.table-sm th, .table-sm td {
+    padding: 0.8rem 1rem !important; // Still breathable even if 'sm' class is used
+}
+
+.btn-success { background-color: #75226D !important; border-color: #75226D !important; box-shadow: 0 4px 12px rgba(117, 34, 109, 0.25) !important; color: #FFF !important; }
+.btn-primary { background-color: #75226D !important; border-color: #75226D !important; box-shadow: 0 4px 12px rgba(117, 34, 109, 0.25) !important; color: #FFF !important; }
+.btn-danger { border: none; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2) !important; }
+
+.form-control {
+    border-radius: 12px !important;
+    border: 1px solid #E2E8F0 !important;
+    padding: 0.75rem 1rem !important;
+    background-color: #F8FAFC !important;
+    box-shadow: none !important;
+    min-height: 45px;
+    
+    &:focus {
+        background-color: #FFFFFF !important;
+        border-color: #75226D !important;
+        box-shadow: 0 0 0 3px rgba(117, 34, 109, 0.1) !important;
+    }
+}
+
+// Select Picker Override — match form-control height exactly
+.bootstrap-select .dropdown-toggle { 
+    border-radius: 12px !important; 
+    background-color: #F8FAFC !important; 
+    border: 1px solid #E2E8F0 !important; 
+    height: 45px !important;
+    min-height: 45px !important;
+    max-height: 45px !important;
+    padding: 0.75rem 1rem !important;
+    line-height: 1.2 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    
+    &:hover {
+        transform: translateY(0px) !important;
+    }
+    
+    .filter-option-inner-inner {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+.bootstrap-select {
+    border: none !important; 
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    background: transparent !important;
+}
+// Hide the native select that peeks through behind the dropdown toggle
+.bootstrap-select > select.form-control {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}

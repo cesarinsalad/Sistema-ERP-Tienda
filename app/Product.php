@@ -48,7 +48,7 @@ class Product extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'codigo', 'descripcion', 'nombre', 'cantidad', 'precio', 'vendor_id', 'brand_id',
+        'codigo', 'descripcion', 'nombre', 'cantidad', 'precio', 'vendor_id', 'brand_id', 'is_active',
     ];
 
     public function vendor(): BelongsTo

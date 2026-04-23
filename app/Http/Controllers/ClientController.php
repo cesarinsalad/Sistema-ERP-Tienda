@@ -14,12 +14,40 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function customer()
+    public function customer(Request $request)
     {
-        $clients = Client::withTrashed()->latest()->paginate(5);
+        $query = Client::where('is_active', true);
 
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('cedula', 'like', "%{$search}%")
+                  ->orWhere('nombres', 'like', "%{$search}%")
+                  ->orWhere('apellidos', 'like', "%{$search}%");
+            });
+        }
+
+        $clients = $query->latest()->paginate(10)->appends($request->query());
         return view('clientes.client',compact('clients'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 10);
+    }
+
+    public function inactivos(Request $request)
+    {
+        $query = Client::where('is_active', false);
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('cedula', 'like', "%{$search}%")
+                  ->orWhere('nombres', 'like', "%{$search}%")
+                  ->orWhere('apellidos', 'like', "%{$search}%");
+            });
+        }
+
+        $clients = $query->latest()->paginate(10)->appends($request->query());
+        return view('clientes.inactivos',compact('clients'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -48,9 +76,29 @@ class ClientController extends Controller
             'direccion' => 'required',
         ]);
 
-        Client::create($request->all());
+        try {
+            $client = Client::create($request->all());
 
-        return redirect()->route('client.customer')->with('success','Cliente Creado Exitosamente');
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Cliente Creado Exitosamente',
+                    'client' => $client
+                ]);
+            }
+
+            return redirect()->route('client.customer')->with('success','Cliente Creado Exitosamente');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Check for duplicate entry error (1062)
+            if ($e->errorInfo[1] == 1062) {
+                $errorMessage = 'La cédula ' . $request->cedula . ' ya se encuentra registrada en el sistema.';
+                if ($request->ajax()) {
+                    return response()->json(['error' => $errorMessage], 422);
+                }
+                return back()->withInput()->with('error', $errorMessage);
+            }
+            throw $e;
+        }
     }
 
     /**
@@ -130,15 +178,16 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        $client->delete();
-        return redirect()->back();
-                        //->with('success','Product deleted successfully');
+        $client->is_active = !$client->is_active;
+        $client->save();
+        return redirect()->back()->with('success', 'Estado del cliente actualizado.');
     }
     public function restore($client)
     {
-        $client = Client::withTrashed()->where('id',$client)->first();
-        $client->restore();
-        return redirect()->back();
+        $client = Client::where('id',$client)->first();
+        $client->is_active = true;
+        $client->save();
+        return redirect()->back()->with('success', 'Cliente reactivado.');
     }
 }
 

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'TRUCUPEY,C.A.')
+@section('title', 'GIGI FASHION IMPORT')
 @section('plugins.Bootstrapselect', true)
 
 @section('content')
@@ -9,59 +9,57 @@
         @csrf
         @method('PUT')
 
-        <br><br>
-        <div class="card; card mb-3;">
+        <div class="card mb-3">
             <div class="py-3 px-3 border-bottom d-flex justify-content-between">
                 <h4> Actualizar Datos del Producto</h4>
-                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">
-                <a class="btn btn-primary" href="{{ route('articulo.index') }}"><i class="fas fa-arrow-left"><text> Regresar</text></i></a>
-                </span>
+                <a class="btn-premium-return" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i> REGRESAR</a>
             </div>
-            <div class="container">
+            <div class="container pt-3">
                 <div class="form-row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label>Código</label>
-                        <input type="integer"  value="@if(@old('codigo')){{ @old('codigo') }}@else{{ $articulo->codigo }}@endif" class="form-control @error('codigo') is-invalid @enderror "   placeholder="Código"  name="codigo" required>
+                        <input type="text" value="@if(@old('codigo')){{ @old('codigo') }}@else{{ $articulo->codigo }}@endif"
+                               class="form-control @error('codigo') is-invalid @enderror"
+                               name="codigo">
                         @error('codigo')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label>Nombre</label>
-                        <input type="string" value="@if(@old('nombre')){{ @old('nombre') }}@else{{ $articulo->nombre }}@endif" class="form-control  @error('nombre') is-invalid @enderror " name="nombre"  placeholder="Nombre" required>
+                        <input type="text" value="@if(@old('nombre')){{ @old('nombre') }}@else{{ $articulo->nombre }}@endif"
+                               class="form-control @error('nombre') is-invalid @enderror" name="nombre">
                         @error('nombre')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label>Cantidad</label>
-                        <input type="string" value="@if(@old('cantidad')){{ @old('cantidad') }}@else{{ $articulo->cantidad }}@endif" class="form-control  @error('cantidad') is-invalid @enderror" name="cantidad"  placeholder="Cantidad" required>
+                        <input type="text" value="@if(@old('cantidad')){{ @old('cantidad') }}@else{{ $articulo->cantidad }}@endif"
+                               class="form-control @error('cantidad') is-invalid @enderror" name="cantidad">
                         @error('cantidad')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label>Precio ($)</label>
-                        <input type="integer" value="@if(@old('precio')){{ @old('precio') }}@else{{ $articulo->precio }}@endif" class="form-control @error('precio') is-invalid @enderror " name="precio" placeholder="Precio" required>
+                        <input type="text" value="@if(@old('precio')){{ @old('precio') }}@else{{ $articulo->precio }}@endif"
+                               class="form-control @error('precio') is-invalid @enderror" name="precio">
                         @error('precio')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
-                </div>
-                <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label>Categoría</label>
-                    <div class="bs-container">
-                        <select class="form-control selectpicker  @error('category_id') is-invalid @enderror" multiple name="category_id[]" id="select-category" data-live-search="true" data-size="5">
+
+                    <div class="col-md-4 mb-3">
+                        <label>Categoría</label>
+                        <select class="form-control selectpicker @error('category_id') is-invalid @enderror" multiple name="category_id[]" id="select-category" data-live-search="true" data-size="5" title="Seleccionar categoría">
                             @foreach($categories as $category)
                                 <option data-tokens="{{ $category->name }}"
                                         value="{{ $category->id }}"
-                                        @if(@old('çategory_id') == $category->id)
+                                        @if(@old('category_id') == $category->id)
                                         selected
                                     @endif
                                 >{{ $category->name }}</option>
@@ -71,58 +69,52 @@
                             @enderror
                         </select>
                     </div>
-                </div>
 
-                <div class="col-md-6 mb-3">
-                    <label>Marca</label>
-                    <select class="form-control @error('brand') is-invalid @enderror" name="brand_id">
-                        @foreach($brands as $brand)
-                            <option
-                                value="{{ $brand->id }}"
-                                @if(@old('brand_id') == $brand->id)
-                                selected
-                                @endif
-                            >{{ $brand->name }}</option>
-                        @endforeach
-                        @error('brand_id')
-                        <span class="text-danger mt-2">{{ $message }}</span>
-                        @enderror
-                    </select>
-                </div>
-                </div>
+                    <div class="col-md-4 mb-3">
+                        <label>Marca</label>
+                        <select class="form-control selectpicker @error('brand_id') is-invalid @enderror" name="brand_id" data-live-search="true" data-size="5" title="Seleccionar marca">
+                            @foreach($brands as $brand)
+                                <option data-tokens="{{ $brand->name }}"
+                                        value="{{ $brand->id }}"
+                                        @if(@old('brand_id') == $brand->id || $articulo->brand_id == $brand->id)
+                                        selected
+                                    @endif
+                                >{{ $brand->name }}</option>
+                            @endforeach
+                            @error('brand_id')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </select>
+                    </div>
 
-                <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label>Proveedores</label>
-                    <select class="form-control @error('vendor') is-invalid @enderror" name="vendor_id">
-                        @foreach($vendors as $vendor)
-                            <option
-                                value="{{ $vendor->id }}"
-                                @if(@old('vendor_id') == $vendor->id)
-                                selected
-                                @endif
-                            >{{ $vendor->name }}</option>
-                        @endforeach
-                        @error('vendor_id')
-                        <span class="text-danger mt-2">{{ $message }}</span>
-                        @enderror
-                    </select>
-                </div>
+                    <div class="col-md-4 mb-3">
+                        <label>Proveedores</label>
+                        <select class="form-control selectpicker @error('vendor_id') is-invalid @enderror" name="vendor_id" data-live-search="true" data-size="5" title="Seleccionar proveedor">
+                            @foreach($vendors as $vendor)
+                                <option data-tokens="{{ $vendor->name }}"
+                                        value="{{ $vendor->id }}"
+                                        @if(@old('vendor_id') == $vendor->id || $articulo->vendor_id == $vendor->id)
+                                        selected
+                                    @endif
+                                >{{ $vendor->name }}</option>
+                            @endforeach
+                            @error('vendor_id')
+                            <span class="text-danger mt-2">{{ $message }}</span>
+                            @enderror
+                        </select>
+                    </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 mb-3">
                         <label>Descripción</label>
-                        <textarea class="form-control @error('descripcion') is-invalid @enderror "  name="descripcion" placeholder="Descripción" required>{{ $articulo->descripcion }} </textarea>
+                        <textarea class="form-control @error('descripcion') is-invalid @enderror" name="descripcion" placeholder="Descripción">{{ $articulo->descripcion }}</textarea>
                         @error('descripcion')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
-                </div>
-                </div>
 
-                <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Crear">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"><text> Guardar</text></i></button>
-            </span>
+                    <div class="col-md-12 mb-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>

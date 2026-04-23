@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Product_order extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'order_id','product_id', 'precio', 'quantity',
     ];

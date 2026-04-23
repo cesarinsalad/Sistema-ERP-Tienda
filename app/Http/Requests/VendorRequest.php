@@ -24,10 +24,12 @@ class VendorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|between:3,40',
+            'name' => 'required|string|max:40',
             'type_document'=>  'required|string|in:CI,RIF',
-            'document'=> 'required|integer|between:500000,1000000000',
-            'description' => 'required|string|between:3,40',
+            'document'=> 'required|string|max:15',
+            'email' => 'nullable|email|max:255|unique:vendors,email,' . ($this->vendor ? $this->vendor->id : ''),
+            'phone' => 'nullable|string|max:20',
+            'description' => 'nullable|string|max:1000',
         ];
     }
 }

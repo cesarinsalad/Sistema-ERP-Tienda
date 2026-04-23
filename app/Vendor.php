@@ -37,7 +37,10 @@ class Vendor extends Model
         'name',
         'type_document',
         'document',
+        'email',
+        'phone',
         'description',
+        'is_active',
     ];
 
     public function products(): HasMany

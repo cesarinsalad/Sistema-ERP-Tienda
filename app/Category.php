@@ -33,6 +33,7 @@ class Category extends Model
     protected $fillable = [
         'name',
         'description',
+        'is_active',
     ];
     public function products()
     {

@@ -9,11 +9,28 @@ use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('brand.index',[
-            'brands' => Brand::withTrashed()->withCount('products')->paginate(5)
-        ]);
+        $query = Brand::where('is_active', true)->withCount('products');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        return view('brand.index', ['brands' => $query->latest()->paginate(10)->appends($request->query())]);
+    }
+
+    public function inactivos(Request $request)
+    {
+        $query = Brand::where('is_active', false)->withCount('products');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        return view('brand.inactivos', ['brands' => $query->latest()->paginate(10)->appends($request->query())]);
     }
 
     public function create()
@@ -58,15 +75,16 @@ class BrandController extends Controller
 
     public function destroy(Brand $brand)
     {
-        $brand->products()->delete();
-        $brand->delete();
-        return redirect()->route('brands.index');
+        $brand->is_active = !$brand->is_active;
+        $brand->save();
+        return redirect()->back()->with('success', 'Estado de la marca actualizado.');
     }
 
     public function restore($brand)
     {
-        $brand = Brand::withTrashed()->where('id',$brand)->first();
-        $brand->restore();
-        return redirect()->back();
+        $brand = Brand::where('id',$brand)->first();
+        $brand->is_active = true;
+        $brand->save();
+        return redirect()->back()->with('success', 'Marca reactivada.');
     }
 }

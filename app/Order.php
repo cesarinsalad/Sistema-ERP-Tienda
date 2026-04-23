@@ -33,8 +33,13 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'cliente_id', 'tasa_cambio', 'monto_orden'
+        'cliente_id', 'user_id', 'tasa_cambio', 'monto_orden'
     ];
+
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'user_id')->withDefault(['name' => 'Desconocido']);
+    }
 
     public function client()
     {
@@ -52,6 +57,6 @@ class Order extends Model
     public function paymentMethods()
     {
         return $this->belongsToMany('App\Metodo_de_pago','metodo_pago_ordens', 'id_orden', 'id_metodo_pago')
-        ->withPivot('monto_pago_orden');
+        ->withPivot('monto_pago_orden', 'reference');
     }
 }

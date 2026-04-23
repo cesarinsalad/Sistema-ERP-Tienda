@@ -43,8 +43,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role'
     ];
+
+    public function empleado()
+    {
+        return $this->hasOne(Empleados::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -71,7 +76,11 @@ class User extends Authenticatable
 
     public function adminlte_profile_url()
     {
-        return 'profile/username';
+        $empleado = \App\Empleados::where('user_id', $this->id)->first();
+        if ($empleado) {
+            return route('empleados.edit', $empleado->id);
+        }
+        return url('/home');
     }
 
 

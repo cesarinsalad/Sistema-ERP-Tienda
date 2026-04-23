@@ -13,11 +13,34 @@ use Illuminate\Http\Request;
 class VendorController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('vendor.index',[
-            'vendors' => Vendor::withTrashed()->withCount('products')->paginate(5)
-        ]);
+        $query = Vendor::where('is_active', true)->withCount('products');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('document', 'like', "%{$search}%");
+            });
+        }
+
+        return view('vendor.index', ['vendors' => $query->latest()->paginate(10)->appends($request->query())]);
+    }
+
+    public function inactivos(Request $request)
+    {
+        $query = Vendor::where('is_active', false)->withCount('products');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('document', 'like', "%{$search}%");
+            });
+        }
+
+        return view('vendor.inactivos', ['vendors' => $query->latest()->paginate(10)->appends($request->query())]);
     }
 
 
@@ -34,6 +57,8 @@ class VendorController extends Controller
             'name',
             'type_document',
             'document',
+            'email',
+            'phone',
             'description',
 
         ]));
@@ -66,6 +91,8 @@ class VendorController extends Controller
             'name',
             'type_document',
             'document',
+            'email',
+            'phone',
             'description',
 
         ]));
@@ -77,15 +104,16 @@ class VendorController extends Controller
 
     public function destroy(Vendor $vendor)
     {
-        $vendor->products()->delete();
-        $vendor->delete();
-        return redirect()->route('vendors.index');
+        $vendor->is_active = !$vendor->is_active;
+        $vendor->save();
+        return redirect()->back()->with('success', 'Estado del proveedor actualizado.');
     }
 
     public function restore($vendor)
     {
-        $vendor = Vendor::withTrashed()->where('id',$vendor)->first();
-        $vendor->restore();
-        return redirect()->back();
+        $vendor = Vendor::where('id',$vendor)->first();
+        $vendor->is_active = true;
+        $vendor->save();
+        return redirect()->back()->with('success', 'Proveedor reactivado.');
     }
 }

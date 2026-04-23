@@ -15,10 +15,10 @@ class ExchangerateController extends Controller
     public function index()
     {
         
-        $exchangerates = Exchangerate::latest()->paginate(5);
+        $exchangerates = Exchangerate::latest()->paginate(10);
   
         return view('listadotasa',compact('exchangerates'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**

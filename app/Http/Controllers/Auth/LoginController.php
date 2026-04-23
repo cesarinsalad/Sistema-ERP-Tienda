@@ -37,4 +37,14 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        $empleado = \App\Empleados::where('user_id', $user->id)->first();
+        
+        if ($empleado && !$empleado->is_active) {
+            \Illuminate\Support\Facades\Auth::logout();
+            return redirect('/login')->withErrors(['email' => 'Esta cuenta ha sido desactivada del sistema comercial.']);
+        }
+    }
 }

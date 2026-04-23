@@ -31,7 +31,7 @@ class MySQLDatabase implements DatabaseContract
      */
     public function dump($destinationFile): bool
     {
-        $command = 'mysqldump --user='.$this->user.
+        $command = $this->getDumpCommandPath().'mysqldump --user='.$this->user.
             ' --password='.$this->password.
             ' --host='.$this->host.
             ' --port='.$this->port.

@@ -1,38 +1,56 @@
 @extends('adminlte::page')
-
-@section('title', 'TRUCUPEY,C.A.')
-
+@section('title', 'GIGI FASHION IMPORT')
 
 @section('content')
-
-    <form action="{{ route('brands.store') }}" method="POST">
-        @csrf
-
-        <div class="card mb-3">
-            <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-                <h4> Agregar nueva marca</h4>
-                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">
-                <a class="btn btn-primary" href="{{ route('brands.index') }}"><i class="fas fa-arrow-left"><text> Regresar</text></i></a>
-                </span>
-            </div>
-            <div class="container">
-                <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                        <label>Nombre</label>
-                        <input type="text" value="{{ @old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="Nombre" name="name" >
-                        @error('name')
-                        <span class="text-danger mt-2">{{ $message }}</span>
-                        @enderror
+    <div class="row pt-4">
+        <div class="col-md-6 mx-auto">
+            {{-- Header Card --}}
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 1.25rem;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="font-weight-bold text-dark m-0" style="letter-spacing: -0.5px;">Nueva Marca</h3>
+                            <p class="text-muted small m-0 mt-1"><i class="fas fa-copyright mr-1"></i> Registre una nueva firma o fabricante</p>
+                        </div>
+                        <a class="btn-premium-return" href="{{ route('brands.index') }}">
+                            <i class="fas fa-arrow-left mr-2"></i> REGRESAR
+                        </a>
                     </div>
                 </div>
-                <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-               <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Crear">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"><text> Guardar</text></i></button>
-                </span>
-                </div>
+            </div>
+
+            {{-- Form Card --}}
+            <div class="card border-0 shadow-sm" style="border-radius: 1.25rem;">
+                <form action="{{ route('brands.store') }}" method="POST">
+                    @csrf
+                    <div class="card-body p-4">
+                        <div class="mb-2">
+                            <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Nombre de la Marca</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text border-0 bg-light" style="border-radius: 10px 0 0 10px;">
+                                        <i class="fas fa-certificate text-muted"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="name" value="{{ old('name') }}" 
+                                       class="form-control border-0 bg-light @error('name') is-invalid @enderror" 
+                                       placeholder="Ej: Nike, Gucci, etc." required style="border-radius: 0 10px 10px 0; height: 45px;">
+                            </div>
+                            @error('name')
+                                <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 p-4 pt-0 text-right">
+                        <button type="submit" class="btn px-5 py-2 font-weight-bold shadow-sm" 
+                                style="background: #7D266E; color: white; border-radius: 50rem; text-transform: uppercase;">
+                            <i class="fas fa-check mr-2"></i> REGISTRAR MARCA
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 @endsection
 
 @section('css')
@@ -41,10 +59,8 @@
 
 @section('js')
     <script>
-
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
-
     </script>
 @stop

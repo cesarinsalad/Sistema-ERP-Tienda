@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'TRUCUPEY, C.A.',
+    'title' => 'GIGI FASHION IMPORT C.A.',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -46,11 +46,11 @@ return [
     */
 
     'logo' => '',
-    'logo_img' => 'imagenes/logo-trucupey.svg',
-    'logo_img_class' => 'brand-image img-circle elevation-3 logo_img_xl_class',
+    'logo_img' => 'imagenes/logo.png', // User should upload logo.png/jpg here 
+    'logo_img_class' => 'brand-image logo_img_xl_class',
     'logo_img_xl' => false,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'TRUCUPEY, C.A.',
+    'logo_img_alt' => 'GIGI FASHION IMPORT',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => true,
+    'usermenu_header' => false,
     'usermenu_header_class' => 'bg-light',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -168,7 +168,7 @@ return [
     |
     */
 
-    'right_sidebar' => true,
+    'right_sidebar' => false,
     'right_sidebar_icon' => false,
     'right_sidebar_theme' => 'dark',
     'right_sidebar_slide' => true,
@@ -248,44 +248,49 @@ return [
 
 
         [
-            'text'        => 'Generar Order',
+            'text'        => 'Panel de Ventas',
             'url'         => '/home',
             'icon'        => 'fas fa-cash-register',
             /* 'label'       => 'ver',
             'label_color' => 'success', */
         ],
         [
-            'text' => 'Lista de Ordenes',
+            'text' => 'Ventas',
             'url'  => '/listorden',
             'icon' => 'fas fa-list',
         ],
 
 
         [
-            'text' => 'Productos',
+            'text' => 'Inventario',
             'url'  => 'admin/index',
             'icon' => 'far fa-fw fa-clipboard',
+            'can'  => 'admin',
         ],
         [
             'text' => 'Proveedores',
             'url'  => '/vendors',
             'icon' => 'fas fa-user-tie',
+            'can'  => 'admin',
         ],
         [
             'text' => 'Categorías',
             'url'  => '/categories',
             'icon' => 'fas fa-tags',
+            'can'  => 'admin',
         ],
         [
             'text' => 'Marcas',
             'url'  => '/brands',
             'icon' => 'fas fa-copyright',
+            'can'  => 'admin',
         ],
 
         [
             'text' => 'Clientes',
             'url'  => 'admin/customer',
             'icon' => 'fas fa-users',
+            'can'  => 'admin',
         ],
         [
             'text' => 'Tasa',
@@ -296,28 +301,29 @@ return [
             'text' => 'Metricas',
             'url'  => 'admin/metricas',
             'icon' => 'far fa-chart-bar',
+            'can'  => 'admin',
         ],
         [
-            'text' => 'Backups',
+            'text' => 'Generar Backups',
             'url'  => '/backups',
             'icon' => 'fa fa-arrow-down',
+            'can'  => 'admin',
         ],
 
-        /*
-        ['header' => 'Nomina'],
+        ['header' => 'Nómina', 'can' => 'admin'],
         [
             'text' => 'Empleados',
-            'url'  => 'admin/empleados',
+            'url'  => '/empleados',
             'icon' => 'far fa-user',
+            'can'  => 'admin',
         ],
 
         [
-            'text'    => 'Pago/Empleados',
-            'url'     => 'admin/pagoempleados',
+            'text'    => 'Pago de Nómina',
+            'url'     => '/pagoempleados',
             'icon'    => 'fas fa-dollar-sign',
-
+            'can'     => 'admin',
         ],
-        */
     ],
 
     /*
@@ -456,7 +462,12 @@ return [
                 [
                     'type' => 'css',
                     'asset' => true,
-                    'location' => '/css/admin.css',
+                    'location' => '/css/app.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => '/css/admin_custom.css',
                 ],
             ],
         ],

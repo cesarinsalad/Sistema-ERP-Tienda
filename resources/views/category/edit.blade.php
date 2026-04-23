@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'TRUCUPEY,C.A.')
+@section('title', 'GIGI FASHION IMPORT')
 
 @section('content')
 
@@ -8,42 +8,32 @@
         @csrf
         @method('PUT')
 
-        <br><br>
-        <div class="card; card mb-3;">
+        <div class="card mb-3">
             <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-                <h4> Actualizar Datos de la categoría</h4>
-                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">
-                <a class="btn btn-primary" href="{{ route('categories.index') }}"><i class="fas fa-arrow-left"><text> Regresar</text></i></a>
-                </span>
+                <h4> Actualizar Datos de la Categoría</h4>
+                <a class="btn-premium-return" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i> REGRESAR</a>
             </div>
-            <div class="container">
+            <div class="container pt-3">
                 <div class="form-row">
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-12 mb-3">
                         <label>Nombre</label>
-                        <input type="string" value="{{ $category->name }}" class="form-control @error('name') is-invalid @enderror " value="{{ $category->name }}" name="name" placeholder="Nombre" required>
+                        <input type="text" value="{{ $category->name }}" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Nombre" required>
                         @error('name')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
-                </div>
-
-
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 mb-3">
                         <label>Descripción</label>
-                        <textarea value="{{ @old('description') }}"
-                                  class="form-control @error('descripcion') is-invalid @enderror " name="description"
-                                  placeholder="Descripción" required>{{ $category->description }} </textarea>
+                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" placeholder="Descripción" required>{{ $category->description }}</textarea>
                         @error('description')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
-
-                <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Crear">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"><text> Guardar</text></i></button>
-               </span>
+                <div class="form-row border-top pt-3">
+                    <div class="col-12 mb-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>

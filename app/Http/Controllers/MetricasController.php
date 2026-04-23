@@ -11,8 +11,8 @@ class MetricasController extends Controller
 {
     public function index(){
         $data = array();
-        $data['fromDate'] = \Carbon\Carbon::now()->subDays(7)->format('Y-m-d');
-        $data['toDate'] = \Carbon\Carbon::now()->addDays(1)->format('Y-m-d');
+        $data['fromDate'] = \Carbon\Carbon::now()->startOfWeek()->format('Y-m-d');
+        $data['toDate'] = \Carbon\Carbon::now()->endOfWeek()->format('Y-m-d');
 
         $data = array_merge($data, $this->getOrderQuantityMetrics(array(
             'fromDate'  => $data['fromDate'],
@@ -53,8 +53,8 @@ class MetricasController extends Controller
         $response = array();
         $response['statisticsProducts'] = Product_order::
         join('orders', 'orders.id', '=', 'product_orders.order_id')
-            ->selectRaw('sum(quantity) as total, CONCAT(EXTRACT(DAY FROM orders.created_at),"-",EXTRACT(MONTH FROM orders.created_at)) AS date')
-            ->whereBetween('created_at', [
+            ->selectRaw('sum(product_orders.quantity) as total, CONCAT(EXTRACT(DAY FROM orders.created_at),"-",EXTRACT(MONTH FROM orders.created_at)) AS date')
+            ->whereBetween('orders.created_at', [
                 $data['fromDate'],
                 $data['toDate'],
             ])
@@ -73,7 +73,7 @@ class MetricasController extends Controller
         $top10Products = Order::
         join('product_orders', 'product_orders.order_id', '=', 'orders.id')
             ->join('products', 'products.id', '=', 'product_orders.product_id')
-            ->selectRaw('products.id, products.nombre, sum(quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
+            ->selectRaw('products.id, products.nombre, sum(product_orders.quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
             ->whereBetween('orders.created_at', [
                 $data['fromDate'],
                 $data['toDate'],
@@ -98,7 +98,7 @@ class MetricasController extends Controller
             ->join('products', 'products.id', '=', 'product_orders.product_id')
             ->join('product_categories', 'product_categories.product_id', '=', 'products.id')
             ->join('categories', 'categories.id', '=', 'product_categories.category_id')
-            ->selectRaw('categories.id, categories.name, sum(quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
+            ->selectRaw('categories.id, categories.name, sum(product_orders.quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
             ->whereBetween('orders.created_at', [
                 $data['fromDate'],
                 $data['toDate'],
@@ -112,15 +112,15 @@ class MetricasController extends Controller
             $response['top10Categories'][] = array(
                 'id'        => $category->id,
                 'name'      => $category->name,
-                'total'     => $product->total,
-                'gain'      => $product->gain,
+                'total'     => $category->total,
+                'gain'      => $category->gain,
             );
         }
-        //Top 10 categories
+        //Top 10 clients
         $top10Clients = Order::
         join('product_orders', 'product_orders.order_id', '=', 'orders.id')
             ->join('clients', 'clients.id', '=', 'orders.cliente_id')
-            ->selectRaw('clients.id, CONCAT(clients.nombres , " " , clients.apellidos) as name, sum(quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
+            ->selectRaw('clients.id, CONCAT(clients.nombres , " " , clients.apellidos) as name, sum(product_orders.quantity) as total, SUM(product_orders.quantity * product_orders.precio) as gain')
             ->whereBetween('orders.created_at', [
                 $data['fromDate'],
                 $data['toDate'],
@@ -144,7 +144,7 @@ class MetricasController extends Controller
     public function getProductGainMetrics($data){
         $response = array();
         $response['statisticsWins'] = Order::selectRaw('SUM(monto_orden) as total, CONCAT(EXTRACT(DAY FROM created_at),"-",EXTRACT(MONTH FROM created_at)) AS date')
-            ->whereBetween('orders.created_at', [
+            ->whereBetween('created_at', [
                 $data['fromDate'],
                 $data['toDate'],
             ])

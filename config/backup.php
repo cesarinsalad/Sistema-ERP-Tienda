@@ -5,8 +5,8 @@ return [
     'path' => storage_path() . '/dumps/',
 
     'mysql' => [
-        'dump_command_path' => '',
-        'restore_command_path' => '',
+        'dump_command_path' => 'docker exec -i erp-mysql ',
+        'restore_command_path' => 'docker exec -i erp-mysql ',
     ],
 
     's3' => [

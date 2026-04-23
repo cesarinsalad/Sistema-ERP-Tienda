@@ -1,0 +1,159 @@
+/* Global overrides to unify the "Premium Purple" aesthetic */
+.text-purple {
+    color: #7D266E !important;
+}
+
+.text-purple-hover:hover {
+    color: #5b1b50 !important;
+}
+
+.btn, 
+button, 
+input[type="button"], 
+input[type="submit"], 
+.dropdown-toggle, 
+.bootstrap-select .btn,
+.bootstrap-select .dropdown-toggle,
+.selectpicker + .btn,
+.btn-premium-return,
+.font-weight-bold.btn,
+.btn.font-weight-bold,
+.btn text,
+.btn span,
+.btn i text {
+    font-weight: 600 !important;
+    font-style: normal !important;
+}
+
+.btn-premium-return {
+    background-color: #EEE1ED !important;
+    color: #7D266E !important;
+    border-radius: 50rem !important;
+    /* Fully rounded pill shape */
+    font-size: 16px !important;
+    padding: 0.5rem 1.25rem !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    text-transform: uppercase !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+/* Global uppercase for all action buttons */
+.btn-success,
+.btn-primary,
+.btn-danger,
+.btn-secondary,
+.btn-light,
+button[onclick="pdf()"],
+button[onclick="generatePDF()"] {
+    text-transform: uppercase !important;
+}
+
+.btn-premium-return i {
+    font-size: 16px !important;
+}
+
+.btn-premium-return:hover {
+    background-color: #e5d1e4 !important;
+    color: #5b1b50 !important;
+}
+
+/* Global Pagination Overrides */
+.pagination {
+    justify-content: center !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    gap: 4px;
+}
+.page-item .page-link {
+    color: #7D266E !important;
+    border-radius: 8px !important;
+    border: 1px solid #E2E8F0 !important;
+    padding: 0.5rem 0.85rem !important;
+    font-weight: 600 !important;
+    background-color: white !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+}
+.page-item.active .page-link {
+    background-color: #7D266E !important;
+    border-color: #7D266E !important;
+    color: white !important;
+}
+.page-item:not(.active) .page-link:hover {
+    background-color: #FDF4FB !important;
+    color: #5b1b50 !important;
+}
+.page-item.disabled .page-item.disabled .page-link {
+    color: #CBD5E1 !important;
+    background-color: #F8FAF8 !important;
+    border-color: #E2E8F0 !important;
+}
+
+/* Fix for sidebar pushing content off-screen */
+.wrapper {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    position: relative;
+}
+
+.content-wrapper {
+    overflow-x: hidden !important;
+    transition: margin-left .3s ease-in-out, width .3s ease-in-out;
+}
+
+.table-responsive {
+    scrollbar-width: thin;
+    scrollbar-color: #7D266E #f1f5f9;
+}
+
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: #7D266E;
+    border-radius: 10px;
+}
+
+/* Premium Table Styles */
+.table-premium thead th {
+    background-color: #f8fafc !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.05em !important;
+    font-weight: 700 !important;
+    border-top: none !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    padding: 1rem !important;
+}
+
+.table-premium tbody td {
+    vertical-align: middle !important;
+    padding: 1rem !important;
+    color: #334155 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.table-premium tbody tr:hover {
+    background-color: #fcf8fd !important;
+}
+
+/* Clear filter buttons styling */
+.btn-link.text-muted {
+    text-decoration: none !important;
+}
+
+.btn-link.text-muted:hover {
+    color: #7D266E !important;
+    text-decoration: underline !important;
+}

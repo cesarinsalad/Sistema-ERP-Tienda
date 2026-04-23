@@ -1,87 +1,125 @@
 @extends('adminlte::page')
-
-@section('title', 'Marcas')
+@section('title', 'GIGI FASHION IMPORT')
 
 @section('content')
+    <div class="row pt-4">
+        <div class="col-md-11 mx-auto">
+            {{-- Header Card --}}
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 1.25rem;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div>
+                            <h3 class="font-weight-bold text-dark m-0" style="letter-spacing: -0.5px;">Marcas Registradas</h3>
+                            <p class="text-muted small m-0 mt-1"><i class="fas fa-copyright mr-1"></i> Gestión de marcas y fabricantes del inventario</p>
+                        </div>
+                        <div class="d-flex" style="gap: 12px;">
+                            <a class="btn-premium-return" href="{{ route('brands.inactivos') }}">
+                                <i class="fas fa-archive"></i> VER INACTIVAS
+                            </a>
+                            <a class="btn px-4 py-2 font-weight-bold shadow-sm" href="{{ route('brands.create') }}" 
+                               style="background: #7D266E; color: white; border-radius: 50rem; text-transform: uppercase;">
+                                <i class="fas fa-plus mr-2"></i> AGREGAR MARCA
+                            </a>
+                        </div>
+                    </div>
 
-    <style>
-        tr:hover {
-            background-color: #FFF9C3;
-        }
-    </style>
-
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-        </div>
-    </div>
-    <br>
-    <div class="card; card  mb3;">
-        <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-            <h4> Lista de Marcas</h4>
-
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Crear Nueva Marca">
-            <a class="btn btn-success" href="{{ route('brands.create') }}" style="position:relative;"><i
-                    class="fas fa-plus"><text> Agregar Marca</text></i></a>
-            </span>
-
-        </div>
-
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif
-        <div class="card-body">
-            <table class="table table-bordered table-sm">
-                <thead class="thead-dark">
-                <tr>
-                    <th >ID</th>
-                    <th >Nombre</th>
-                    <th >Cantidad de productos</th>
-                    <th >Status</th>
-                    <th >Acciones</th>
-                </tr>
-                </thead>
-                @foreach ($brands as $brand)
-                    <tr>
-                        <td>{{ $brand->id }}</td>
-                        <td>{{ $brand->name }}</td>
-                        <td>{{ $brand->products_count }}</td>
-                        <td>
-                            @if($brand->deleted_at == null)
-                                <form action="{{ route('brands.destroy',$brand->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Desactivar">
-                                <button type="submit"  class="btn btn-success"><i class="fa fa-lightbulb"></i></button>
-                            </span>
-                                </form>
-                            @else
-                                <form action="{{ route('brands.restore',$brand->id) }}" method="POST">
-                                    @csrf
-                                    @method('put')
-                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Reactivar">
-                                <button type="submit"  class="btn btn-danger"><i class="fas fa-lightbulb"></i></button>
-                            </span>
-                                </form>
+                    {{-- Search Section --}}
+                    <div class="mt-4 pt-3 border-top">
+                        <form action="{{ route('brands.index') }}" method="GET" class="form-inline mb-0">
+                            <div class="input-group" style="width: 350px;">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text border-0 bg-light" style="border-radius: 10px 0 0 10px;">
+                                        <i class="fas fa-search text-muted"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="search" class="form-control border-0 bg-light" 
+                                       placeholder="Buscar marca..." value="{{ request('search') }}"
+                                       style="border-radius: 0 10px 10px 0; height: 45px;">
+                            </div>
+                            <button type="submit" class="btn ml-3 px-4 font-weight-bold text-white" 
+                                    style="background: #5b1b50; border-radius: 10px; height: 45px;">
+                                BUSCAR
+                            </button>
+                            @if(request('search'))
+                                <a href="{{ route('brands.index') }}" class="btn btn-link text-muted ml-2 font-weight-bold">Limpiar</a>
                             @endif
-                        </td>
-                        <td>
-                        <span class="d-inline-block mr-2" tabindex="0" data-toggle="tooltip" title="Ver">
-                            <a class="btn btn-info" href="{{ route('brands.show', $brand->id) }}"><i
-                                    class="fas fa-eye"></i></a>
-                        </span>
-                            <span class="d-inline-block mr-2" tabindex="0" data-toggle="tooltip" title="Editar">
-                            <a class="btn btn-primary" href="{{ route('brands.edit', $brand->id) }}"><i
-                                    class="fas fa-pencil-alt"></i></a>
-                        </span>
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
-        </div>
-        <div class="pagination-container">
-            {!! $brands->links() !!}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success border-0 shadow-sm mb-4" style="border-radius: 12px;">
+                    <i class="fas fa-check-circle mr-2"></i> {{ $message }}
+                </div>
+            @endif
+
+            {{-- Table Card --}}
+            <div class="card border-0 shadow-sm" style="border-radius: 1.25rem; overflow: hidden;">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-premium mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="80px">ID</th>
+                                    <th>Nombre de Marca</th>
+                                    <th class="text-center">Productos en Catálogo</th>
+                                    <th width="120px">Estado</th>
+                                    <th width="150px" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($brands as $brand)
+                                <tr>
+                                    <td class="font-weight-bold text-muted">#{{ $brand->id }}</td>
+                                    <td>
+                                        <div class="font-weight-bold text-dark" style="font-size: 1.05rem;">{{ $brand->name }}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge px-3 py-2" style="background: #F1F5F9; color: #475569; border-radius: 8px; font-weight: 700;">
+                                            {{ $brand->products_count }} PRODUCTOS
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge {{ $brand->is_active ? 'badge-success' : 'badge-danger' }} px-2 py-1" style="border-radius: 6px;">
+                                            {{ $brand->is_active ? 'ACTIVO' : 'INACTIVO' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center" style="gap: 8px;">
+                                            <a class="btn btn-sm btn-info shadow-sm" href="{{ route('brands.show', $brand->id) }}" 
+                                               style="border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
+                                               data-toggle="tooltip" title="Ver Detalles">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a class="btn btn-sm btn-primary shadow-sm" href="{{ route('brands.edit', $brand->id) }}"
+                                               style="border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
+                                               data-toggle="tooltip" title="Editar">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <form action="{{ route('brands.destroy',$brand->id) }}" method="POST" class="m-0">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm {{ $brand->is_active ? 'btn-danger' : 'btn-success' }} shadow-sm"
+                                                        style="border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
+                                                        data-toggle="tooltip" title="{{ $brand->is_active ? 'Desactivar' : 'Reactivar' }}">
+                                                    <i class="fas fa-power-off"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @if($brands->hasPages())
+                    <div class="card-footer bg-white border-0 py-4">
+                        {!! $brands->links() !!}
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 @stop
@@ -92,10 +130,8 @@
 
 @section('js')
     <script>
-
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
 @stop
-

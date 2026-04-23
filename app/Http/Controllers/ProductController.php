@@ -16,21 +16,48 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = array();
-        $data['articulos']  = Product::withTrashed()->with(['brand'])->orderBy('id','desc')->paginate(5);
-        $data['tasaDolar']  = Exchangerate::latest('created_at')->first()->value;
-        return view('product.index',$data)
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $query = Product::where('is_active', true)->with(['brand']);
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nombre', 'like', "%{$search}%")
+                  ->orWhere('codigo', 'like', "%{$search}%");
+            });
+        }
+
+        $articulos = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
+        $tasaDolar = Exchangerate::latest('created_at')->first()->value;
+        return view('product.index', compact('articulos', 'tasaDolar'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
+    }
+
+    public function inactivos(Request $request)
+    {
+        $query = Product::where('is_active', false)->with(['brand']);
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nombre', 'like', "%{$search}%")
+                  ->orWhere('codigo', 'like', "%{$search}%");
+            });
+        }
+
+        $articulos = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
+        $tasaDolar = Exchangerate::latest('created_at')->first()->value;
+        return view('product.inactivos', compact('articulos', 'tasaDolar'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     public function create()
     {
         return view('product.create',[
-            'brands' => Brand::get(),
-            'categories' => Category::get(),
-            'vendors' => Vendor::get(),
+            'brands' => Brand::where('is_active', true)->get(),
+            'categories' => Category::where('is_active', true)->get(),
+            'vendors' => Vendor::where('is_active', true)->get(),
         ]);
     }
 
@@ -62,6 +89,7 @@ class ProductController extends Controller
         $data = array();
         $data['articulo'] = $articulo->load([
             'category',
+            'brand',
         ]);
 
         $ordenes = Product_order::
@@ -110,10 +138,10 @@ class ProductController extends Controller
         }
         return view('product.edit',[
             'articulo' => $articulo,
-            'brands' => Brand::get(),
-            'categories' => Category::get(),
+            'brands' => Brand::where('is_active', true)->get(),
+            'categories' => Category::where('is_active', true)->get(),
             'selectedCategories' => json_encode($selectedCategories),
-            'vendors' => Vendor::get(),
+            'vendors' => Vendor::where('is_active', true)->get(),
         ]);
     }
 
@@ -144,14 +172,16 @@ class ProductController extends Controller
 
     public function destroy(Product $articulo)
     {
-        $articulo->delete();
-        return redirect()->back();
+        $articulo->is_active = !$articulo->is_active;
+        $articulo->save();
+        return redirect()->back()->with('success', 'Estado del producto actualizado.');
     }
 
     public function restore($product)
     {
-        $product = Product::withTrashed()->where('id',$product)->first();
-        $product->restore();
-        return redirect()->back();
+        $product = Product::where('id',$product)->first();
+        $product->is_active = true;
+        $product->save();
+        return redirect()->back()->with('success', 'Producto reactivado.');
     }
 }

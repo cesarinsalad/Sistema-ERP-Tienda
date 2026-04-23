@@ -35,12 +35,6 @@ class Restore extends Controller
 
     public function index(Request $request){
 
-        $this->handle(
-            $request->database,
-            $request->file,
-            false
-        );
-
         return view('Config/backups', [
             'backups' => Dump::orderBy('created_at','desc')
                 ->paginate(10),
@@ -137,5 +131,19 @@ class Restore extends Controller
         $file = explode('download',(url()->current()));
         $file = $file[1];
         return \Storage::disk('dumps')->download($file);
+    }
+
+    public function destroy($id)
+    {
+        $dump = Dump::findOrFail($id);
+        $filePath = $this->getDumpsPath() . $dump->file_name;
+
+        if (file_exists($filePath)) {
+            File::delete($filePath);
+        }
+
+        $dump->delete();
+
+        return redirect()->route('backups.index')->with('success', 'Backup eliminado correctamente.');
     }
 }

@@ -1,0 +1,16 @@
+        'Customcss' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => '/css/app.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => '/css/admin_custom.css',
+                ],
+            ],
+        ],
+    ],

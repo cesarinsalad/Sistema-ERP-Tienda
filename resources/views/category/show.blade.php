@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 @section('plugins.Chartjs', true)
-@section('title', 'TRUCUPEY,C.A.')
+@section('title', 'GIGI FASHION IMPORT')
 
 @section('content')
     <div class="row">
@@ -9,38 +9,30 @@
         </div>
     </div>
     <br><br>
-    <div class="card; card mb-3">
-
-        <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-            <h4> Detalles de la Categoría</h4>
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Regresar">
-                    <a class="btn btn-primary" href="{{ route('categories.index') }}"><i class="fas fa-arrow-left "></i><text> Regresar</text></a>
-                </span>
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 1.25rem; border: 1px solid #E2E8F0;">
+        <div class="card-header bg-white border-bottom-0 pt-4 pb-2 px-4" style="border-radius: 1.25rem 1.25rem 0 0;">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 font-weight-bold" style="color: #334155;">
+                    <i class="fas fa-tags mr-2 text-purple" style="color: #7D266E;"></i> Detalles de la Categoría
+                </h5>
+                <a class="btn-premium-return" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i> REGRESAR</a>
+            </div>
+            <hr class="mt-3 mb-0" style="border-top: 1px dashed #E2E8F0;">
         </div>
-        <div class="card-body">
+        
+        <div class="card-body px-4 pb-4 pt-3">
             <div class="row">
-                <div class="col-12 col-md-6">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <h5>
-                            <div class="form-group">
-                                <strong>Nombre:</strong>
-                                {{ $category->name }}
-                            </div>
-                        </h5>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        <h5>
-                            <div class="form-group">
-                                <strong>Descripción:</strong>
-                                {{ $category->description }}
-                            </div>
-                        </h5>
-                    </div>
-
+                <div class="col-md-6 mb-3">
+                    <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Nombre</p>
+                    <h6 class="font-weight-bold text-dark m-0" style="font-size: 1.1rem;">{{ $category->name }}</h6>
                 </div>
-
+                <div class="col-md-12 mb-3">
+                    <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Descripción</p>
+                    <h6 class="font-weight-normal text-dark m-0" style="font-size: 1rem; line-height: 1.5;">{{ $category->description }}</h6>
+                </div>
             </div>
         </div>
+    </div>
 
         @endsection
 
