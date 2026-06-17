@@ -103,8 +103,11 @@
 
                             <div class="col-12 mb-4">
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Descripción / Observaciones</label>
-                                <textarea name="description" class="form-control border-0 bg-light" 
-                                          placeholder="Breve descripción del proveedor..." rows="3" style="border-radius: 12px;">{{ old('description') }}</textarea>
+                                <textarea name="description" class="form-control border-0 bg-light @error('description') is-invalid @enderror" 
+                                          placeholder="Breve descripción del proveedor..." rows="3" required style="border-radius: 12px;">{{ old('description') }}</textarea>
+                                @error('description')
+                                    <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                     </div>

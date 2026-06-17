@@ -29,7 +29,7 @@ class VendorRequest extends FormRequest
             'document'=> 'required|string|max:15',
             'email' => 'nullable|email|max:255|unique:vendors,email,' . ($this->vendor ? $this->vendor->id : ''),
             'phone' => 'nullable|string|max:20',
-            'description' => 'nullable|string|max:1000',
+            'description' => 'required|string|max:1000',
         ];
     }
 }
