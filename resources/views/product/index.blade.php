@@ -131,10 +131,21 @@
                                     <td class="text-right font-weight-bold">{{ number_format((floatval($articulo->precio) * floatval($tasaDolar)), 2, ',', '.') }}Bs</td>
                                     <td class="text-right font-weight-bold text-success" style="font-size: 1.1rem;">{{ number_format($articulo->precio, 2, ',', '.') }}$</td>
                                     <td>
-                                        <span class="text-muted small font-weight-bold text-uppercase">{{ $articulo->brand->name }}</span>
-                                    </td>
+                                         <span class="text-muted small font-weight-bold text-uppercase">{{ $articulo->brand->name }}</span>
+                                     </td>
                                     <td>
-                                        <div class="d-flex justify-content-center" style="gap: 8px;">
+                                         <div class="d-flex justify-content-center" style="gap: 8px;">
+                                            <button type="button" class="btn btn-sm text-white shadow-sm btn-add-stock"
+                                                    style="border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background-color: #10B981; border-color: #10B981;"
+                                                    data-toggle="modal" 
+                                                    data-target="#addStockModal"
+                                                    data-id="{{ $articulo->id }}"
+                                                    data-nombre="{{ $articulo->nombre }}"
+                                                    data-stock="{{ $articulo->cantidad }}"
+                                                    data-url="{{ route('articulo.addStock', $articulo->id) }}"
+                                                    title="Agregar Stock">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
                                             <a class="btn btn-sm btn-info shadow-sm" href="{{ route('articulo.show', $articulo->id) }}" 
                                                style="border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
                                                data-toggle="tooltip" title="Ver Detalles">
@@ -170,6 +181,49 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Agregar Stock --}}
+    <div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="addStockModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 1.25rem;">
+                <div class="modal-header text-white" style="background: linear-gradient(135deg, #7D266E 0%, #5b1b50 100%); border-top-left-radius: 1.25rem; border-top-right-radius: 1.25rem;">
+                    <h5 class="modal-title font-weight-bold" id="addStockModalLabel">
+                        <i class="fas fa-boxes mr-2"></i> Agregar Stock
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addStockForm" method="POST" action="">
+                    @csrf
+                    <div class="modal-body p-4">
+                        <div class="form-group mb-3">
+                            <label class="text-muted small font-weight-bold text-uppercase mb-1">Producto</label>
+                            <input type="text" id="modalProductName" class="form-control border-0 bg-light font-weight-bold text-dark" readonly style="border-radius: 10px; height: 45px;">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label class="text-muted small font-weight-bold text-uppercase mb-1">Stock Actual</label>
+                                <input type="text" id="modalCurrentStock" class="form-control border-0 bg-light font-weight-bold text-dark text-center" readonly style="border-radius: 10px; height: 45px;">
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label class="text-muted small font-weight-bold text-uppercase mb-1">Cantidad a Agregar</label>
+                                <input type="number" name="cantidad_adicional" min="1" required class="form-control border-0 bg-light font-weight-bold text-purple text-center" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;" placeholder="Ej: 10">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 p-3 bg-light d-flex justify-content-end" style="border-bottom-left-radius: 1.25rem; border-bottom-right-radius: 1.25rem; gap: 10px;">
+                        <button type="button" class="btn px-4 font-weight-bold btn-light" data-dismiss="modal" style="border-radius: 10px; height: 45px;">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn px-4 font-weight-bold text-white shadow-sm" style="background: #7D266E; border-radius: 10px; height: 45px;">
+                            Agregar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('css')
@@ -179,7 +233,21 @@
 @section('js')
     <script>
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('.btn-add-stock').on('click', function() {
+                var id = $(this).data('id');
+                var nombre = $(this).data('nombre');
+                var stock = $(this).data('stock');
+                var url = $(this).data('url');
+
+                $('#modalProductName').val(nombre);
+                $('#modalCurrentStock').val(stock);
+                $('#addStockForm').attr('action', url);
+                
+                // Limpiar el campo de cantidad al abrir el modal
+                $('#addStockForm').find('input[name="cantidad_adicional"]').val('');
+            });
+        });
     </script>
 @stop

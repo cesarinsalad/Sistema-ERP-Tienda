@@ -24,6 +24,7 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     // Resto de rutas Admin
     Route::get('admin/index', 'ProductController@index');
     Route::resource('/articulo','ProductController')->except(['show']);
+    Route::post('/articulo/{articulo}/add-stock', 'ProductController@addStock')->name('articulo.addStock');
     Route::put('/products/{product}/restore','ProductController@restore')->name('products.restore');
 
     Route::resource('/vendors','VendorController');

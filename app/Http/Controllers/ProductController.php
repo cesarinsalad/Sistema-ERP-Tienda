@@ -226,4 +226,16 @@ class ProductController extends Controller
         $product->save();
         return redirect()->back()->with('success', 'Producto reactivado.');
     }
+
+    public function addStock(Request $request, Product $articulo)
+    {
+        $request->validate([
+            'cantidad_adicional' => 'required|integer|min:1',
+        ]);
+
+        $articulo->cantidad += $request->cantidad_adicional;
+        $articulo->save();
+
+        return redirect()->back()->with('success', 'Se ha agregado stock exitosamente al producto: ' . $articulo->nombre);
+    }
 }
