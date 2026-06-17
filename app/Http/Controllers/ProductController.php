@@ -47,7 +47,7 @@ class ProductController extends Controller
         }
 
         $articulos = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
-        $tasaDolar = Exchangerate::latest('created_at')->first()->value;
+        $tasaDolar = Exchangerate::updateTodayRate()->value;
         $brands = Brand::where('is_active', true)->orderBy('name')->get();
         $categories = Category::where('is_active', true)->orderBy('name')->get();
 
@@ -86,7 +86,7 @@ class ProductController extends Controller
         }
 
         $articulos = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
-        $tasaDolar = Exchangerate::latest('created_at')->first()->value;
+        $tasaDolar = Exchangerate::updateTodayRate()->value;
         $brands = Brand::where('is_active', true)->orderBy('name')->get();
         $categories = Category::where('is_active', true)->orderBy('name')->get();
 

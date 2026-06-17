@@ -149,7 +149,10 @@
                             <div class="text-center mb-2">
                                 <p class="text-muted small font-weight-bold uppercase mb-0">Total a Pagar</p>
                                 <h3 class="font-weight-bold mb-0" style="color: #7D266E; letter-spacing: -0.5px;" id="total-display">$0.00</h3>
-                                <p class="text-muted small" id="total-bs-display" style="font-weight: 500;">(0.00 Bs)</p>
+                                <p class="text-muted small mb-1" id="total-bs-display" style="font-weight: 500;">(0.00 Bs)</p>
+                                <span class="badge px-3 py-1 font-weight-bold shadow-sm" style="background: #F8FAFC; color: #475569; border-radius: 8px; font-size: 0.75rem; border: 1px solid #E2E8F0;">
+                                    Tasa Oficial: {{ number_format($tasaDolar, 2, ',', '.') }} Bs/$
+                                </span>
                             </div>
 
                             <hr class="my-3" style="border-top: 2px dashed #E2E8F0;">

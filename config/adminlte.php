@@ -293,11 +293,6 @@ return [
             'can'  => 'admin',
         ],
         [
-            'text' => 'Tasa',
-            'url'  => 'admin/listadotasa',
-            'icon' => 'fas fa-coins',
-        ],
-        [
             'text' => 'Metricas',
             'url'  => 'admin/metricas',
             'icon' => 'far fa-chart-bar',

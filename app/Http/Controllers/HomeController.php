@@ -32,7 +32,8 @@ class HomeController extends Controller
     public function index()
     {
         $data = array();
-        $data['tasaDolar'] = Exchangerate::latest('created_at')->first()->value;
+        $rate = Exchangerate::updateTodayRate();
+        $data['tasaDolar'] = $rate->value;
         $data['valorDolar'] = number_format((float)(1 / $data['tasaDolar']), 2, '.', '');
         $data['paymentMethods'] = Metodo_de_pago::get()->sortBy(function($method) {
             $name = $method->nombre_metodo;
@@ -74,7 +75,7 @@ class HomeController extends Controller
 
     public function guardarorden(OrderRequest $request)
     {
-        $exchangerate = Exchangerate::latest('created_at')->first();
+        $exchangerate = Exchangerate::updateTodayRate();
         //Identificar cliente
         if (!$request['client_id_name']) {
             $client = Client::create([
