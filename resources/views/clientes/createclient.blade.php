@@ -80,7 +80,7 @@
                             </div>
 
                             <div class="col-12 mb-4">
-                                <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Dirección de Habitación</label>
+                                <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Dirección</label>
                                 <textarea name="direccion" class="form-control border-0 bg-light @error('direccion') is-invalid @enderror" 
                                           placeholder="Dirección completa..." required rows="3" style="border-radius: 12px;">{{ old('direccion') }}</textarea>
                                 @error('direccion')

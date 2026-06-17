@@ -73,7 +73,7 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Dirección</label>
-                                <textarea name="client_dir" id="client_dir" class="form-control border-0 bg-light rounded-lg" placeholder="Dirección de habitación" rows="2"></textarea>
+                                <textarea name="client_dir" id="client_dir" class="form-control border-0 bg-light rounded-lg" placeholder="Dirección" rows="2"></textarea>
                             </div>
                             <div class="col-md-12 mt-2">
                                 <button type="button" id="registrar-cliente-ajax" class="btn btn-block py-2 font-weight-bold" 
