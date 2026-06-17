@@ -51,7 +51,12 @@ class ExchangerateController extends Controller
         return redirect()->route('listadotasa.index')->with('success','Nueva tasa creada exitosamente');
     }
 
-   
-
-   
+    public function fetchFromApi()
+    {
+        $rate = Exchangerate::fetchForceUpdate();
+        if ($rate) {
+            return redirect()->back()->with('success', 'Tasa actualizada exitosamente desde DolarApi: ' . number_format($rate->value, 2, ',', '.') . ' Bs/$');
+        }
+        return redirect()->back()->withErrors(['No se pudo obtener la tasa desde DolarApi en este momento. Inténtelo más tarde.']);
+    }
 }

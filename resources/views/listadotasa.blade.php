@@ -12,10 +12,19 @@
                             <h3 class="font-weight-bold text-dark m-0" style="letter-spacing: -0.5px;">Historial de Tasas</h3>
                             <p class="text-muted small m-0 mt-1"><i class="fas fa-coins mr-1"></i> Control de tasa de cambio (Bs/$)</p>
                         </div>
-                        <a class="btn px-4 py-2 font-weight-bold shadow-sm" href="{{ route('listadotasa.create') }}" 
-                           style="background: #7D266E; color: white; border-radius: 50rem; text-transform: uppercase;">
-                            <i class="fas fa-plus mr-2"></i> AGREGAR NUEVA TASA
-                        </a>
+                        <div class="d-flex" style="gap: 12px; flex-wrap: wrap;">
+                            <form action="{{ route('listadotasa.fetchFromApi') }}" method="POST" class="m-0">
+                                @csrf
+                                <button type="submit" class="btn px-4 py-2 font-weight-bold shadow-sm text-purple" 
+                                        style="background: #EEE1ED; color: #7D266E; border-radius: 50rem; border: none; text-transform: uppercase;">
+                                    <i class="fas fa-sync-alt mr-2"></i> Consultar DolarApi
+                                </button>
+                            </form>
+                            <a class="btn px-4 py-2 font-weight-bold shadow-sm" href="{{ route('listadotasa.create') }}" 
+                               style="background: #7D266E; color: white; border-radius: 50rem; text-transform: uppercase;">
+                                <i class="fas fa-plus mr-2"></i> AGREGAR NUEVA TASA
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -23,6 +32,12 @@
             @if ($message = Session::get('success'))
                 <div class="alert alert-success border-0 shadow-sm mb-4" style="border-radius: 12px;">
                     <i class="fas fa-check-circle mr-2"></i> {{ $message }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger border-0 shadow-sm mb-4" style="border-radius: 12px;">
+                    <i class="fas fa-exclamation-circle mr-2"></i> {{ $errors->first() }}
                 </div>
             @endif
 

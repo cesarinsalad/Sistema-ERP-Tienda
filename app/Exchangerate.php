@@ -57,4 +57,21 @@ class Exchangerate extends Model
         // Return latest fallback, or create a hardcoded fallback of 36.0 if table is empty
         return $latest ?: self::create(['value' => 36.0]);
     }
+
+    public static function fetchForceUpdate()
+    {
+        try {
+            $response = \Illuminate\Support\Facades\Http::timeout(5)->get('https://ve.dolarapi.com/v1/dolares/oficial');
+            if ($response->successful()) {
+                $data = $response->json();
+                $promedio = floatval($data['promedio'] ?? 0);
+                if ($promedio > 0) {
+                    return self::create(['value' => $promedio]);
+                }
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error forcing exchange rate fetch: ' . $e->getMessage());
+        }
+        return null;
+    }
 }

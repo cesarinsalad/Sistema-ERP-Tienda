@@ -150,9 +150,18 @@
                                 <p class="text-muted small font-weight-bold uppercase mb-0">Total a Pagar</p>
                                 <h3 class="font-weight-bold mb-0" style="color: #7D266E; letter-spacing: -0.5px;" id="total-display">$0.00</h3>
                                 <p class="text-muted small mb-1" id="total-bs-display" style="font-weight: 500;">(0.00 Bs)</p>
-                                <span class="badge px-3 py-1 font-weight-bold shadow-sm" style="background: #F8FAFC; color: #475569; border-radius: 8px; font-size: 0.75rem; border: 1px solid #E2E8F0;">
-                                    Tasa Oficial: {{ number_format($tasaDolar, 2, ',', '.') }} Bs/$
-                                </span>
+                                <div class="d-flex align-items-center justify-content-center" style="gap: 8px; flex-wrap: wrap;">
+                                    <span class="badge px-3 py-1 font-weight-bold shadow-sm" style="background: #F8FAFC; color: #475569; border-radius: 8px; font-size: 0.75rem; border: 1px solid #E2E8F0; display: inline-flex; align-items: center;">
+                                        <i class="fas fa-coins mr-1 text-purple"></i> Tasa Oficial: {{ number_format($tasaDolar, 2, ',', '.') }} Bs/$
+                                    </span>
+                                    @can('admin')
+                                        <button type="button" onclick="document.getElementById('fetch-tasa-form').submit();" class="btn p-0 d-flex align-items-center justify-content-center shadow-sm" 
+                                                title="Actualizar Tasa desde DolarApi"
+                                                style="background: #EEE1ED; color: #7D266E; border-radius: 50%; width: 26px; height: 26px; border: none; font-size: 0.75rem; cursor: pointer; transition: all 0.2s;">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    @endcan
+                                </div>
                             </div>
 
                             <hr class="my-3" style="border-top: 2px dashed #E2E8F0;">
@@ -237,6 +246,12 @@
     </div>
 </form>
 
+@can('admin')
+<form action="{{ route('listadotasa.fetchFromApi') }}" method="POST" id="fetch-tasa-form" style="display: none;">
+    @csrf
+</form>
+@endcan
+
 {{-- Success Modal --}}
 <div class="modal fade" id="successModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -247,15 +262,15 @@
                         <i class="fas fa-check"></i>
                     </div>
                 </div>
-                <h3 class="font-weight-bold mb-3" style="color: #1E293B;">¡Venta Exitosa!</h3>
+                <h3 class="font-weight-bold mb-3" id="success-modal-title" style="color: #1E293B;">¡Venta Exitosa!</h3>
                 <p class="text-muted mb-4" style="font-size: 1.1rem;">{{ session('success') }}</p>
                 
                 <div class="d-flex flex-column" style="gap: 10px;">
-                    <button type="button" class="btn btn-block py-3 font-weight-bold" data-dismiss="modal" 
+                    <button type="button" id="success-modal-btn" class="btn btn-block py-3 font-weight-bold" data-dismiss="modal" 
                             style="background: #7D266E; color: white; border-radius: 1rem; box-shadow: 0 4px 12px rgba(125, 38, 110, 0.2);">
                         NUEVA VENTA
                     </button>
-                    <a href="{{ route('listorden.index') }}" class="btn btn-link text-muted font-weight-bold py-2">
+                    <a href="{{ route('listorden.index') }}" id="success-modal-link" class="btn btn-link text-muted font-weight-bold py-2">
                         Ver listado de ventas
                     </a>
                 </div>
@@ -366,7 +381,22 @@ $(document).ready(function () {
 
     // Show Success Modal if session exists
     @if(session('success'))
+        @if(strpos(session('success'), 'Tasa') !== false)
+            $('#success-modal-title').text('¡Tasa Actualizada!');
+            $('#success-modal-btn').text('Entendido');
+            $('#success-modal-link').hide();
+        @else
+            $('#success-modal-title').text('¡Venta Exitosa!');
+            $('#success-modal-btn').text('NUEVA VENTA');
+            $('#success-modal-link').show();
+        @endif
         $('#successModal').modal('show');
+    @endif
+
+    // Show Error Modal if session errors exist
+    @if($errors->any())
+        $('#err-description').text({!! json_encode($errors->first()) !!});
+        $('#errorModal').modal('show');
     @endif
 
     // 1. CLIENT IDENTIFICATION
