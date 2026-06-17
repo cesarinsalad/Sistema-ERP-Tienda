@@ -1,4 +1,4 @@
-# 🚀 Sistema ERP - Tienda Premium
+# 🚀 Sistema SIG- GIGI FASHION IMPORT
 
 Este es un sistema de Planificación de Recursos Empresariales (ERP) diseñado para la gestión integral de tiendas y negocios. El sistema ofrece una interfaz moderna, robusta y optimizada para la eficiencia operativa.
 
@@ -17,7 +17,7 @@ Este es un sistema de Planificación de Recursos Empresariales (ERP) diseñado p
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Framework:** Laravel 7.x
+- **Framework:** Laravel 7.4
 - **Base de Datos:** MySQL 8.0
 - **Frontend:** HTML5, CSS3 (Vanilla), JavaScript, Bootstrap 4
 - **Dashboard:** AdminLTE 3
@@ -52,7 +52,7 @@ DB_PASSWORD=root
 ### 3. Levantar la Base de Datos con Docker
 Si no tienes un contenedor de MySQL listo, puedes levantarlo rápidamente:
 ```bash
-docker run --name erp-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=sistema_erp -p 3306:3306 -d mysql:8.0
+docker run --name erp-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=sistema_erp -p 3306:3306-d mysql:8.0
 ```
 
 ### 4. Instalar Dependencias
