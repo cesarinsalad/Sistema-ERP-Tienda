@@ -114,10 +114,20 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge px-3 py-2" style="background: #F1F5F9; color: #475569; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">
-                                            {{ $articulo->cantidad }}
-                                        </span>
-                                    </td>
+                                         @if($articulo->cantidad <= 0)
+                                             <span class="badge px-3 py-2" style="background: #FEE2E2; color: #991B1B; border-radius: 8px; font-weight: 700; font-size: 0.9rem;" data-toggle="tooltip" title="Agotado">
+                                                 <i class="fas fa-times-circle mr-1"></i> Agotado
+                                             </span>
+                                         @elseif($articulo->cantidad <= 5)
+                                             <span class="badge px-3 py-2" style="background: #FEF3C7; color: #92400E; border-radius: 8px; font-weight: 700; font-size: 0.9rem;" data-toggle="tooltip" title="Stock Bajo">
+                                                 <i class="fas fa-exclamation-triangle mr-1"></i> {{ $articulo->cantidad }}
+                                             </span>
+                                         @else
+                                             <span class="badge px-3 py-2" style="background: #DCFCE7; color: #166534; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">
+                                                 {{ $articulo->cantidad }}
+                                             </span>
+                                         @endif
+                                     </td>
                                     <td class="text-right font-weight-bold">{{ number_format((floatval($articulo->precio) * floatval($tasaDolar)), 2, ',', '.') }}Bs</td>
                                     <td class="text-right font-weight-bold text-success" style="font-size: 1.1rem;">{{ number_format($articulo->precio, 2, ',', '.') }}$</td>
                                     <td>

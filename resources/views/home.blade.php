@@ -464,13 +464,23 @@ $(document).ready(function () {
                     let html = '';
                     if (data && data.length > 0) {
                         data.forEach(p => {
+                            let stockBadge = '';
+                            let isOut = p.cantidad <= 0;
+                            let isLow = p.cantidad > 0 && p.cantidad <= 5;
+                            
+                            if (isOut) {
+                                stockBadge = `<span class="badge badge-danger ml-2" style="font-size: 0.75rem;"><i class="fas fa-times-circle mr-1"></i>Agotado</span>`;
+                            } else if (isLow) {
+                                stockBadge = `<span class="badge badge-warning ml-2" style="background-color: #FEF3C7; color: #92400E; font-size: 0.75rem;"><i class="fas fa-exclamation-triangle mr-1"></i>Bajo</span>`;
+                            }
+
                             html += `
                                 <div class="dropdown-item d-flex justify-content-between align-items-center product-result-item" 
                                      data-id="${p.id}" data-name="${p.nombre}" data-price="${p.precio}" 
-                                     data-stock="${p.cantidad}" data-code="${p.codigo}">
+                                     data-stock="${p.cantidad}" data-code="${p.codigo}" style="${isOut ? 'opacity: 0.55; cursor: not-allowed; background-color: #F8FAFC;' : ''}">
                                     <div>
-                                        <span class="result-main">${p.nombre}</span>
-                                        <span class="result-sub">${p.codigo} • Stock: ${p.cantidad}</span>
+                                        <span class="result-main">${p.nombre}</span> ${stockBadge}
+                                        <span class="result-sub d-block">${p.codigo} • Stock: <strong>${p.cantidad}</strong></span>
                                     </div>
                                     <div class="result-price text-right">$${p.precio}</div>
                                 </div>
@@ -488,6 +498,11 @@ $(document).ready(function () {
     // Handle Selection from dropdown
     $(document).on('click', '.product-result-item', function() {
         const p = $(this).data();
+        
+        if (parseInt(p.stock) <= 0) {
+            showError('El producto seleccionado no tiene stock disponible.');
+            return;
+        }
         
         const newProduct = {
             id: p.id,
