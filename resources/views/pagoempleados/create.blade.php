@@ -29,11 +29,29 @@
                             <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Seleccione el Empleado</label>
                             <select name="empleado_id" class="form-control selectpicker border-0 bg-light" required id="empleadoSelect" data-live-search="true" title="Buscar empleado...">
                                 @foreach($empleados as $empleado)
-                                    <option value="{{ $empleado->id }}" data-salary="{{ $empleado->salary }}" data-tokens="{{ $empleado->user->name ?? '' }} {{ $empleado->document }}">
+                                    <option value="{{ $empleado->id }}" data-salary="{{ $empleado->salary }}" data-commission="{{ $empleado->unpaid_commission }}" data-tokens="{{ $empleado->user->name ?? '' }} {{ $empleado->document }}">
                                         {{ $empleado->user->name ?? 'Desconocido' }} ({{ $empleado->document }})
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        {{-- Salary Breakdown Card --}}
+                        <div id="salary-breakdown" class="mb-4 p-3 rounded-lg border-0 shadow-sm" style="display: none; background: #FDF4FB; border-radius: 12px; border: 1px solid #EEE1ED;">
+                            <h6 class="font-weight-bold mb-3 text-purple"><i class="fas fa-list-ul mr-2"></i> Desglose de Remuneración</h6>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small font-weight-bold uppercase">Sueldo Base</span>
+                                <span class="font-weight-bold text-dark" id="breakdown-salary">$0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small font-weight-bold uppercase">Comisiones Acumuladas</span>
+                                <span class="font-weight-bold text-dark" id="breakdown-commission">$0.00</span>
+                            </div>
+                            <hr class="my-2" style="border-top: 1px dashed #EEE1ED;">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-purple small font-weight-bold uppercase">Total Sugerido</span>
+                                <span class="font-weight-bold text-purple" id="breakdown-total" style="font-size: 1.1rem;">$0.00</span>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -149,12 +167,34 @@
                 $('#warningModal').modal('show');
             @endif
 
+            // Empleado selection change
+            $('#empleadoSelect').on('change', function() {
+                const selected = $(this).find(':selected');
+                const salary = parseFloat(selected.data('salary'));
+                const commission = parseFloat(selected.data('commission'));
+
+                if (!isNaN(salary)) {
+                    $('#breakdown-salary').text('$' + salary.toFixed(2));
+                    $('#breakdown-commission').text('$' + commission.toFixed(2));
+                    const total = salary + commission;
+                    $('#breakdown-total').text('$' + total.toFixed(2));
+                    $('#salary-breakdown').fadeIn();
+                } else {
+                    $('#salary-breakdown').fadeOut();
+                }
+            });
+
             // Autofill salary
             $('#btnSueldoBase').on('click', function() {
-                const salary = $('#empleadoSelect').find(':selected').data('salary');
-                if (salary) $('#amountInput').val(salary);
-                else {
-                    $('#warning-message').text('Seleccione un empleado para cargar su sueldo.');
+                const selected = $('#empleadoSelect').find(':selected');
+                const salary = parseFloat(selected.data('salary'));
+                const commission = parseFloat(selected.data('commission'));
+                
+                if (!isNaN(salary)) {
+                    const total = salary + commission;
+                    $('#amountInput').val(total.toFixed(2));
+                } else {
+                    $('#warning-message').text('Seleccione un empleado para cargar su remuneración.');
                     $('#warningModal').modal('show');
                 }
             });

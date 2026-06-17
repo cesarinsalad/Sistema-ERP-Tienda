@@ -60,6 +60,7 @@ class EmpleadosController extends Controller
             'document' => 'required|string|unique:empleados',
             'phone' => 'nullable|string',
             'salary' => 'required|numeric|min:0',
+            'commission_percent' => 'nullable|numeric|min:0|max:100',
             'role' => 'required|in:admin,empleado'
         ]);
 
@@ -86,6 +87,7 @@ class EmpleadosController extends Controller
                 'phone' => $request->phone,
                 'position' => $position,
                 'salary' => $request->salary,
+                'commission_percent' => $request->input('commission_percent') !== null ? $request->commission_percent : 5.00,
                 'is_active' => true
             ]);
 
@@ -113,7 +115,7 @@ class EmpleadosController extends Controller
         $empleado = Empleados::with('user')->findOrFail($id);
         
         // Base query for sales
-        $salesQuery = \App\Order::where('user_id', $empleado->user_id);
+        $salesQuery = \App\Order::where('vendedor_id', $empleado->id);
         
         // Total stats (for the whole history)
         $totalSalesCount = $salesQuery->count();
@@ -121,7 +123,7 @@ class EmpleadosController extends Controller
         
         // Chart filtering
         $filter = $request->get('chart_filter', '6months');
-        $chartQuery = \App\Order::where('user_id', $empleado->user_id);
+        $chartQuery = \App\Order::where('vendedor_id', $empleado->id);
         $groupByDay = false;
 
         if ($filter == 'thisweek') {
@@ -200,6 +202,7 @@ class EmpleadosController extends Controller
             'document' => 'required|string|unique:empleados,document,'.$id,
             'phone' => 'nullable|string',
             'salary' => 'required|numeric|min:0',
+            'commission_percent' => 'nullable|numeric|min:0|max:100',
             'role' => 'required|in:admin,empleado'
         ]);
 
@@ -228,6 +231,7 @@ class EmpleadosController extends Controller
                 'phone' => $request->phone,
                 'position' => $position,
                 'salary' => $request->salary,
+                'commission_percent' => $request->input('commission_percent') !== null ? $request->commission_percent : $empleado->commission_percent,
                 'is_active' => $newIsActive
             ]);
 

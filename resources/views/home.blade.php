@@ -177,6 +177,18 @@
                                 </div>
                             </div>
 
+                            <div class="mb-3">
+                                <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Vendedor (Opcional)</label>
+                                <select name="vendedor_id" class="form-control selectpicker border-0 bg-light" id="vendedorSelect" data-live-search="true" title="Seleccione Vendedor">
+                                    <option value="">Ninguno</option>
+                                    @foreach($vendedores as $vendedor)
+                                        <option value="{{ $vendedor->id }}">
+                                            {{ $vendedor->user->name ?? 'Desconocido' }} ({{ $vendedor->document }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                         <div class="mb-3">
                             <p class="text-muted small font-weight-bold uppercase mb-2">Seleccionar Método de Pago</p>
                             <div class="payment-methods-grid" style="display: grid; gap: 8px;">
@@ -310,8 +322,9 @@
         box-shadow: none !important;
         font-weight: 600;
         color: #475569 !important;
+        font-size: 0.85rem !important;
     }
-    .bootstrap-select .dropdown-menu { border-radius: 1rem; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .bootstrap-select .dropdown-menu { border-radius: 1rem; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1); font-size: 0.85rem !important; }
     
     /* Payment Method Button Styling */
     .btn-payment-method:hover { border-color: #7D266E !important; background: #FDF4FB !important; }

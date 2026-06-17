@@ -56,7 +56,7 @@
                             <h6 class="font-weight-bold text-success m-0">{{ number_format($order->tasa->value,2,',','.') }} Bs/$</h6>
                         </div>
                         <div class="col-6 mb-3">
-                            <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Vendedor Asignado</p>
+                            <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Cajero Presente</p>
                             @if($order->seller && $order->seller->empleado)
                                 <a href="{{ route('empleados.show', $order->seller->empleado->id) }}" class="badge badge-info px-2 py-1" style="text-decoration: none;">
                                     <i class="fas fa-user-tie mr-1"></i> {{ $order->seller->name }}
@@ -65,6 +65,14 @@
                                 <span class="badge badge-secondary px-2 py-1">{{ $order->seller->name ?? 'Desconocido' }}</span>
                             @endif
                         </div>
+                        @if($order->vendedor)
+                        <div class="col-6 mb-3">
+                            <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Vendedor Asignado</p>
+                            <a href="{{ route('empleados.show', $order->vendedor->id) }}" class="badge px-2 py-1" style="text-decoration: none; background: #FDF4FB; color: #7D266E; border: 1px solid #7D266E;">
+                                <i class="fas fa-user-tag mr-1"></i> {{ $order->vendedor->user->name ?? 'Desconocido' }}
+                            </a>
+                        </div>
+                        @endif
                     </div>
                 </div>
 

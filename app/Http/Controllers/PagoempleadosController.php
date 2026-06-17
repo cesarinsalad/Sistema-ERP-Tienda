@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Pagoempleados;
 use App\Empleados;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class PagoempleadosController extends Controller
@@ -68,6 +69,7 @@ class PagoempleadosController extends Controller
             'reference' => 'nullable|string|max:255'
         ]);
 
+        DB::beginTransaction();
         try {
             $ref = $request->payment_method === 'Efectivo' ? null : $request->reference;
 
@@ -79,8 +81,15 @@ class PagoempleadosController extends Controller
                 'reference' => $ref
             ]);
 
-            return redirect()->route('pagoempleados.index')->with('success', 'El pago fue registrado exitosamente.');
+            // Mark unpaid sales for this employee as paid
+            $empleado = Empleados::findOrFail($request->empleado_id);
+            $empleado->sales()->where('commission_paid', false)->update(['commission_paid' => true]);
+
+            DB::commit();
+
+            return redirect()->route('pagoempleados.index')->with('success', 'El pago fue registrado exitosamente y las comisiones fueron liquidadas.');
         } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->back()->with('error', 'Hubo un problema registrando el pago: ' . $e->getMessage());
         }
     }

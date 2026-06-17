@@ -33,12 +33,17 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'cliente_id', 'user_id', 'tasa_cambio', 'monto_orden'
+        'cliente_id', 'user_id', 'tasa_cambio', 'monto_orden', 'vendedor_id', 'commission_paid'
     ];
 
     public function seller()
     {
         return $this->belongsTo(User::class, 'user_id')->withDefault(['name' => 'Desconocido']);
+    }
+
+    public function vendedor()
+    {
+        return $this->belongsTo(Empleados::class, 'vendedor_id');
     }
 
     public function client()

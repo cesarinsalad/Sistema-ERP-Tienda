@@ -22,6 +22,10 @@ class OrderRequest extends FormRequest
         $rules = [
             'product.*' => [
                 'max:'
+            ],
+            'vendedor_id' => [
+                'nullable',
+                'exists:empleados,id'
             ]
         ];
 

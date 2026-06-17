@@ -82,7 +82,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Sueldo Mensual ($)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -96,7 +96,21 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-4 mb-4">
+                                <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Comisión (%)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text border-0 bg-light" style="border-radius: 10px 0 0 10px;">
+                                            <i class="fas fa-percentage text-muted"></i>
+                                        </span>
+                                    </div>
+                                    <input type="number" step="0.01" name="commission_percent" value="{{ old('commission_percent', '5.00') }}" 
+                                           class="form-control border-0 bg-light @error('commission_percent') is-invalid @enderror" 
+                                           placeholder="5.00" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-4">
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Permisos</label>
                                 <select name="role" class="form-control border-0 bg-light" style="border-radius: 10px; height: 45px;" required>
                                     <option value="empleado">Empleado</option>

@@ -10,6 +10,7 @@ use App\Metodo_de_pago;
 use App\Metodo_pago_orden;
 use App\Product_order;
 use App\Exchangerate;
+use App\Empleados;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -46,6 +47,7 @@ class HomeController extends Controller
             if (mb_stripos($name, 'ZELLE') !== false) return 5;
             return 6;
         });
+        $data['vendedores'] = Empleados::with('user')->where('is_active', true)->get()->sortBy('user.name');
         return view('home', $data);
     }
 
@@ -105,6 +107,7 @@ class HomeController extends Controller
         $orden = Order::create([
             'cliente_id' => (int)$client_id,
             'user_id'    => auth()->id(),
+            'vendedor_id' => $request->vendedor_id ?: null,
             'tasa_cambio' => $exchangerate->id,
             'monto_orden' => $total,
         ]);
