@@ -35,8 +35,21 @@ class OrderController extends Controller
             $query->whereDate('created_at', '<=', $toDate);
         }
 
+        if ($request->filled('seller_id')) {
+            $query->where('user_id', $request->seller_id);
+        }
+
+        if ($request->filled('payment_method_id')) {
+            $query->whereHas('paymentMethods', function($q) use ($request) {
+                $q->where('metodo_de_pagos.id', $request->payment_method_id);
+            });
+        }
+
+        $sellers = \App\User::orderBy('name')->get();
+        $paymentMethods = \App\Metodo_de_pago::orderBy('nombre_metodo')->get();
+
         $orders = $query->latest()->paginate(10)->appends($request->query()); // increased pagination for reports
-        return view('listorden', compact('orders', 'defaultFrom', 'defaultTo'));
+        return view('listorden', compact('orders', 'defaultFrom', 'defaultTo', 'sellers', 'paymentMethods'));
     }
     public function show(Order $listorden)
     {
@@ -70,6 +83,16 @@ class OrderController extends Controller
 
         if ($toDate) {
             $query->whereDate('created_at', '<=', $toDate);
+        }
+
+        if ($request->filled('seller_id')) {
+            $query->where('user_id', $request->seller_id);
+        }
+
+        if ($request->filled('payment_method_id')) {
+            $query->whereHas('paymentMethods', function($q) use ($request) {
+                $q->where('metodo_de_pagos.id', $request->payment_method_id);
+            });
         }
 
         return response()->json($query->latest()->get());

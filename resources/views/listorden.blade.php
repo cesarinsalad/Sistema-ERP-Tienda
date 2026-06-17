@@ -47,11 +47,33 @@
                                 <input class="form-control border-0 bg-transparent p-0" type="date" name="toDate" value="{{ request('toDate', $defaultTo) }}">
                             </div>
 
+                            <div class="form-group" style="height: 45px;">
+                                <select name="seller_id" class="form-control border-0 bg-light" style="border-radius: 10px; height: 45px; min-width: 150px;">
+                                    <option value="">Todos los Vendedores</option>
+                                    @foreach($sellers as $seller)
+                                        <option value="{{ $seller->id }}" {{ request('seller_id') == $seller->id ? 'selected' : '' }}>
+                                            {{ $seller->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="height: 45px;">
+                                <select name="payment_method_id" class="form-control border-0 bg-light" style="border-radius: 10px; height: 45px; min-width: 160px;">
+                                    <option value="">Todos los Métodos de Pago</option>
+                                    @foreach($paymentMethods as $pm)
+                                        <option value="{{ $pm->id }}" {{ request('payment_method_id') == $pm->id ? 'selected' : '' }}>
+                                            {{ $pm->nombre_metodo }} ({{ $pm->moneda }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <button type="submit" class="btn px-4 font-weight-bold text-white" 
                                     style="background: #5b1b50; border-radius: 10px; height: 45px;">
                                 FILTRAR
                             </button>
-                            @if(request('search') || request('fromDate') || request('toDate'))
+                            @if(request('search') || request('fromDate') || request('toDate') || request('seller_id') || request('payment_method_id'))
                                 <a href="{{ route('listorden.index') }}" class="btn btn-link text-muted font-weight-bold">Limpiar</a>
                             @endif
                         </form>
@@ -178,11 +200,13 @@
             const fromDate = $('input[name="fromDate"]').val();
             const toDate = $('input[name="toDate"]').val();
             const search = $('input[name="search"]').val();
+            const seller_id = $('select[name="seller_id"]').val();
+            const payment_method_id = $('select[name="payment_method_id"]').val();
 
             $.ajax({
                 url: "{{ route('listorden.pdfData') }}",
                 method: 'GET',
-                data: { fromDate, toDate, search },
+                data: { fromDate, toDate, search, seller_id, payment_method_id },
                 success: function(data) {
                     if (!data || data.length === 0) {
                         $('#warning-message').text('No hay datos para generar el PDF en este rango/búsqueda.');

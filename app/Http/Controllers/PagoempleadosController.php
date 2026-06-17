@@ -38,8 +38,18 @@ class PagoempleadosController extends Controller
             $query->whereDate('payment_date', '<=', $toDate);
         }
 
+        if ($request->filled('empleado_id')) {
+            $query->where('empleado_id', $request->empleado_id);
+        }
+
+        if ($request->filled('payment_method')) {
+            $query->where('payment_method', $request->payment_method);
+        }
+
         $pagos = $query->latest()->paginate(10)->appends($request->query());
-        return view('pagoempleados.index', compact('pagos', 'defaultFrom', 'defaultTo'));
+        $empleados = Empleados::with('user')->get()->sortBy('user.name');
+
+        return view('pagoempleados.index', compact('pagos', 'defaultFrom', 'defaultTo', 'empleados'));
     }
 
     public function create()
@@ -98,6 +108,14 @@ class PagoempleadosController extends Controller
 
         if ($toDate) {
             $query->whereDate('payment_date', '<=', $toDate);
+        }
+
+        if ($request->filled('empleado_id')) {
+            $query->where('empleado_id', $request->empleado_id);
+        }
+
+        if ($request->filled('payment_method')) {
+            $query->where('payment_method', $request->payment_method);
         }
 
         return response()->json($query->orderBy('payment_date', 'desc')->get());

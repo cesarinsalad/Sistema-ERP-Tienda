@@ -19,8 +19,8 @@
 
                     {{-- Search Section --}}
                     <div class="mt-4 pt-3 border-top">
-                        <form action="{{ route('articulo.inactivos') }}" method="GET" class="form-inline mb-0">
-                            <div class="input-group" style="width: 350px;">
+                        <form action="{{ route('articulo.inactivos') }}" method="GET" class="form-inline mb-0" style="gap:1rem; flex-wrap:wrap;">
+                            <div class="input-group" style="width: 250px;">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text border-0 bg-light" style="border-radius: 10px 0 0 10px;">
                                         <i class="fas fa-search text-muted"></i>
@@ -30,12 +30,43 @@
                                        placeholder="Buscar por nombre o código..." value="{{ request('search') }}"
                                        style="border-radius: 0 10px 10px 0; height: 45px;">
                             </div>
-                            <button type="submit" class="btn ml-3 px-4 font-weight-bold text-white" 
+
+                            <div class="form-group" style="height: 45px;">
+                                <select name="category_id" class="form-control border-0 bg-light" style="border-radius: 10px; height: 45px; min-width: 160px;">
+                                    <option value="">Todas las Categorías</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="height: 45px;">
+                                <select name="brand_id" class="form-control border-0 bg-light" style="border-radius: 10px; height: 45px; min-width: 160px;">
+                                    <option value="">Todas las Marcas</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{ $brand->id }}" {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
+                                            {{ $brand->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="height: 45px;">
+                                <select name="stock" class="form-control border-0 bg-light" style="border-radius: 10px; height: 45px; min-width: 160px;">
+                                    <option value="">Cualquier Stock</option>
+                                    <option value="low" {{ request('stock') == 'low' ? 'selected' : '' }}>Stock Bajo (≤ 5)</option>
+                                    <option value="out" {{ request('stock') == 'out' ? 'selected' : '' }}>Agotado (≤ 0)</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn px-4 font-weight-bold text-white" 
                                     style="background: #5b1b50; border-radius: 10px; height: 45px;">
-                                BUSCAR
+                                FILTRAR
                             </button>
-                            @if(request('search'))
-                                <a href="{{ route('articulo.inactivos') }}" class="btn btn-link text-muted ml-2 font-weight-bold">Limpiar</a>
+                            @if(request('search') || request('category_id') || request('brand_id') || request('stock'))
+                                <a href="{{ route('articulo.inactivos') }}" class="btn btn-link text-muted font-weight-bold">Limpiar</a>
                             @endif
                         </form>
                     </div>

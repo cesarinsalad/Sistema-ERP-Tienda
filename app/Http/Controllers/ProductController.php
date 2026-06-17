@@ -28,9 +28,30 @@ class ProductController extends Controller
             });
         }
 
+        if ($request->filled('brand_id')) {
+            $query->where('brand_id', $request->brand_id);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->whereHas('category', function($q) use ($request) {
+                $q->where('categories.id', $request->category_id);
+            });
+        }
+
+        if ($request->filled('stock')) {
+            if ($request->stock === 'low') {
+                $query->where('cantidad', '>', 0)->where('cantidad', '<=', 5);
+            } elseif ($request->stock === 'out') {
+                $query->where('cantidad', '<=', 0);
+            }
+        }
+
         $articulos = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
         $tasaDolar = Exchangerate::latest('created_at')->first()->value;
-        return view('product.index', compact('articulos', 'tasaDolar'))
+        $brands = Brand::where('is_active', true)->orderBy('name')->get();
+        $categories = Category::where('is_active', true)->orderBy('name')->get();
+
+        return view('product.index', compact('articulos', 'tasaDolar', 'brands', 'categories'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -46,9 +67,30 @@ class ProductController extends Controller
             });
         }
 
+        if ($request->filled('brand_id')) {
+            $query->where('brand_id', $request->brand_id);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->whereHas('category', function($q) use ($request) {
+                $q->where('categories.id', $request->category_id);
+            });
+        }
+
+        if ($request->filled('stock')) {
+            if ($request->stock === 'low') {
+                $query->where('cantidad', '>', 0)->where('cantidad', '<=', 5);
+            } elseif ($request->stock === 'out') {
+                $query->where('cantidad', '<=', 0);
+            }
+        }
+
         $articulos = $query->orderBy('id', 'desc')->paginate(10)->appends($request->query());
         $tasaDolar = Exchangerate::latest('created_at')->first()->value;
-        return view('product.inactivos', compact('articulos', 'tasaDolar'))
+        $brands = Brand::where('is_active', true)->orderBy('name')->get();
+        $categories = Category::where('is_active', true)->orderBy('name')->get();
+
+        return view('product.inactivos', compact('articulos', 'tasaDolar', 'brands', 'categories'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
