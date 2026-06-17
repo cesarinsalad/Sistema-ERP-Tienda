@@ -192,7 +192,7 @@
                         <div class="mb-3">
                             <p class="text-muted small font-weight-bold uppercase mb-2">Seleccionar Método de Pago</p>
                             <div class="payment-methods-grid" style="display: grid; gap: 8px;">
-                                    @foreach ($paymentMethods as $method)
+                                    @foreach ($paymentMethods as $index => $method)
                                         <div class="payment-item-wrapper mb-2">
                                             <button type="button" class="btn btn-payment-method d-flex align-items-center p-2" 
                                                     data-id="{{ $method->id }}" 
@@ -211,11 +211,12 @@
                                                             <i class="fas fa-credit-card small" style="font-size: 0.75rem;"></i>
                                                         @endif
                                                     </div>
-                                                    <div style="flex: 1; display: flex; align-items: center;">
+                                                    <div style="flex: 1; display: flex; align-items: center; justify-content: space-between;">
                                                         <span class="font-weight-bold text-dark small" style="font-size: 0.8rem; margin: 0;">{{ $method->nombre_metodo }}</span>
+                                                        <span class="badge badge-light text-muted border px-1" style="font-size: 0.65rem; border-radius: 4px; font-weight: normal; letter-spacing: 0.5px;">Alt+{{ $index + 1 }}</span>
                                                     </div>
                                                 </div>
-                                                <div class="check-icon invisible" style="color: #7D266E;">
+                                                <div class="check-icon invisible ml-2" style="color: #7D266E;">
                                                     <i class="fas fa-check-circle"></i>
                                                 </div>
                                             </button>
@@ -332,6 +333,7 @@
     .btn-payment-method.active .text-dark, .btn-payment-method.active .text-muted { color: white !important; }
     .btn-payment-method.active .method-icon { background: rgba(255,255,255,0.2) !important; color: white !important; }
     .btn-payment-method.active .check-icon { visibility: visible !important; color: white !important; }
+    .btn-payment-method.active .badge-light { background-color: rgba(255,255,255,0.2) !important; color: white !important; border-color: rgba(255,255,255,0.4) !important; }
     
     .text-purple { color: #7D266E !important; }
 
@@ -372,7 +374,7 @@
 
     /* Autocomplete Styling */
     .product-result-item { cursor: pointer; padding: 12px 20px; border-bottom: 1px solid #F1F5F9; transition: background 0.2s; }
-    .product-result-item:hover { background: #FDF4FB; }
+    .product-result-item:hover, .product-result-item:focus { background: #FDF4FB; outline: none; border-left: 4px solid #7D266E !important; }
     .product-result-item:last-child { border-bottom: none; }
     .result-main { display: block; font-weight: 700; color: #1E293B; font-size: 1rem; }
     .result-sub { display: block; font-size: 0.8rem; color: #64748B; margin-top: 2px; }
@@ -471,6 +473,13 @@ $(document).ready(function () {
     });
 
     // AJAX Client Registration
+    $('#client_dir').on('keydown', function(e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            $('#registrar-cliente-ajax').click();
+        }
+    });
+
     $('#registrar-cliente-ajax').on('click', function() {
         const cedula = $('#busqueda').val();
         const nombres = $('#client_nom').val();
@@ -562,7 +571,7 @@ $(document).ready(function () {
                             html += `
                                 <div class="dropdown-item d-flex justify-content-between align-items-center product-result-item" 
                                      data-id="${p.id}" data-name="${p.nombre}" data-price="${p.precio}" 
-                                     data-stock="${p.cantidad}" data-code="${p.codigo}" style="${isOut ? 'opacity: 0.55; cursor: not-allowed; background-color: #F8FAFC;' : ''}">
+                                     data-stock="${p.cantidad}" data-code="${p.codigo}" tabindex="0" style="${isOut ? 'opacity: 0.55; cursor: not-allowed; background-color: #F8FAFC;' : ''}">
                                     <div>
                                         <span class="result-main">${p.nombre}</span> ${stockBadge}
                                         <span class="result-sub d-block">${p.codigo} • Stock: <strong>${p.cantidad}</strong></span>
@@ -621,6 +630,32 @@ $(document).ready(function () {
         }
     });
 
+    // Autocomplete keyboard navigation & selection
+    $('#product-search-input').on('keydown', function(e) {
+        if (e.which === 40) { // Down Arrow
+            e.preventDefault();
+            $('#product-results-dropdown .product-result-item:first').focus();
+        }
+    });
+
+    $(document).on('keydown', '.product-result-item', function(e) {
+        if (e.which === 40) { // Down Arrow
+            e.preventDefault();
+            $(this).next('.product-result-item').focus();
+        } else if (e.which === 38) { // Up Arrow
+            e.preventDefault();
+            const prev = $(this).prev('.product-result-item');
+            if (prev.length > 0) {
+                prev.focus();
+            } else {
+                $('#product-search-input').focus();
+            }
+        } else if (e.which === 13 || e.which === 32) { // Enter or Space
+            e.preventDefault();
+            $(this).click();
+        }
+    });
+
     // 3. PAYMENT METHODS
     $('.btn-payment-method').on('click', function(e) {
         if($(e.target).closest('input').length) return;
@@ -648,7 +683,9 @@ $(document).ready(function () {
 
             selectedPaymentMethods.push({ id, name, currency, monto: autoAmount, ref: '' });
             $(this).addClass('active');
-            panel.slideDown(200);
+            panel.slideDown(200, function() {
+                panel.find('.method-amount-input').focus().select();
+            });
             
             // Pre-fill with the remaining amount
             panel.find('.method-amount-input').val(autoAmount.toFixed(2));
@@ -861,6 +898,37 @@ $(document).ready(function () {
         }
         
         $('#order-form').submit();
+    });
+
+    // Global Keyboard Shortcuts
+    $(window).on('keydown', function(e) {
+        // Alt + Number (1-9) to toggle payment method
+        if (e.altKey && e.key >= '1' && e.key <= '9') {
+            const index = parseInt(e.key) - 1;
+            const targetBtn = $('.btn-payment-method').eq(index);
+            if (targetBtn.length > 0) {
+                e.preventDefault();
+                targetBtn.click();
+            }
+        }
+        // Alt + C to focus Client Search Input
+        if (e.altKey && e.key.toLowerCase() === 'c') {
+            e.preventDefault();
+            if ($('#resultado-cliente').is(':visible')) {
+                $('#editar-cliente-btn').click();
+            }
+            $('#busqueda').focus().select();
+        }
+        // Alt + P to focus Product Search Input
+        if (e.altKey && e.key.toLowerCase() === 'p') {
+            e.preventDefault();
+            $('#product-search-input').focus().select();
+        }
+        // Alt + V to focus Vendedor Select
+        if (e.altKey && e.key.toLowerCase() === 'v') {
+            e.preventDefault();
+            $('#vendedorSelect').next('.bootstrap-select').find('.dropdown-toggle').focus().click();
+        }
     });
 
 });
