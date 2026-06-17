@@ -69,11 +69,25 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cedula' => 'required',
-            'nombres' => 'required',
-            'apellidos' => 'required',
-            'telefono' => 'required',
-            'direccion' => 'required',
+            'cedula' => ['required', 'regex:/^[0-9]{1,8}$/', 'unique:clients,cedula'],
+            'nombres' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/u'],
+            'apellidos' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/u'],
+            'telefono' => ['required', 'regex:/^[0-9]{11}$/'],
+            'direccion' => ['required', 'string', 'max:50'],
+        ], [
+            'cedula.required' => 'La cédula es obligatoria.',
+            'cedula.regex' => 'La cédula solo puede contener números enteros y tener un máximo de 8 caracteres.',
+            'cedula.unique' => 'La cédula ya se encuentra registrada.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono debe contener solo números y tener exactamente 11 caracteres.',
+            'nombres.required' => 'El nombre es obligatorio.',
+            'nombres.max' => 'El nombre no puede superar los 50 caracteres.',
+            'nombres.regex' => 'El nombre solo puede contener letras, espacios, guiones, apóstrofes y puntos.',
+            'apellidos.required' => 'El apellido es obligatorio.',
+            'apellidos.max' => 'El apellido no puede superar los 50 caracteres.',
+            'apellidos.regex' => 'El apellido solo puede contener letras, espacios, guiones, apóstrofes y puntos.',
+            'direccion.required' => 'La dirección es obligatoria.',
+            'direccion.max' => 'La dirección no puede superar los 50 caracteres.',
         ]);
 
         try {
@@ -157,11 +171,25 @@ class ClientController extends Controller
     public function update(Request $request, $client)
     {
         $request->validate([
-            'cedula' => 'required',
-            'nombres' => 'required',
-            'apellidos' => 'required',
-            'telefono' => 'required',
-            'direccion' => 'required',
+            'cedula' => ['required', 'regex:/^[0-9]{1,8}$/', 'unique:clients,cedula,' . $client],
+            'nombres' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/u'],
+            'apellidos' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/u'],
+            'telefono' => ['required', 'regex:/^[0-9]{11}$/'],
+            'direccion' => ['required', 'string', 'max:50'],
+        ], [
+            'cedula.required' => 'La cédula es obligatoria.',
+            'cedula.regex' => 'La cédula solo puede contener números enteros y tener un máximo de 8 caracteres.',
+            'cedula.unique' => 'La cédula ya se encuentra registrada.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono debe contener solo números y tener exactamente 11 caracteres.',
+            'nombres.required' => 'El nombre es obligatorio.',
+            'nombres.max' => 'El nombre no puede superar los 50 caracteres.',
+            'nombres.regex' => 'El nombre solo puede contener letras, espacios, guiones, apóstrofes y puntos.',
+            'apellidos.required' => 'El apellido es obligatorio.',
+            'apellidos.max' => 'El apellido no puede superar los 50 caracteres.',
+            'apellidos.regex' => 'El apellido solo puede contener letras, espacios, guiones, apóstrofes y puntos.',
+            'direccion.required' => 'La dirección es obligatoria.',
+            'direccion.max' => 'La dirección no puede superar los 50 caracteres.',
         ]);
 
         $client = Client::withTrashed()->find($client);

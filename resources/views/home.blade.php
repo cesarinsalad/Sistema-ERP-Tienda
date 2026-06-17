@@ -25,7 +25,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text border-0 bg-white text-muted px-3"><i class="fas fa-search"></i></span>
                                 </div>
-                                <input id="busqueda" type="text" name="cedula_name" class="form-control border-0 px-2" placeholder="Ingrese Cédula para buscar..." style="font-size: 0.95rem; height: 40px;">
+                                <input id="busqueda" type="text" name="cedula_name" class="form-control border-0 px-2" placeholder="Ingrese Cédula para buscar..." maxlength="8" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');" style="font-size: 0.95rem; height: 40px;">
                             </div>
                             <button id="crear-cliente-btn" class="btn d-flex align-items-center justify-content-center" 
                                     style="background: #7D266E; color: white; width: 40px; height: 40px; border-radius: 0.75rem;" 
@@ -59,21 +59,21 @@
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Cédula</label>
                                 <input type="text" id="view-cedula" class="form-control border-0 bg-light rounded-lg" disabled>
                             </div>
-                            <div class="col-md-6 mb-3">
+                             <div class="col-md-6 mb-3">
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Nombres</label>
-                                <input type="text" name="client_nom" id="client_nom" class="form-control border-0 bg-light rounded-lg" placeholder="Nombres del cliente" required>
+                                <input type="text" name="client_nom" id="client_nom" class="form-control border-0 bg-light rounded-lg" placeholder="Nombres del cliente" maxlength="50" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Apellidos</label>
-                                <input type="text" name="client_ape" id="client_ape" class="form-control border-0 bg-light rounded-lg" placeholder="Apellidos del cliente" required>
+                                <input type="text" name="client_ape" id="client_ape" class="form-control border-0 bg-light rounded-lg" placeholder="Apellidos del cliente" maxlength="50" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Teléfono</label>
-                                <input type="text" name="client_tel" id="client_tel" class="form-control border-0 bg-light rounded-lg" placeholder="Número de contacto">
+                                <input type="text" name="client_tel" id="client_tel" class="form-control border-0 bg-light rounded-lg" placeholder="Número de contacto" maxlength="11" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Dirección</label>
-                                <textarea name="client_dir" id="client_dir" class="form-control border-0 bg-light rounded-lg" placeholder="Dirección" rows="2"></textarea>
+                                <textarea name="client_dir" id="client_dir" class="form-control border-0 bg-light rounded-lg" placeholder="Dirección" rows="2" maxlength="50" required></textarea>
                             </div>
                             <div class="col-md-12 mt-2">
                                 <button type="button" id="registrar-cliente-ajax" class="btn btn-block py-2 font-weight-bold" 
@@ -465,7 +465,30 @@ $(document).ready(function () {
         const telefono = $('#client_tel').val();
         const direccion = $('#client_dir').val();
 
-        if(!nombres) { showError('El nombre es obligatorio.'); return; }
+        if (!cedula) { showError('La cédula es obligatoria.'); return; }
+        if (!/^[0-9]+$/.test(cedula)) { showError('La cédula solo puede contener números enteros.'); return; }
+        if (cedula.length > 8) { showError('La cédula no puede tener más de 8 caracteres.'); return; }
+
+        if (!nombres) { showError('El nombre es obligatorio.'); return; }
+        if (nombres.length > 50) { showError('El nombre no puede tener más de 50 caracteres.'); return; }
+        if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/.test(nombres)) {
+            showError('El nombre contiene caracteres no permitidos. Solo se permiten letras, espacios, guiones, apóstrofes y puntos.');
+            return;
+        }
+
+        if (!apellidos) { showError('El apellido es obligatorio.'); return; }
+        if (apellidos.length > 50) { showError('El apellido no puede tener más de 50 caracteres.'); return; }
+        if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/.test(apellidos)) {
+            showError('El apellido contiene caracteres no permitidos. Solo se permiten letras, espacios, guiones, apóstrofes y puntos.');
+            return;
+        }
+
+        if (!telefono) { showError('El teléfono es obligatorio.'); return; }
+        if (!/^[0-9]+$/.test(telefono)) { showError('El teléfono solo puede contener números.'); return; }
+        if (telefono.length !== 11) { showError('El teléfono debe tener exactamente 11 caracteres.'); return; }
+
+        if (!direccion) { showError('La dirección es obligatoria.'); return; }
+        if (direccion.length > 50) { showError('La dirección no puede tener más de 50 caracteres.'); return; }
 
         $.ajax({
             url: '{{ route("client.store") }}',
@@ -776,11 +799,36 @@ $(document).ready(function () {
             return;
         }
         if(!$('#client-id').val()) {
-            // Check if we are filling the new client form
-            if(!$('#client_nom').val() || !$('#client_ape').val()) {
-                showError('Por favor identifique un cliente o complete los datos del nuevo cliente (Nombre y Apellido).');
+            const cedula = $('#busqueda').val();
+            const nombres = $('#client_nom').val();
+            const apellidos = $('#client_ape').val();
+            const telefono = $('#client_tel').val();
+            const direccion = $('#client_dir').val();
+
+            if (!cedula) { showError('La cédula es obligatoria.'); return; }
+            if (!/^[0-9]+$/.test(cedula)) { showError('La cédula solo puede contener números enteros.'); return; }
+            if (cedula.length > 8) { showError('La cédula no puede tener más de 8 caracteres.'); return; }
+
+            if (!nombres) { showError('El nombre es obligatorio.'); return; }
+            if (nombres.length > 50) { showError('El nombre no puede tener más de 50 caracteres.'); return; }
+            if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/.test(nombres)) {
+                showError('El nombre contiene caracteres no permitidos. Solo se permiten letras, espacios, guiones, apóstrofes y puntos.');
                 return;
             }
+
+            if (!apellidos) { showError('El apellido es obligatorio.'); return; }
+            if (apellidos.length > 50) { showError('El apellido no puede tener más de 50 caracteres.'); return; }
+            if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/.test(apellidos)) {
+                showError('El apellido contiene caracteres no permitidos. Solo se permiten letras, espacios, guiones, apóstrofes y puntos.');
+                return;
+            }
+
+            if (!telefono) { showError('El teléfono es obligatorio.'); return; }
+            if (!/^[0-9]+$/.test(telefono)) { showError('El teléfono solo puede contener números.'); return; }
+            if (telefono.length !== 11) { showError('El teléfono debe tener exactamente 11 caracteres.'); return; }
+
+            if (!direccion) { showError('La dirección es obligatoria.'); return; }
+            if (direccion.length > 50) { showError('La dirección no puede tener más de 50 caracteres.'); return; }
         }
         if(selectedPaymentMethods.length === 0) {
             showError('Seleccione al menos un método de pago.');

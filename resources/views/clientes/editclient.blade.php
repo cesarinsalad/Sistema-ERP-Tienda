@@ -17,7 +17,7 @@
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
                         <label>Cédula</label>
-                        <input type="text" class="form-control @error('cedula') is-invalid @enderror" value="{{ $client->cedula }}" placeholder="Cédula" name="cedula" required>
+                        <input type="text" class="form-control @error('cedula') is-invalid @enderror" value="{{ $client->cedula }}" placeholder="Cédula" name="cedula" maxlength="8" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                         @error('cedula')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -25,7 +25,7 @@
 
                     <div class="col-md-3 mb-3">
                         <label>Nombres</label>
-                        <input type="text" class="form-control @error('nombres') is-invalid @enderror" value="{{ $client->nombres }}" name="nombres" placeholder="Nombres" required>
+                        <input type="text" class="form-control @error('nombres') is-invalid @enderror" value="{{ $client->nombres }}" name="nombres" placeholder="Nombres" maxlength="50" required>
                         @error('nombres')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -35,7 +35,7 @@
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
                         <label>Apellidos</label>
-                        <input type="text" class="form-control @error('apellidos') is-invalid @enderror" value="{{ $client->apellidos }}" name="apellidos" placeholder="Apellidos" required>
+                        <input type="text" class="form-control @error('apellidos') is-invalid @enderror" value="{{ $client->apellidos }}" name="apellidos" placeholder="Apellidos" maxlength="50" required>
                         @error('apellidos')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -43,7 +43,7 @@
 
                     <div class="col-md-3 mb-3">
                         <label>Teléfono</label>
-                        <input type="text" class="form-control @error('telefono') is-invalid @enderror" value="{{ $client->telefono }}" name="telefono" placeholder="Teléfono" required>
+                        <input type="text" class="form-control @error('telefono') is-invalid @enderror" value="{{ $client->telefono }}" name="telefono" placeholder="Teléfono" maxlength="11" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                         @error('telefono')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -53,7 +53,7 @@
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label>Dirección</label>
-                        <textarea class="form-control @error('direccion') is-invalid @enderror" name="direccion" placeholder="Dirección" required>{{ $client->direccion }}</textarea>
+                        <textarea class="form-control @error('direccion') is-invalid @enderror" name="direccion" placeholder="Dirección" maxlength="50" required>{{ $client->direccion }}</textarea>
                         @error('direccion')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror

@@ -35,7 +35,7 @@
                                     </div>
                                     <input type="text" name="cedula" value="{{ old('cedula') }}" 
                                            class="form-control border-0 bg-light @error('cedula') is-invalid @enderror" 
-                                           placeholder="Ej: 12345678" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           placeholder="Ej: 12345678" maxlength="8" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                                 @error('cedula')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
@@ -52,7 +52,7 @@
                                     </div>
                                     <input type="text" name="telefono" value="{{ old('telefono') }}" 
                                            class="form-control border-0 bg-light @error('telefono') is-invalid @enderror" 
-                                           placeholder="Ej: 04121234567" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           placeholder="Ej: 04121234567" maxlength="11" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                                 @error('telefono')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
@@ -63,7 +63,7 @@
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Nombres</label>
                                 <input type="text" name="nombres" value="{{ old('nombres') }}" 
                                        class="form-control border-0 bg-light @error('nombres') is-invalid @enderror" 
-                                       placeholder="Nombres del cliente" required style="border-radius: 10px; height: 45px;">
+                                       placeholder="Nombres del cliente" maxlength="50" required style="border-radius: 10px; height: 45px;">
                                 @error('nombres')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
                                 @enderror
@@ -73,7 +73,7 @@
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Apellidos</label>
                                 <input type="text" name="apellidos" value="{{ old('apellidos') }}" 
                                        class="form-control border-0 bg-light @error('apellidos') is-invalid @enderror" 
-                                       placeholder="Apellidos del cliente" required style="border-radius: 10px; height: 45px;">
+                                       placeholder="Apellidos del cliente" maxlength="50" required style="border-radius: 10px; height: 45px;">
                                 @error('apellidos')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
                                 @enderror
@@ -82,7 +82,7 @@
                             <div class="col-12 mb-4">
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Dirección</label>
                                 <textarea name="direccion" class="form-control border-0 bg-light @error('direccion') is-invalid @enderror" 
-                                          placeholder="Dirección completa..." required rows="3" style="border-radius: 12px;">{{ old('direccion') }}</textarea>
+                                          placeholder="Dirección completa..." maxlength="50" required rows="3" style="border-radius: 12px;">{{ old('direccion') }}</textarea>
                                 @error('direccion')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
                                 @enderror

@@ -35,4 +35,19 @@ class Client extends Model
     protected $fillable = [
         'cedula','nombres', 'apellidos', 'telefono', 'direccion', 'is_active'
     ];
+
+    public function setNombresAttribute($value)
+    {
+        $this->attributes['nombres'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setApellidosAttribute($value)
+    {
+        $this->attributes['apellidos'] = mb_strtoupper($value, 'UTF-8');
+    }
+
+    public function setDireccionAttribute($value)
+    {
+        $this->attributes['direccion'] = mb_strtoupper($value, 'UTF-8');
+    }
 }
