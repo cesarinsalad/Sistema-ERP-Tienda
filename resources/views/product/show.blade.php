@@ -74,6 +74,49 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="col-md-6 pl-4">
+                    <h5 class="font-weight-bold mb-3" style="color: #334155; font-size: 1.1rem;">
+                        <i class="fas fa-history mr-2" style="color: #7D266E;"></i> Historial de Compras de Stock
+                    </h5>
+                    
+                    @if($articulo->stockPurchases->isEmpty())
+                        <div class="alert alert-light text-muted border d-flex align-items-center" style="border-radius: 12px; background-color: #F8FAFC;">
+                            <i class="fas fa-info-circle mr-2" style="color: #64748B;"></i> No hay registros de compras de stock.
+                        </div>
+                    @else
+                        <div class="table-responsive" style="max-height: 320px; overflow-y: auto;">
+                            <table class="table table-sm table-hover border-0">
+                                <thead class="text-muted small font-weight-bold text-uppercase" style="background-color: #F8FAFC;">
+                                    <tr>
+                                        <th class="border-0">Fecha</th>
+                                        <th class="border-0">Proveedor</th>
+                                        <th class="border-0 text-center">Cant.</th>
+                                        <th class="border-0 text-right">Costo Unit.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($articulo->stockPurchases as $purchase)
+                                        <tr style="border-bottom: 1px solid #F1F5F9;">
+                                            <td class="align-middle font-weight-500 text-muted border-0" style="font-size: 0.9rem;">
+                                                {{ \Carbon\Carbon::parse($purchase->fecha_compra)->format('d/m/Y') }}
+                                            </td>
+                                            <td class="align-middle font-weight-bold text-dark border-0" style="font-size: 0.9rem;">
+                                                {{ $purchase->vendor->name ?? 'N/A' }}
+                                            </td>
+                                            <td class="align-middle text-center font-weight-bold border-0" style="font-size: 0.95rem; color: #7D266E;">
+                                                {{ $purchase->cantidad }}
+                                            </td>
+                                            <td class="align-middle text-right font-weight-bold text-success border-0" style="font-size: 0.95rem;">
+                                                ${{ number_format($purchase->costo_unitario, 2, ',', '.') }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

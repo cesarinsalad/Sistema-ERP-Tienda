@@ -50,8 +50,9 @@ class ProductController extends Controller
         $tasaDolar = Exchangerate::updateTodayRate()->value;
         $brands = Brand::where('is_active', true)->orderBy('name')->get();
         $categories = Category::where('is_active', true)->orderBy('name')->get();
+        $vendors = Vendor::where('is_active', true)->orderBy('name')->get();
 
-        return view('product.index', compact('articulos', 'tasaDolar', 'brands', 'categories'))
+        return view('product.index', compact('articulos', 'tasaDolar', 'brands', 'categories', 'vendors'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -89,8 +90,9 @@ class ProductController extends Controller
         $tasaDolar = Exchangerate::updateTodayRate()->value;
         $brands = Brand::where('is_active', true)->orderBy('name')->get();
         $categories = Category::where('is_active', true)->orderBy('name')->get();
+        $vendors = Vendor::where('is_active', true)->orderBy('name')->get();
 
-        return view('product.inactivos', compact('articulos', 'tasaDolar', 'brands', 'categories'))
+        return view('product.inactivos', compact('articulos', 'tasaDolar', 'brands', 'categories', 'vendors'))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -132,6 +134,7 @@ class ProductController extends Controller
         $data['articulo'] = $articulo->load([
             'category',
             'brand',
+            'stockPurchases.vendor',
         ]);
 
         $ordenes = Product_order::
@@ -231,11 +234,22 @@ class ProductController extends Controller
     {
         $request->validate([
             'cantidad_adicional' => 'required|integer|min:1',
+            'vendor_id'          => 'required|exists:vendors,id',
+            'costo_unitario'     => 'required|numeric|min:0',
+            'fecha_compra'       => 'required|date',
+        ]);
+
+        \App\StockPurchase::create([
+            'product_id'     => $articulo->id,
+            'vendor_id'      => $request->vendor_id,
+            'cantidad'       => $request->cantidad_adicional,
+            'costo_unitario' => $request->costo_unitario,
+            'fecha_compra'   => $request->fecha_compra,
         ]);
 
         $articulo->cantidad += $request->cantidad_adicional;
         $articulo->save();
 
-        return redirect()->back()->with('success', 'Se ha agregado stock exitosamente al producto: ' . $articulo->nombre);
+        return redirect()->back()->with('success', 'Se ha agregado stock y registrado la compra exitosamente para ' . $articulo->nombre);
     }
 }

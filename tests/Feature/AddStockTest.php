@@ -37,6 +37,9 @@ class AddStockTest extends TestCase
             ->from(route('articulo.index'))
             ->post(route('articulo.addStock', $product->id), [
                 'cantidad_adicional' => 15,
+                'vendor_id' => $vendor->id,
+                'costo_unitario' => 5.50,
+                'fecha_compra' => '2026-06-17',
             ]);
 
         // 5. Assertions
@@ -44,6 +47,15 @@ class AddStockTest extends TestCase
         $response->assertSessionHas('success');
 
         $this->assertEquals(25, $product->fresh()->cantidad);
+
+        // Assert purchase log was created
+        $this->assertDatabaseHas('stock_purchases', [
+            'product_id' => $product->id,
+            'vendor_id' => $vendor->id,
+            'cantidad' => 15,
+            'costo_unitario' => 5.50,
+            'fecha_compra' => '2026-06-17',
+        ]);
     }
 
     /** @test */
@@ -64,6 +76,9 @@ class AddStockTest extends TestCase
         $response = $this->actingAs($regularUser)
             ->post(route('articulo.addStock', $product->id), [
                 'cantidad_adicional' => 15,
+                'vendor_id' => $vendor->id,
+                'costo_unitario' => 5.50,
+                'fecha_compra' => '2026-06-17',
             ]);
 
         $response->assertStatus(403); // Forbidden

@@ -165,8 +165,8 @@
                                                     <i class="fas fa-power-off"></i>
                                                 </button>
                                             </form>
-                                        </div>
-                                    </td>
+                                         </div>
+                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -211,6 +211,25 @@
                                 <input type="number" name="cantidad_adicional" min="1" required class="form-control border-0 bg-light font-weight-bold text-purple text-center" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;" placeholder="Ej: 10">
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <label class="text-muted small font-weight-bold text-uppercase mb-1">Proveedor</label>
+                            <select name="vendor_id" required class="form-control border-0 bg-light font-weight-bold text-dark" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;">
+                                <option value="">Seleccione un Proveedor...</option>
+                                @foreach($vendors as $vendor)
+                                    <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label class="text-muted small font-weight-bold text-uppercase mb-1">Costo Unitario ($)</label>
+                                <input type="number" step="0.01" min="0" name="costo_unitario" required class="form-control border-0 bg-light font-weight-bold text-dark text-center" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;" placeholder="Ej: 5.50">
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label class="text-muted small font-weight-bold text-uppercase mb-1">Fecha de Compra</label>
+                                <input type="date" name="fecha_compra" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required class="form-control border-0 bg-light font-weight-bold text-dark text-center" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer border-0 p-3 bg-light d-flex justify-content-end" style="border-bottom-left-radius: 1.25rem; border-bottom-right-radius: 1.25rem; gap: 10px;">
                         <button type="button" class="btn px-4 font-weight-bold btn-light" data-dismiss="modal" style="border-radius: 10px; height: 45px;">
@@ -245,8 +264,13 @@
                 $('#modalCurrentStock').val(stock);
                 $('#addStockForm').attr('action', url);
                 
-                // Limpiar el campo de cantidad al abrir el modal
+                // Limpiar/resetear los campos del modal al abrirlo
                 $('#addStockForm').find('input[name="cantidad_adicional"]').val('');
+                $('#addStockForm').find('select[name="vendor_id"]').val('');
+                $('#addStockForm').find('input[name="costo_unitario"]').val('');
+                
+                var today = new Date().toISOString().split('T')[0];
+                $('#addStockForm').find('input[name="fecha_compra"]').val(today);
             });
         });
     </script>

@@ -63,4 +63,9 @@ class Product extends Model
     {
         return $this->belongsToMany('App\Category','product_categories', 'product_id', 'category_id');
     }
+
+    public function stockPurchases()
+    {
+        return $this->hasMany(StockPurchase::class, 'product_id')->orderBy('fecha_compra', 'desc');
+    }
 }
