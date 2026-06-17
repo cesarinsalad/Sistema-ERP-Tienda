@@ -315,6 +315,10 @@
         const commonOptions = (title, yLabel) => ({
             responsive: true,
             maintainAspectRatio: true,
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
             plugins: {
                 title: { display: false },
                 legend: { display: false },
@@ -328,12 +332,17 @@
             },
             scales: {
                 x: {
-                    grid: { display: false },
+                    grid: { 
+                        display: true, 
+                        color: 'rgba(148,163,184,0.08)',
+                        drawOnChartArea: true,
+                        drawTicks: false
+                    },
                     ticks: { color: '#94a3b8', font: { size: 11 } },
                     title: { display: true, text: 'Días', color: '#94a3b8', font: { size: 11 } }
                 },
                 y: {
-                    grid: { color: 'rgba(148,163,184,0.15)' },
+                    grid: { display: false },
                     ticks: { color: '#94a3b8', font: { size: 11 } },
                     title: { display: true, text: yLabel, color: '#94a3b8', font: { size: 11 } }
                 }
@@ -343,6 +352,10 @@
 
         // Chart 1 – Orders
         const ctx1 = document.getElementById('prediccion').getContext('2d');
+        const gradient1 = ctx1.createLinearGradient(0, 0, 0, 220);
+        gradient1.addColorStop(0, 'rgba(139, 92, 246, 0.35)');
+        gradient1.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
+
         new Chart(ctx1, {
             type: 'line',
             data: {
@@ -350,14 +363,17 @@
                 datasets: [{
                     label: 'Órdenes',
                     data: {!! $cantidadPorDiaOrders !!},
-                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    backgroundColor: gradient1,
                     borderColor: '#8B5CF6',
-                    borderWidth: 3,
+                    borderWidth: 2,
                     pointBackgroundColor: '#8B5CF6',
                     pointBorderColor: '#fff',
                     pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#8B5CF6',
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 2,
                     fill: true,
                     tension: 0.4
                 }]
@@ -367,6 +383,10 @@
 
         // Chart 2 – Products
         const ctx2 = document.getElementById('products').getContext('2d');
+        const gradient2 = ctx2.createLinearGradient(0, 0, 0, 220);
+        gradient2.addColorStop(0, 'rgba(125, 38, 110, 0.35)');
+        gradient2.addColorStop(1, 'rgba(125, 38, 110, 0.0)');
+
         new Chart(ctx2, {
             type: 'line',
             data: {
@@ -374,14 +394,17 @@
                 datasets: [{
                     label: 'Productos',
                     data: {!! $cantidadPorDiaProducts !!},
-                    backgroundColor: 'rgba(125, 38, 110, 0.1)',
+                    backgroundColor: gradient2,
                     borderColor: '#7D266E',
-                    borderWidth: 3,
+                    borderWidth: 2,
                     pointBackgroundColor: '#7D266E',
                     pointBorderColor: '#fff',
                     pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#7D266E',
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 2,
                     fill: true,
                     tension: 0.4
                 }]
@@ -391,6 +414,10 @@
 
         // Chart 3 – Revenue
         const ctx3 = document.getElementById('ganancia').getContext('2d');
+        const gradient3 = ctx3.createLinearGradient(0, 0, 0, 220);
+        gradient3.addColorStop(0, 'rgba(76, 29, 149, 0.35)');
+        gradient3.addColorStop(1, 'rgba(76, 29, 149, 0.0)');
+
         new Chart(ctx3, {
             type: 'line',
             data: {
@@ -398,14 +425,17 @@
                 datasets: [{
                     label: 'Ingresos',
                     data: {!! $cantidadPorDiaWins !!},
-                    backgroundColor: 'rgba(76, 29, 149, 0.1)',
+                    backgroundColor: gradient3,
                     borderColor: '#4C1D95',
-                    borderWidth: 3,
+                    borderWidth: 2,
                     pointBackgroundColor: '#4C1D95',
                     pointBorderColor: '#fff',
                     pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#4C1D95',
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 2,
                     fill: true,
                     tension: 0.4
                 }]

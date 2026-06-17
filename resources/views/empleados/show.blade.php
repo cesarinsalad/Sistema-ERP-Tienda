@@ -211,6 +211,10 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const ctx = document.getElementById('performanceChart').getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 220);
+        gradient.addColorStop(0, 'rgba(125, 38, 110, 0.35)');
+        gradient.addColorStop(1, 'rgba(125, 38, 110, 0.0)');
+
         new Chart(ctx, {
             type: 'line',
             data: {
@@ -219,34 +223,46 @@
                     label: 'Ventas Mensuales ($)',
                     data: @json($data),
                     borderColor: '#7D266E',
-                    backgroundColor: 'rgba(125, 38, 110, 0.1)',
-                    borderWidth: 3,
+                    backgroundColor: gradient,
+                    borderWidth: 2,
                     tension: 0.4,
                     fill: true,
                     pointBackgroundColor: '#7D266E',
                     pointBorderColor: '#fff',
                     pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#7D266E',
+                    pointHoverBorderColor: '#fff',
+                    pointHoverBorderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
                 plugins: {
                     legend: { display: false }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: { borderDash: [5, 5], color: '#e2e8f0' },
+                        grid: { display: false },
                         ticks: {
                             callback: function(value) { return '$' + value; },
                             font: { size: 11 }
                         }
                     },
                     x: {
-                        grid: { display: false },
+                        grid: {
+                            display: true,
+                            color: 'rgba(148, 163, 184, 0.08)',
+                            drawOnChartArea: true,
+                            drawTicks: false
+                        },
                         ticks: { font: { size: 11 } }
                     }
                 }
