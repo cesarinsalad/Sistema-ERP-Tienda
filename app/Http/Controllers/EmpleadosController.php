@@ -59,7 +59,6 @@ class EmpleadosController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'document' => 'required|string|unique:empleados',
             'phone' => 'nullable|string',
-            'position' => 'required|string',
             'salary' => 'required|numeric|min:0',
             'role' => 'required|in:admin,empleado'
         ]);
@@ -74,11 +73,18 @@ class EmpleadosController extends Controller
                 'role' => $request->role
             ]);
 
+            $roleToPosition = [
+                'admin' => 'Administrador',
+                'empleado' => 'Empleado',
+                'super_admin' => 'Super Administrador',
+            ];
+            $position = $roleToPosition[$request->role] ?? ucfirst($request->role);
+
             Empleados::create([
                 'user_id' => $user->id,
                 'document' => $request->document,
                 'phone' => $request->phone,
-                'position' => $request->position,
+                'position' => $position,
                 'salary' => $request->salary,
                 'is_active' => true
             ]);
@@ -193,7 +199,6 @@ class EmpleadosController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,'.$empleado->user_id,
             'document' => 'required|string|unique:empleados,document,'.$id,
             'phone' => 'nullable|string',
-            'position' => 'required|string',
             'salary' => 'required|numeric|min:0',
             'role' => 'required|in:admin,empleado'
         ]);
@@ -211,10 +216,17 @@ class EmpleadosController extends Controller
                 'role' => $newRole
             ]);
 
+            $roleToPosition = [
+                'admin' => 'Administrador',
+                'empleado' => 'Empleado',
+                'super_admin' => 'Super Administrador',
+            ];
+            $position = $roleToPosition[$newRole] ?? ucfirst($newRole);
+
             $empleado->update([
                 'document' => $request->document,
                 'phone' => $request->phone,
-                'position' => $request->position,
+                'position' => $position,
                 'salary' => $request->salary,
                 'is_active' => $newIsActive
             ]);

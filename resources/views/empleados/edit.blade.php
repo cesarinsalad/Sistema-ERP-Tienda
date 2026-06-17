@@ -99,13 +99,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-4">
-                                <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Cargo / Posición</label>
-                                <input type="text" name="position" value="{{ old('position', $empleado->position) }}" 
-                                       class="form-control border-0 bg-light" required style="border-radius: 10px; height: 45px;">
-                            </div>
-
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-6 mb-4">
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Sueldo Mensual ($)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -118,7 +112,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-6 mb-4">
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Nivel de Acceso</label>
                                 @php($isSelf = auth()->id() === $empleado->user_id)
                                 <select name="role" class="form-control border-0 bg-light" style="border-radius: 10px; height: 45px;" required {{ $isSelf || ($empleado->user->role ?? '') === 'super_admin' ? 'disabled' : '' }}>
