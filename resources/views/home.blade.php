@@ -309,7 +309,23 @@
 
     /* Table Styling */
     .metrics-table td { padding: 1.25rem 0.75rem; vertical-align: middle; }
-    .quantity-input { width: 70px; text-align: center; border-radius: 0.75rem; border: 1px solid #E2E8F0; padding: 5px; font-weight: 600; }
+    .quantity-input::-webkit-outer-spin-button,
+    .quantity-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .quantity-input {
+        -moz-appearance: textfield;
+        width: 50px;
+        text-align: center;
+        border: none;
+        background: transparent;
+        font-weight: 700;
+        color: #1E293B;
+        font-size: 0.95rem;
+        margin: 0;
+        padding: 0;
+    }
     
     .btn-remove-item { width: 32px; height: 32px; border-radius: 10px; background: #FEE2E2; color: #EF4444; border: none; transition: all 0.2s; }
     .btn-remove-item:hover { background: #EF4444; color: white; }
@@ -610,7 +626,15 @@ $(document).ready(function () {
                         <td class="font-weight-bold" style="color: #64748B;">${p.code}</td>
                         <td class="font-weight-bold text-dark">${p.name}</td>
                         <td class="text-center">
-                            <input type="number" class="quantity-input" data-idx="${idx}" value="${p.quantity}" min="1" max="${p.stockQuantity}">
+                            <div class="d-inline-flex align-items-center" style="gap: 4px; border: 1px solid #E2E8F0; border-radius: 10px; padding: 2px; background: #F8FAFC;">
+                                <button type="button" class="btn btn-sm btn-light btn-qty-minus d-flex align-items-center justify-content-center" data-idx="${idx}" style="width: 28px; height: 28px; border-radius: 8px; border: none; background: white; font-weight: bold; color: #475569; font-size: 0.8rem;">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" class="quantity-input" data-idx="${idx}" value="${p.quantity}" min="1" max="${p.stockQuantity}" readonly>
+                                <button type="button" class="btn btn-sm btn-light btn-qty-plus d-flex align-items-center justify-content-center" data-idx="${idx}" style="width: 28px; height: 28px; border-radius: 8px; border: none; background: white; font-weight: bold; color: #475569; font-size: 0.8rem;">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
                         </td>
                         <td class="text-right font-weight-bold text-dark">$${subtotal.toFixed(2)}</td>
                         <td class="text-center">
@@ -667,6 +691,24 @@ $(document).ready(function () {
     }
 
     // EVENT DELEGATION
+    $(document).on('click', '.btn-qty-minus', function() {
+        const idx = $(this).data('idx');
+        if (productList[idx].quantity > 1) {
+            productList[idx].quantity--;
+            refreshUI();
+        }
+    });
+
+    $(document).on('click', '.btn-qty-plus', function() {
+        const idx = $(this).data('idx');
+        if (productList[idx].quantity < productList[idx].stockQuantity) {
+            productList[idx].quantity++;
+            refreshUI();
+        } else {
+            showError('Stock insuficiente.');
+        }
+    });
+
     $(document).on('change', '.quantity-input', function() {
         const idx = $(this).data('idx');
         const val = parseInt($(this).val());
