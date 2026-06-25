@@ -82,6 +82,13 @@
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
+
+            $('textarea[name="direccion"]').on('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    $(this).closest('form').submit();
+                }
+            });
         })
     </script>
 @stop
