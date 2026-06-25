@@ -78,6 +78,13 @@ class SalesSeeder extends Seeder
             // For simplicity, we just use one payment method covering the full amount in USD
             $method = $paymentMethods->random();
             $pagoAmount = $method->moneda == '$' ? $totalAmount : ($totalAmount * $tasa->value);
+
+            // Evitar overflow en base de datos si la tasa es alta y la moneda es Bs
+            if ($pagoAmount > 999999) {
+                $method = $paymentMethods->where('moneda', '$')->first() ?? $method;
+                $pagoAmount = $totalAmount;
+            }
+
             $reference = Str::contains(strtoupper($method->nombre_metodo), 'EFECTIVO') ? null : $faker->numerify('REF########');
 
             $order->paymentMethods()->attach([
