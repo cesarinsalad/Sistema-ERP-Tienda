@@ -179,7 +179,7 @@
 
                             <div class="mb-3">
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Vendedor (Opcional)</label>
-                                <select name="vendedor_id" class="form-control selectpicker border-0 bg-light" id="vendedorSelect" data-live-search="true" title="Seleccione Vendedor">
+                                <select name="vendedor_id" class="form-control selectpicker bg-white" id="vendedorSelect" data-live-search="true" title="Seleccione Vendedor" data-style="btn-white border border-secondary btn-sm text-dark font-weight-bold">
                                     <option value="">Ninguno</option>
                                     @foreach($vendedores as $vendedor)
                                         <option value="{{ $vendedor->id }}">
@@ -213,11 +213,13 @@
                                                     </div>
                                                     <div style="flex: 1; display: flex; align-items: center; justify-content: space-between;">
                                                         <span class="font-weight-bold text-dark small" style="font-size: 0.8rem; margin: 0;">{{ $method->nombre_metodo }}</span>
-                                                        <span class="badge badge-light text-muted border px-1" style="font-size: 0.65rem; border-radius: 4px; font-weight: normal; letter-spacing: 0.5px;">Alt+{{ $index + 1 }}</span>
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge badge-light text-muted border px-1 mr-2" style="font-size: 0.65rem; border-radius: 4px; font-weight: normal; letter-spacing: 0.5px;">Alt+{{ $index + 1 }}</span>
+                                                            <div class="check-icon invisible" style="color: #7D266E;">
+                                                                <i class="fas fa-check-circle"></i>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="check-icon invisible ml-2" style="color: #7D266E;">
-                                                    <i class="fas fa-check-circle"></i>
                                                 </div>
                                             </button>
                                             
@@ -319,8 +321,8 @@
     /* Custom Selectpicker Styling */
     .bootstrap-select .btn { 
         background: white !important; 
-        border: none !important; 
-        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important; 
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
         font-weight: 600;
         color: #475569 !important;
         font-size: 0.85rem !important;
@@ -413,6 +415,8 @@ $(document).ready(function () {
         $('#err-description').text({!! json_encode($errors->first()) !!});
         $('#errorModal').modal('show');
     @endif
+
+    refreshUI();
 
     // 1. CLIENT IDENTIFICATION
     $('#busqueda').on('keypress', function(e) {
@@ -771,8 +775,14 @@ $(document).ready(function () {
             const absBal = Math.abs(balanceUSD);
             const balanceText = '$' + absBal.toFixed(2) + ' / ' + (absBal * tasa).toLocaleString('es-VE', { minimumFractionDigits: 2 }) + ' Bs';
             $('#balance-display').text(balanceText).attr('class', 'font-weight-bold ' + colorClass);
+            $('#generateOrderBtn').prop('disabled', true).css('opacity', '0.5');
         } else {
             $('#balance-row').attr('style', 'display: none !important;');
+            if (totalOrder > 0 && Math.abs(balanceUSD) <= 0.009) {
+                $('#generateOrderBtn').prop('disabled', false).css('opacity', '1');
+            } else {
+                $('#generateOrderBtn').prop('disabled', true).css('opacity', '0.5');
+            }
         }
 
         updateHiddenInputs();
