@@ -63,7 +63,7 @@
                                     </div>
                                     <input type="text" name="document" value="{{ old('document') }}" 
                                            class="form-control border-0 bg-light @error('document') is-invalid @enderror" 
-                                           placeholder="Ej: V-25123456" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           placeholder="Ej: 25123456" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                                 <small class="text-muted mt-2 d-block px-1"><i class="fas fa-info-circle mr-1"></i> Este documento será la <b>contraseña inicial</b>.</small>
                             </div>
@@ -78,7 +78,7 @@
                                     </div>
                                     <input type="text" name="phone" value="{{ old('phone') }}" 
                                            class="form-control border-0 bg-light @error('phone') is-invalid @enderror" 
-                                           placeholder="Ej: 0412-1234567" style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           placeholder="Ej: 04121234567" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');" style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                             </div>
 

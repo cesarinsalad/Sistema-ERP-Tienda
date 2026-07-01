@@ -85,9 +85,9 @@
                                             <i class="fas fa-dollar-sign text-muted"></i>
                                         </span>
                                     </div>
-                                    <input type="text" name="precio" value="{{ old('precio') }}" 
+                                    <input type="number" name="precio" value="{{ old('precio') }}" 
                                            class="form-control border-0 bg-light @error('precio') is-invalid @enderror" 
-                                           placeholder="0.00" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           placeholder="0.00" step="0.01" min="0" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" required style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                                 @error('precio')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>

@@ -32,7 +32,7 @@ class EmployeeCommissionTest extends TestCase
         $response = $this->actingAs($this->admin)->post(route('empleados.store'), [
             'name' => 'John Seller',
             'email' => 'john@example.com',
-            'document' => 'V-99999999',
+            'document' => '99999999',
             'phone' => '04149999999',
             'salary' => '250.00',
             'commission_percent' => '7.50',
@@ -42,7 +42,7 @@ class EmployeeCommissionTest extends TestCase
         $response->assertStatus(302);
         
         $this->assertDatabaseHas('empleados', [
-            'document' => 'V-99999999',
+            'document' => '99999999',
             'commission_percent' => 7.50,
             'salary' => 250.00,
         ]);

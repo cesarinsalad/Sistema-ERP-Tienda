@@ -60,7 +60,7 @@
                                     </div>
                                     <input type="text" name="document" value="{{ old('document') }}" 
                                            class="form-control border-0 bg-light @error('document') is-invalid @enderror" 
-                                           placeholder="Ej: J-12345678-9" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           placeholder="Ej: J-12345678-9" maxlength="15" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9\-]/g, '');" required style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                                 @error('document')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
@@ -77,7 +77,7 @@
                                     </div>
                                     <input type="text" name="phone" value="{{ old('phone') }}" 
                                            class="form-control border-0 bg-light @error('phone') is-invalid @enderror" 
-                                           placeholder="Ej: 02121234567" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           placeholder="Ej: 02121234567" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                                 @error('phone')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>

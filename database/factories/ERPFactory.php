@@ -42,7 +42,7 @@ $factory->define(Vendor::class, function (Faker $faker) {
         'type_document' => $faker->randomElement(['CI', 'RIF']),
         'document' => $faker->unique()->randomNumber(8),
         'email' => $faker->unique()->safeEmail,
-        'phone' => $faker->phoneNumber,
+        'phone' => $faker->numerify('0414#######'),
         'description' => $faker->sentence,
     ];
 });
@@ -64,7 +64,7 @@ $factory->define(Empleados::class, function (Faker $faker) {
     return [
         'user_id' => factory(User::class)->create()->id,
         'document' => $faker->unique()->randomNumber(8),
-        'phone' => $faker->phoneNumber,
+        'phone' => $faker->numerify('0414#######'),
         'position' => $faker->jobTitle,
         'salary' => $faker->randomFloat(2, 200, 1000),
         'is_active' => true,

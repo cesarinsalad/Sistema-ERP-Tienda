@@ -46,8 +46,8 @@
 
                     <div class="col-md-4 mb-3">
                         <label>Precio ($)</label>
-                        <input type="text" value="@if(@old('precio')){{ @old('precio') }}@else{{ $articulo->precio }}@endif"
-                               class="form-control @error('precio') is-invalid @enderror" name="precio">
+                        <input type="number" value="@if(@old('precio')){{ @old('precio') }}@else{{ $articulo->precio }}@endif"
+                               class="form-control @error('precio') is-invalid @enderror" name="precio" step="0.01" min="0" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();">
                         @error('precio')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror

@@ -65,7 +65,7 @@
                                             </span>
                                         </div>
                                         <input type="number" step="0.01" name="amount" id="amountInput" class="form-control border-0 bg-light" 
-                                               placeholder="0.00" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                               placeholder="0.00" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" required style="border-radius: 0 10px 10px 0; height: 45px;">
                                     </div>
                                     <button class="btn ml-2 d-flex align-items-center justify-content-center" type="button" id="btnSueldoBase" 
                                             title="Usar sueldo base" style="border-radius: 10px; background: #EEE1ED; color: #7D266E; height: 45px; width: 45px; flex-shrink: 0;">

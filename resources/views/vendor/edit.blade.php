@@ -37,7 +37,7 @@
 
                     <div class="col-md-4 mb-3">
                         <label>Documento</label>
-                        <input type="text" class="form-control @error('document') is-invalid @enderror" name="document" placeholder="Documento" value="{{ $vendor->document }}" required>
+                        <input type="text" class="form-control @error('document') is-invalid @enderror" name="document" placeholder="Documento" value="{{ $vendor->document }}" maxlength="15" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9\-]/g, '');" required>
                         @error('document')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -53,7 +53,7 @@
 
                     <div class="col-md-6 mb-3">
                         <label>Teléfono</label>
-                        <input type="text" class="form-control @error('phone') is-invalid @enderror" value="{{ $vendor->phone }}" name="phone" placeholder="Número telefónico">
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror" value="{{ $vendor->phone }}" name="phone" placeholder="Número telefónico" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         @error('phone')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror

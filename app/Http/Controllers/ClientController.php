@@ -70,8 +70,8 @@ class ClientController extends Controller
     {
         $request->validate([
             'cedula' => ['required', 'regex:/^[0-9]{1,8}$/', 'unique:clients,cedula'],
-            'nombres' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/u'],
-            'apellidos' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/u'],
+            'nombres' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/u'],
+            'apellidos' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/u'],
             'telefono' => ['required', 'regex:/^[0-9]{11}$/'],
             'direccion' => ['required', 'string', 'max:50'],
         ], [
@@ -82,10 +82,10 @@ class ClientController extends Controller
             'telefono.regex' => 'El teléfono debe contener solo números y tener exactamente 11 caracteres.',
             'nombres.required' => 'El nombre es obligatorio.',
             'nombres.max' => 'El nombre no puede superar los 50 caracteres.',
-            'nombres.regex' => 'El nombre solo puede contener letras, espacios, guiones, apóstrofes y puntos.',
+            'nombres.regex' => 'El nombre solo puede contener letras y espacios.',
             'apellidos.required' => 'El apellido es obligatorio.',
             'apellidos.max' => 'El apellido no puede superar los 50 caracteres.',
-            'apellidos.regex' => 'El apellido solo puede contener letras, espacios, guiones, apóstrofes y puntos.',
+            'apellidos.regex' => 'El apellido solo puede contener letras y espacios.',
             'direccion.required' => 'La dirección es obligatoria.',
             'direccion.max' => 'La dirección no puede superar los 50 caracteres.',
         ]);
@@ -172,8 +172,8 @@ class ClientController extends Controller
     {
         $request->validate([
             'cedula' => ['required', 'regex:/^[0-9]{1,8}$/', 'unique:clients,cedula,' . $client],
-            'nombres' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/u'],
-            'apellidos' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/u'],
+            'nombres' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/u'],
+            'apellidos' => ['required', 'string', 'max:50', 'regex:/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/u'],
             'telefono' => ['required', 'regex:/^[0-9]{11}$/'],
             'direccion' => ['required', 'string', 'max:50'],
         ], [
@@ -184,10 +184,10 @@ class ClientController extends Controller
             'telefono.regex' => 'El teléfono debe contener solo números y tener exactamente 11 caracteres.',
             'nombres.required' => 'El nombre es obligatorio.',
             'nombres.max' => 'El nombre no puede superar los 50 caracteres.',
-            'nombres.regex' => 'El nombre solo puede contener letras, espacios, guiones, apóstrofes y puntos.',
+            'nombres.regex' => 'El nombre solo puede contener letras y espacios.',
             'apellidos.required' => 'El apellido es obligatorio.',
             'apellidos.max' => 'El apellido no puede superar los 50 caracteres.',
-            'apellidos.regex' => 'El apellido solo puede contener letras, espacios, guiones, apóstrofes y puntos.',
+            'apellidos.regex' => 'El apellido solo puede contener letras y espacios.',
             'direccion.required' => 'La dirección es obligatoria.',
             'direccion.max' => 'La dirección no puede superar los 50 caracteres.',
         ]);

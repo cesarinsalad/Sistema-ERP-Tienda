@@ -26,7 +26,7 @@ class EmployeeRolePositionTest extends TestCase
         $response = $this->actingAs($this->admin)->post(route('empleados.store'), [
             'name' => 'John Doe',
             'email' => 'john@example.com',
-            'document' => 'V-12345678',
+            'document' => '12345678',
             'phone' => '04141234567',
             'salary' => '300.00',
             'role' => 'empleado',
@@ -35,7 +35,7 @@ class EmployeeRolePositionTest extends TestCase
         $response->assertStatus(302); // Redirects to index
         
         $this->assertDatabaseHas('empleados', [
-            'document' => 'V-12345678',
+            'document' => '12345678',
             'position' => 'Empleado',
             'salary' => 300.00,
         ]);

@@ -25,7 +25,7 @@
 
                     <div class="col-md-3 mb-3">
                         <label>Nombres</label>
-                        <input type="text" class="form-control @error('nombres') is-invalid @enderror" value="{{ $client->nombres }}" name="nombres" placeholder="Nombres" maxlength="50" required>
+                        <input type="text" class="form-control @error('nombres') is-invalid @enderror" value="{{ $client->nombres }}" name="nombres" placeholder="Nombres" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]/g, '');" required>
                         @error('nombres')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror
@@ -35,7 +35,7 @@
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
                         <label>Apellidos</label>
-                        <input type="text" class="form-control @error('apellidos') is-invalid @enderror" value="{{ $client->apellidos }}" name="apellidos" placeholder="Apellidos" maxlength="50" required>
+                        <input type="text" class="form-control @error('apellidos') is-invalid @enderror" value="{{ $client->apellidos }}" name="apellidos" placeholder="Apellidos" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]/g, '');" required>
                         @error('apellidos')
                         <span class="text-danger mt-2">{{ $message }}</span>
                         @enderror

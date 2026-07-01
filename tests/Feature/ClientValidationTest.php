@@ -24,8 +24,8 @@ class ClientValidationTest extends TestCase
     {
         $response = $this->actingAs($this->admin)->post(route('client.store'), [
             'cedula' => '12345678',
-            'nombres' => "María O'Connor",
-            'apellidos' => 'Valdés-Díaz',
+            'nombres' => "María Connor",
+            'apellidos' => 'Valdés Díaz',
             'telefono' => '04121234567',
             'direccion' => 'Calle Muñoz, Edif. España',
         ]);
@@ -34,8 +34,8 @@ class ClientValidationTest extends TestCase
         
         $this->assertDatabaseHas('clients', [
             'cedula' => 12345678,
-            'nombres' => "MARÍA O'CONNOR",
-            'apellidos' => 'VALDÉS-DÍAZ',
+            'nombres' => "MARÍA CONNOR",
+            'apellidos' => 'VALDÉS DÍAZ',
             'telefono' => '04121234567',
             'direccion' => 'CALLE MUÑOZ, EDIF. ESPAÑA',
         ]);
@@ -101,6 +101,26 @@ class ClientValidationTest extends TestCase
             'direccion' => 'Calle Falsa 123',
         ]);
         $response->assertSessionHasErrors('nombres');
+
+        // 1b. Forbidden character like '
+        $response = $this->actingAs($this->admin)->post(route('client.store'), [
+            'cedula' => '12345678',
+            'nombres' => "Juan O'Perez",
+            'apellidos' => 'Perez',
+            'telefono' => '04121234567',
+            'direccion' => 'Calle Falsa 123',
+        ]);
+        $response->assertSessionHasErrors('nombres');
+
+        // 1c. Forbidden character like - in apellidos
+        $response = $this->actingAs($this->admin)->post(route('client.store'), [
+            'cedula' => '12345678',
+            'nombres' => 'Juan',
+            'apellidos' => 'Perez-Diaz',
+            'telefono' => '04121234567',
+            'direccion' => 'Calle Falsa 123',
+        ]);
+        $response->assertSessionHasErrors('apellidos');
 
         // 2. Too long nombres (> 50 chars)
         $response = $this->actingAs($this->admin)->post(route('client.store'), [

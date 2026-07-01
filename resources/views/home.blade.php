@@ -61,11 +61,11 @@
                             </div>
                              <div class="col-md-6 mb-3">
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Nombres</label>
-                                <input type="text" name="client_nom" id="client_nom" class="form-control border-0 bg-light rounded-lg" placeholder="Nombres del cliente" maxlength="50" required>
+                                <input type="text" name="client_nom" id="client_nom" class="form-control border-0 bg-light rounded-lg" placeholder="Nombres del cliente" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]/g, '');" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Apellidos</label>
-                                <input type="text" name="client_ape" id="client_ape" class="form-control border-0 bg-light rounded-lg" placeholder="Apellidos del cliente" maxlength="50" required>
+                                <input type="text" name="client_ape" id="client_ape" class="form-control border-0 bg-light rounded-lg" placeholder="Apellidos del cliente" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]/g, '');" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Teléfono</label>
@@ -497,15 +497,15 @@ $(document).ready(function () {
 
         if (!nombres) { showError('El nombre es obligatorio.'); return; }
         if (nombres.length > 50) { showError('El nombre no puede tener más de 50 caracteres.'); return; }
-        if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/.test(nombres)) {
-            showError('El nombre contiene caracteres no permitidos. Solo se permiten letras, espacios, guiones, apóstrofes y puntos.');
+        if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(nombres)) {
+            showError('El nombre contiene caracteres no permitidos. Solo se permiten letras y espacios.');
             return;
         }
 
         if (!apellidos) { showError('El apellido es obligatorio.'); return; }
         if (apellidos.length > 50) { showError('El apellido no puede tener más de 50 caracteres.'); return; }
-        if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/.test(apellidos)) {
-            showError('El apellido contiene caracteres no permitidos. Solo se permiten letras, espacios, guiones, apóstrofes y puntos.');
+        if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(apellidos)) {
+            showError('El apellido contiene caracteres no permitidos. Solo se permiten letras y espacios.');
             return;
         }
 
@@ -871,15 +871,15 @@ $(document).ready(function () {
 
             if (!nombres) { showError('El nombre es obligatorio.'); return; }
             if (nombres.length > 50) { showError('El nombre no puede tener más de 50 caracteres.'); return; }
-            if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/.test(nombres)) {
-                showError('El nombre contiene caracteres no permitidos. Solo se permiten letras, espacios, guiones, apóstrofes y puntos.');
+            if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(nombres)) {
+                showError('El nombre contiene caracteres no permitidos. Solo se permiten letras y espacios.');
                 return;
             }
 
             if (!apellidos) { showError('El apellido es obligatorio.'); return; }
             if (apellidos.length > 50) { showError('El apellido no puede tener más de 50 caracteres.'); return; }
-            if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s\-\'\.]+$/.test(apellidos)) {
-                showError('El apellido contiene caracteres no permitidos. Solo se permiten letras, espacios, guiones, apóstrofes y puntos.');
+            if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(apellidos)) {
+                showError('El apellido contiene caracteres no permitidos. Solo se permiten letras y espacios.');
                 return;
             }
 

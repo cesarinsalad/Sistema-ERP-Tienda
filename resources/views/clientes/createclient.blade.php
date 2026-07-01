@@ -63,7 +63,7 @@
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Nombres</label>
                                 <input type="text" name="nombres" value="{{ old('nombres') }}" 
                                        class="form-control border-0 bg-light @error('nombres') is-invalid @enderror" 
-                                       placeholder="Nombres del cliente" maxlength="50" required style="border-radius: 10px; height: 45px;">
+                                       placeholder="Nombres del cliente" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]/g, '');" required style="border-radius: 10px; height: 45px;">
                                 @error('nombres')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
                                 @enderror
@@ -73,7 +73,7 @@
                                 <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Apellidos</label>
                                 <input type="text" name="apellidos" value="{{ old('apellidos') }}" 
                                        class="form-control border-0 bg-light @error('apellidos') is-invalid @enderror" 
-                                       placeholder="Apellidos del cliente" maxlength="50" required style="border-radius: 10px; height: 45px;">
+                                       placeholder="Apellidos del cliente" maxlength="50" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]/g, '');" required style="border-radius: 10px; height: 45px;">
                                 @error('apellidos')
                                     <small class="text-danger font-weight-bold mt-1 d-block">{{ $message }}</small>
                                 @enderror

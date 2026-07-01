@@ -82,7 +82,7 @@
                                         </span>
                                     </div>
                                     <input type="text" name="document" value="{{ old('document', $empleado->document) }}" 
-                                           class="form-control border-0 bg-light" required style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           class="form-control border-0 bg-light" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                             </div>
 
@@ -95,7 +95,7 @@
                                         </span>
                                     </div>
                                     <input type="text" name="phone" value="{{ old('phone', $empleado->phone) }}" 
-                                           class="form-control border-0 bg-light" style="border-radius: 0 10px 10px 0; height: 45px;">
+                                           class="form-control border-0 bg-light" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');" style="border-radius: 0 10px 10px 0; height: 45px;">
                                 </div>
                             </div>
 

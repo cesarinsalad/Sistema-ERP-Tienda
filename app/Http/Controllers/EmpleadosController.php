@@ -57,11 +57,17 @@ class EmpleadosController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'document' => 'required|string|unique:empleados',
-            'phone' => 'nullable|string',
+            'document' => ['required', 'regex:/^[0-9]{1,8}$/', 'unique:empleados'],
+            'phone' => ['nullable', 'max:11', 'regex:/^[0-9]+$/'],
             'salary' => 'required|numeric|min:0',
             'commission_percent' => 'nullable|numeric|min:0|max:100',
             'role' => 'required|in:admin,empleado'
+        ], [
+            'document.required' => 'La cédula es obligatoria.',
+            'document.regex' => 'La cédula solo puede contener números enteros y tener un máximo de 8 caracteres.',
+            'document.unique' => 'La cédula ya se encuentra registrada.',
+            'phone.max' => 'El teléfono no puede tener más de 11 caracteres.',
+            'phone.regex' => 'El teléfono solo puede contener números.',
         ]);
 
         DB::beginTransaction();
@@ -199,11 +205,17 @@ class EmpleadosController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$empleado->user_id,
-            'document' => 'required|string|unique:empleados,document,'.$id,
-            'phone' => 'nullable|string',
+            'document' => ['required', 'regex:/^[0-9]{1,8}$/', 'unique:empleados,document,'.$id],
+            'phone' => ['nullable', 'max:11', 'regex:/^[0-9]+$/'],
             'salary' => 'required|numeric|min:0',
             'commission_percent' => 'nullable|numeric|min:0|max:100',
             'role' => 'required|in:admin,empleado'
+        ], [
+            'document.required' => 'La cédula es obligatoria.',
+            'document.regex' => 'La cédula solo puede contener números enteros y tener un máximo de 8 caracteres.',
+            'document.unique' => 'La cédula ya se encuentra registrada.',
+            'phone.max' => 'El teléfono no puede tener más de 11 caracteres.',
+            'phone.regex' => 'El teléfono solo puede contener números.',
         ]);
 
         DB::beginTransaction();
