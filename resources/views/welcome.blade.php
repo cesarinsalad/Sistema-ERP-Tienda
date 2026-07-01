@@ -17,11 +17,21 @@
             color: #f00000;
             margin: 0;
             font-family: sans-serif;
+            overflow: hidden;
         }
 
         #menu-container {
-            height: 50px;
-            color: #FFFFFF;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
         }
 
         .full-height {
@@ -32,7 +42,6 @@
             align-items: center;
             display: flex;
             justify-content: center;
-            z-index: 5000;
         }
 
         .position-ref {
@@ -41,8 +50,8 @@
 
         .top-right {
             position: absolute;
-            right: 10px;
-            top: 18px;
+            right: 30px;
+            top: 20px;
         }
 
         .content {
@@ -54,13 +63,23 @@
         }
 
         .links > a {
-            color: #000000;
-            padding: 0 25px;
+            color: #7D266E !important;
+            padding: 0.5rem 1.5rem;
             font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
+            font-weight: 700;
+            letter-spacing: .05rem;
             text-decoration: none;
             text-transform: uppercase;
+            border: 2px solid #7D266E;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .links > a:hover {
+            background: #7D266E;
+            color: #FFFFFF !important;
+            box-shadow: 0 4px 12px rgba(125, 38, 110, 0.2);
+            text-decoration: none;
         }
 
         .m-b-md {
@@ -70,12 +89,14 @@
         #fondo_1 {
             background-image: url(/imagenes/imagen1.jpg);
             background-position: center;
-            background-attachment: fixed;
             background-size: cover;
             background-repeat: no-repeat;
             width: 100%;
-            height: 100%;
-            position: absolute;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
             text-align: center;
         }
 

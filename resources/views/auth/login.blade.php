@@ -72,6 +72,10 @@
         @endif
 
     </form>
+
+    <div class="custom-global-footer">
+        Copyright &copy; GIGI FASHION IMPORT C.A.
+    </div>
 @stop
 
 @section('auth_footer')
@@ -167,6 +171,21 @@
         background-color: #631e58 !important;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(125, 38, 110, 0.3) !important;
+    }
+
+    /* Fixed global footer outside the card */
+    .custom-global-footer {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-size: 0.95rem;
+        font-weight: 500;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+        z-index: 9999;
+        pointer-events: none;
     }
 
 </style>
