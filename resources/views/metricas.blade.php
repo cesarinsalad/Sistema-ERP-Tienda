@@ -594,6 +594,19 @@
             ...tableStyles
         });
 
+        // Add page numbers
+        const totalPages = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+            doc.setPage(i);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor(120);
+            const pWidth = doc.internal.pageSize.getWidth();
+            const pHeight = doc.internal.pageSize.getHeight();
+            const pageText = `Pág. ${i} de ${totalPages}`;
+            doc.text(pageText, pWidth - 14, pHeight - 10, { align: 'right' });
+        }
+
         doc.save('informe_metricas_' + (from || 'inicio') + '_' + (to || 'fin') + '.pdf');
     }
     </script>

@@ -273,6 +273,20 @@
             });
 
             doc.text('Total en Ventas: ' + totalUSD.toFixed(2).replace('.', ',') + '$', 14, doc.lastAutoTable.finalY + 10);
+
+            // Add page numbers
+            const totalPages = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= totalPages; i++) {
+                doc.setPage(i);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(120);
+                const pWidth = doc.internal.pageSize.getWidth();
+                const pHeight = doc.internal.pageSize.getHeight();
+                const pageText = `Pág. ${i} de ${totalPages}`;
+                doc.text(pageText, pWidth - 14, pHeight - 10, { align: 'right' });
+            }
+
             doc.save('ventas_' + (fromDate || 'all') + '.pdf');
         }
     </script>
