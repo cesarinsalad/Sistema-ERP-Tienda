@@ -13,6 +13,7 @@ class StockPurchase extends Model
         'cantidad',
         'costo_unitario',
         'fecha_compra',
+        'lote_factura',
     ];
 
     public function product(): BelongsTo

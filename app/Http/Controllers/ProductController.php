@@ -237,6 +237,7 @@ class ProductController extends Controller
             'vendor_id'          => 'required|exists:vendors,id',
             'costo_unitario'     => 'required|numeric|min:0',
             'fecha_compra'       => 'required|date',
+            'lote_factura'       => 'nullable|string|max:100',
         ]);
 
         \App\StockPurchase::create([
@@ -245,6 +246,7 @@ class ProductController extends Controller
             'cantidad'       => $request->cantidad_adicional,
             'costo_unitario' => $request->costo_unitario,
             'fecha_compra'   => $request->fecha_compra,
+            'lote_factura'   => $request->lote_factura,
         ]);
 
         $articulo->cantidad += $request->cantidad_adicional;

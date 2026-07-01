@@ -211,14 +211,20 @@
                                 <input type="number" name="cantidad_adicional" min="1" required class="form-control border-0 bg-light font-weight-bold text-purple text-center" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;" placeholder="Ej: 10">
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label class="text-muted small font-weight-bold text-uppercase mb-1">Proveedor</label>
-                            <select name="vendor_id" required class="form-control border-0 bg-light font-weight-bold text-dark" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;">
-                                <option value="">Seleccione un Proveedor...</option>
-                                @foreach($vendors as $vendor)
-                                    <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label class="text-muted small font-weight-bold text-uppercase mb-1">Proveedor</label>
+                                <select name="vendor_id" required class="form-control border-0 bg-light font-weight-bold text-dark" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;">
+                                    <option value="">Seleccione un Proveedor...</option>
+                                    @foreach($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label class="text-muted small font-weight-bold text-uppercase mb-1">Lote / Factura</label>
+                                <input type="text" name="lote_factura" class="form-control border-0 bg-light font-weight-bold text-dark" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;" placeholder="Ej: LOTE-1234">
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
@@ -267,6 +273,7 @@
                 // Limpiar/resetear los campos del modal al abrirlo
                 $('#addStockForm').find('input[name="cantidad_adicional"]').val('');
                 $('#addStockForm').find('select[name="vendor_id"]').val('');
+                $('#addStockForm').find('input[name="lote_factura"]').val('');
                 $('#addStockForm').find('input[name="costo_unitario"]').val('');
                 
                 var today = new Date().toISOString().split('T')[0];

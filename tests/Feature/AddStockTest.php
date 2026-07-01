@@ -40,6 +40,7 @@ class AddStockTest extends TestCase
                 'vendor_id' => $vendor->id,
                 'costo_unitario' => 5.50,
                 'fecha_compra' => '2026-06-17',
+                'lote_factura' => 'LOTE-100200',
             ]);
 
         // 5. Assertions
@@ -55,6 +56,7 @@ class AddStockTest extends TestCase
             'cantidad' => 15,
             'costo_unitario' => 5.50,
             'fecha_compra' => '2026-06-17',
+            'lote_factura' => 'LOTE-100200',
         ]);
     }
 

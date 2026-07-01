@@ -91,6 +91,7 @@
                                     <tr>
                                         <th class="border-0">Fecha</th>
                                         <th class="border-0">Proveedor</th>
+                                        <th class="border-0">Lote/Factura</th>
                                         <th class="border-0 text-center">Cant.</th>
                                         <th class="border-0 text-right">Costo Unit.</th>
                                     </tr>
@@ -103,6 +104,9 @@
                                             </td>
                                             <td class="align-middle font-weight-bold text-dark border-0" style="font-size: 0.9rem;">
                                                 {{ $purchase->vendor->name ?? 'N/A' }}
+                                            </td>
+                                            <td class="align-middle font-weight-500 text-muted border-0" style="font-size: 0.9rem;">
+                                                {{ $purchase->lote_factura ?? 'N/A' }}
                                             </td>
                                             <td class="align-middle text-center font-weight-bold border-0" style="font-size: 0.95rem; color: #7D266E;">
                                                 {{ $purchase->cantidad }}
