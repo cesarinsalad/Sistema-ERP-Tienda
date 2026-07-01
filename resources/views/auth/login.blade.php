@@ -17,7 +17,7 @@
 @section('auth_body')
     {{-- Internal Logo --}}
     <div class="text-center mb-4">
-        <img src="{{ asset('imagenes/logo-black.png') }}" alt="GIGI FASHION" style="height: 80px; width: auto; object-fit: contain;">
+        <img src="{{ asset('imagenes/logo-gigi.png') }}" alt="GIGI FASHION" style="height: 200px; width: auto; object-fit: contain;">
     </div>
 
     <form action="{{ $login_url }}" method="post">
