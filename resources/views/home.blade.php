@@ -75,9 +75,13 @@
                                 <label class="text-muted small font-weight-bold uppercase mb-1">Dirección</label>
                                 <textarea name="client_dir" id="client_dir" class="form-control border-0 bg-light rounded-lg" placeholder="Dirección" rows="2" maxlength="50" required></textarea>
                             </div>
-                            <div class="col-md-12 mt-2">
-                                <button type="button" id="registrar-cliente-ajax" class="btn btn-block py-2 font-weight-bold" 
-                                        style="background: #EEE1ED; color: #7D266E; border-radius: 0.75rem;">
+                            <div class="col-md-12 mt-2 d-flex" style="gap: 10px;">
+                                <button type="button" id="cancelar-cliente-btn" class="btn py-2 font-weight-bold" 
+                                        style="background: #F1F5F9; color: #64748B; border-radius: 0.75rem; flex: 1; border: 1px solid #E2E8F0;">
+                                    <i class="fas fa-times mr-1"></i> CANCELAR
+                                </button>
+                                <button type="button" id="registrar-cliente-ajax" class="btn py-2 font-weight-bold" 
+                                        style="background: #EEE1ED; color: #7D266E; border-radius: 0.75rem; flex: 2;">
                                     <i class="fas fa-save mr-1"></i> REGISTRAR Y VALIDAR
                                 </button>
                             </div>
@@ -462,6 +466,18 @@ $(document).ready(function () {
         $('#resultado-cliente').hide();
         $('#nuevo-cliente-form').hide();
         $('#client-search-section').fadeIn();
+        $('#client-id').val('');
+        $('#busqueda').val('').focus();
+    });
+
+    // Cancel new client registration
+    $('#cancelar-cliente-btn').on('click', function() {
+        $('#nuevo-cliente-form').hide();
+        $('#client-search-section').fadeIn();
+        $('#client_nom').val('');
+        $('#client_ape').val('');
+        $('#client_tel').val('');
+        $('#client_dir').val('');
         $('#client-id').val('');
         $('#busqueda').val('').focus();
     });
