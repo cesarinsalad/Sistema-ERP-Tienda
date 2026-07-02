@@ -114,6 +114,12 @@
                                         <span class="font-weight-bold text-success" style="font-size: 1.1rem;">
                                             ${{ number_format($pago->amount, 2) }}
                                         </span>
+                                        @php $tasaUsar = $pago->tasa_cambio ?? $tasaDolar; @endphp
+                                        @if(in_array($pago->payment_method, ['Pago Movil', 'Transferencia']) && isset($tasaUsar))
+                                        <div class="text-muted small font-weight-bold" style="margin-top: -2px;">
+                                            {{ number_format($pago->amount * $tasaUsar, 2, ',', '.') }} Bs
+                                        </div>
+                                        @endif
                                     </td>
                                     <td>
                                         <span class="badge px-3 py-2" style="background: #F1F5F9; color: #475569; border-radius: 8px; font-weight: 600;">
@@ -226,6 +232,7 @@
         }
 
         function renderPDF(data, fromDate, toDate) {
+            const tasaDolar = {{ $tasaDolar ?? 1 }};
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('l', 'mm', 'a4');
             const pageWidth = doc.internal.pageSize.getWidth();
@@ -259,9 +266,15 @@
                 const monto = parseFloat(pago.amount) || 0;
                 total += monto;
 
+                let pagoTasa = parseFloat(pago.tasa_cambio) || tasaDolar;
+                let montoDisplay = '$' + monto.toFixed(2);
+                if ((pago.payment_method === 'Pago Movil' || pago.payment_method === 'Transferencia') && pagoTasa) {
+                    montoDisplay += '\n(' + (monto * pagoTasa).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' Bs)';
+                }
+
                 rows.push([
                     pago.id, empName, empDoc,
-                    '$' + monto.toFixed(2),
+                    montoDisplay,
                     pago.payment_method || 'Efectivo',
                     pago.reference || 'Sin Ref.',
                     new Date(pago.payment_date).toLocaleDateString(),

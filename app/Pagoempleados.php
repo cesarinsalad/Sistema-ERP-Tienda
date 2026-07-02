@@ -11,6 +11,7 @@ class Pagoempleados extends Model
     protected $fillable = [
         'empleado_id',
         'amount',
+        'tasa_cambio',
         'reference',
         'payment_method',
         'payment_date'

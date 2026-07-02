@@ -17,6 +17,15 @@
                             <i class="fas fa-arrow-left mr-2"></i> REGRESAR
                         </a>
                     </div>
+                    
+                    {{-- Tasa display --}}
+                    @if(isset($tasaDolar))
+                    <div class="mt-3">
+                        <span class="badge px-3 py-1 font-weight-bold shadow-sm" style="background: #F8FAFC; color: #475569; border-radius: 8px; font-size: 0.85rem; border: 1px solid #E2E8F0; display: inline-flex; align-items: center;">
+                            <i class="fas fa-coins mr-1 text-purple"></i> Tasa Oficial: {{ number_format($tasaDolar, 2, ',', '.') }} Bs/$
+                        </span>
+                    </div>
+                    @endif
                 </div>
             </div>
 
@@ -56,7 +65,7 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-4">
-                                <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;">Monto a Pagar ($)</label>
+                                <label class="text-muted small font-weight-bold text-uppercase" style="letter-spacing: 0.05em;" id="amountLabel">Monto a Pagar ($)</label>
                                 <div class="d-flex align-items-center">
                                     <div class="input-group" style="flex: 1;">
                                         <div class="input-group-prepend">
@@ -71,6 +80,12 @@
                                             title="Usar sueldo base" style="border-radius: 10px; background: #EEE1ED; color: #7D266E; height: 45px; width: 45px; flex-shrink: 0;">
                                         <i class="fas fa-magic"></i>
                                     </button>
+                                </div>
+                                <div id="monto-bs-info" class="mt-2" style="display: none;">
+                                    <div class="d-flex justify-content-between align-items-center p-2 rounded" style="background: #FDF4FB; border: 1px solid #EEE1ED;">
+                                        <span class="text-purple small font-weight-bold uppercase"><i class="fas fa-exchange-alt mr-1"></i> Equivalente en Bs:</span>
+                                        <span class="font-weight-bold text-purple" id="monto-bs-display">0.00 Bs</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-4">
@@ -167,6 +182,23 @@
                 $('#warningModal').modal('show');
             @endif
 
+            const tasaDolar = {{ $tasaDolar ?? 1 }};
+
+            function updateCurrencyDisplay() {
+                const method = $('#payment_method').val();
+                const amount = parseFloat($('#amountInput').val()) || 0;
+                
+                if(method === 'Pago Movil' || method === 'Transferencia') {
+                    const bs = amount * tasaDolar;
+                    $('#monto-bs-display').text(bs.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' Bs');
+                    $('#monto-bs-info').fadeIn(200);
+                } else {
+                    $('#monto-bs-info').fadeOut(200);
+                }
+            }
+
+            $('#amountInput').on('input', updateCurrencyDisplay);
+
             // Empleado selection change
             $('#empleadoSelect').on('change', function() {
                 const selected = $(this).find(':selected');
@@ -193,6 +225,7 @@
                 if (!isNaN(salary)) {
                     const total = salary + commission;
                     $('#amountInput').val(total.toFixed(2));
+                    updateCurrencyDisplay();
                 } else {
                     $('#warning-message').text('Seleccione un empleado para cargar su remuneración.');
                     $('#warningModal').modal('show');
@@ -201,8 +234,12 @@
 
             // Payment logic
             $('#payment_method').on('change', function() {
-                if($(this).val() === 'Efectivo') $('#reference_group').hide();
-                else $('#reference_group').show();
+                if($(this).val() === 'Efectivo') {
+                    $('#reference_group').hide();
+                } else {
+                    $('#reference_group').show();
+                }
+                updateCurrencyDisplay();
             }).trigger('change');
 
             $('#paymentForm').on('submit', function(e) {

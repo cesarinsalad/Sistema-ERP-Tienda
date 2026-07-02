@@ -7,6 +7,7 @@ use App\Empleados;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Exchangerate;
 
 class PagoempleadosController extends Controller
 {
@@ -49,14 +50,18 @@ class PagoempleadosController extends Controller
 
         $pagos = $query->latest()->paginate(10)->appends($request->query());
         $empleados = Empleados::with('user')->get()->sortBy('user.name');
+        $rate = Exchangerate::updateTodayRate();
+        $tasaDolar = $rate->value;
 
-        return view('pagoempleados.index', compact('pagos', 'defaultFrom', 'defaultTo', 'empleados'));
+        return view('pagoempleados.index', compact('pagos', 'defaultFrom', 'defaultTo', 'empleados', 'tasaDolar'));
     }
 
     public function create()
     {
         $empleados = Empleados::with('user')->where('is_active', true)->get();
-        return view('pagoempleados.create', compact('empleados'));
+        $rate = Exchangerate::updateTodayRate();
+        $tasaDolar = $rate->value;
+        return view('pagoempleados.create', compact('empleados', 'tasaDolar'));
     }
 
     public function store(Request $request)
@@ -72,10 +77,12 @@ class PagoempleadosController extends Controller
         DB::beginTransaction();
         try {
             $ref = $request->payment_method === 'Efectivo' ? null : $request->reference;
+            $rate = Exchangerate::updateTodayRate();
 
             Pagoempleados::create([
                 'empleado_id' => $request->empleado_id,
                 'amount' => $request->amount,
+                'tasa_cambio' => $rate->value,
                 'payment_date' => $request->payment_date,
                 'payment_method' => $request->payment_method,
                 'reference' => $ref
