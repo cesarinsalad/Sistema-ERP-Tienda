@@ -19,14 +19,20 @@
         <div class="py-3 px-3 border-bottom d-flex justify-content-between">
             <h4>Últimos Backups</h4>
 
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Generar un nuevo respaldo de la base de datos">
-                <form action="{{ route('backups.store') }}" method="post">
-                    @csrf
-                    <button class="btn btn-success" type="submit" style="position:relative; border-radius: 10px; font-weight: 600;">
-                        <i class="fas fa-plus mr-2"></i> Generar Backup
-                    </button>
-                </form>
-            </span>
+            <div class="d-flex" style="gap: 10px;">
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Generar un nuevo respaldo de la base de datos">
+                    <form action="{{ route('backups.store') }}" method="post">
+                        @csrf
+                        <button class="btn btn-success" type="submit" style="position:relative; border-radius: 10px; font-weight: 600;">
+                            <i class="fas fa-plus mr-2"></i> Generar Backup
+                        </button>
+                    </form>
+                </span>
+                
+                <button type="button" class="btn btn-primary" id="btnUploadBackup" style="border-radius: 10px; font-weight: 600; background-color: #2563EB; border-color: #2563EB;">
+                    <i class="fas fa-upload mr-2"></i> Cargar Respaldo
+                </button>
+            </div>
 
         </div>
 
@@ -63,7 +69,7 @@
                                 <form action="{{ route('backups.destroy', $backup->id) }}" method="POST" class="delete-form m-0">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn btn-danger btn-delete-backup" style="border-radius: 8px;"><i class="fas fa-trash-alt"></i></button>
+                                    <button type="submit" class="btn btn-danger btn-delete-backup" style="border-radius: 8px;"><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </div>
                         </td>
@@ -72,32 +78,6 @@
             </table>
             <div class="pagination-container pt-3">
                 {!! $backups->links() !!}
-            </div>
-        </div>
-    </div>
-
-    {{-- Confirm Delete Modal (Premium Aesthetic) --}}
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 2rem;">
-                <div class="modal-body text-center p-5">
-                    <div class="warning-icon-container mb-4">
-                        <div class="warning-icon-bg">
-                            <i class="fas fa-trash-alt" style="font-size: 3rem;"></i>
-                        </div>
-                    </div>
-                    <h2 class="font-weight-bold mb-3" style="color: #1E293B;">¿Eliminar Backup?</h2>
-                    <p class="text-muted mb-4" style="font-size: 1.15rem;">Esta acción eliminará permanentemente el archivo de respaldo. ¿Está seguro de continuar?</p>
-                    <div class="d-flex flex-column" style="gap: 12px;">
-                        <button type="button" id="confirmDeleteBtn" class="btn btn-block py-3 font-weight-bold" 
-                                style="background: #7D266E; color: white; border-radius: 50rem; box-shadow: 0 4px 12px rgba(125, 38, 110, 0.2); font-size: 1.1rem; text-transform: uppercase;">
-                            SÍ, ELIMINAR
-                        </button>
-                        <button type="button" class="btn btn-link text-muted font-weight-bold py-2" data-dismiss="modal" style="text-decoration: none;">
-                            CANCELAR
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -123,18 +103,46 @@
 @section('js')
     <script>
         $(function () {
-            let formToSubmit = null;
-
-            $('.btn-delete-backup').on('click', function(e) {
+            $('#btnUploadBackup').on('click', function(e) {
                 e.preventDefault();
-                formToSubmit = $(this).closest('form');
-                $('#confirmDeleteModal').modal('show');
-            });
-
-            $('#confirmDeleteBtn').on('click', function() {
-                if(formToSubmit) {
-                    formToSubmit.submit();
-                }
+                Swal.fire({
+                    title: '¿Cargar y Restaurar?',
+                    html: `
+                        <p class="text-muted mb-4" style="font-size: 1.15rem;">Al cargar este archivo, <strong class="text-danger">se sobrescribirá</strong> la base de datos actual. ¿Está seguro de continuar?</p>
+                        <form action="{{ route('backups.upload') }}" method="POST" enctype="multipart/form-data" id="swalUploadForm">
+                            @csrf
+                            <div class="form-group text-left mb-4">
+                                <label for="swal_backup_file" class="font-weight-bold" style="color: #475569;">Seleccionar archivo (.sql):</label>
+                                <input type="file" name="backup_file" id="swal_backup_file" class="form-control-file" required accept=".sql,.gz,.txt" style="border: 2px dashed #CBD5E1; padding: 1rem; border-radius: 1rem; background: #F8FAFC; width: 100%;">
+                            </div>
+                        </form>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#2563EB',
+                    cancelButtonColor: 'transparent',
+                    confirmButtonText: 'CONFIRMAR Y SUBIR',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'swal-premium-popup',
+                        confirmButton: 'swal-premium-btn',
+                        cancelButton: 'swal-premium-btn'
+                    },
+                    preConfirm: () => {
+                        const fileInput = document.getElementById('swal_backup_file');
+                        if (!fileInput.files.length) {
+                            Swal.showValidationMessage('Por favor selecciona un archivo (.sql)');
+                            return false;
+                        }
+                        
+                        const form = document.getElementById('swalUploadForm');
+                        Swal.getConfirmButton().innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> RESTAURANDO...';
+                        Swal.getConfirmButton().disabled = true;
+                        form.submit();
+                        return false; 
+                    }
+                });
             });
         });
     </script>

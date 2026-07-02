@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ? 'Esta acción inhabilitará la opción o al usuario del sistema.'
             : '¿Deseas continuar con esta operación y guardar los cambios?';
         const confirmButtonText = isDelete ? 'Sí, continuar' : 'Sí, continuar';
-        const confirmButtonColor = isDelete ? '#d33' : '#3085d6';
+        const confirmButtonColor = isDelete ? '#E11D48' : '#7D266E';
 
         // Trigger SweetAlert2 Modal
         Swal.fire({
@@ -43,10 +43,15 @@ document.addEventListener('DOMContentLoaded', function () {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: confirmButtonColor,
-            cancelButtonColor: '#6c757d',
+            cancelButtonColor: 'transparent',
             confirmButtonText: confirmButtonText,
             cancelButtonText: 'Cancelar',
-            reverseButtons: true
+            reverseButtons: true,
+            customClass: {
+                popup: 'swal-premium-popup',
+                confirmButton: 'swal-premium-btn',
+                cancelButton: 'swal-premium-btn'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 // Submit the form programmatically bypassing the event listener
