@@ -41,6 +41,43 @@ class Restore extends Controller
         ]);
     }
 
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'backup_file' => 'required|file',
+        ]);
+
+        $file = $request->file('backup_file');
+        
+        $extension = $file->getClientOriginalExtension();
+        $fileName = 'uploaded_' . time() . '.' . $extension;
+        
+        $dumpsPath = $this->getDumpsPath();
+        
+        if (!is_dir($dumpsPath)) {
+            mkdir($dumpsPath, 0755, true);
+        }
+
+        $file->move($dumpsPath, $fileName);
+
+        $filePath = $dumpsPath . $fileName;
+
+        Dump::create([
+            'file' => $filePath,
+            'file_name' => $fileName,
+            'created_at' => \Carbon\Carbon::now()
+        ]);
+
+        $this->database = $this->getDatabase(config('database.default'));
+        
+        $message = $this->restoreDump($fileName);
+
+        if ($message === 'was successfully restored.') {
+            return redirect()->route('backups.index')->with('success', 'Backup cargado y base de datos restaurada correctamente.');
+        }
+
+        return redirect()->route('backups.index')->with('error', 'Error al restaurar el backup: ' . $message);
+    }
 
     protected function restoreDump($fileName): string
     {

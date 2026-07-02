@@ -52,6 +52,7 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
 
     Route::get('/backups','DB\Restore@index')->name('backups.index');
     Route::post('/backups','DB\Backup@store')->name('backups.store');
+    Route::post('/backups/upload','DB\Restore@upload')->name('backups.upload');
     Route::get('/backups/download/{backup}','DB\Restore@download')->name('backups.download');
     Route::delete('/backups/{id}','DB\Restore@destroy')->name('backups.destroy');
     Route::post('/listadotasa/fetch-api', 'ExchangerateController@fetchFromApi')->name('listadotasa.fetchFromApi');

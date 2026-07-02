@@ -29,7 +29,7 @@
                     </form>
                 </span>
                 
-                <button type="button" class="btn btn-primary" id="btnUploadBackup" style="border-radius: 10px; font-weight: 600; background-color: #2563EB; border-color: #2563EB;">
+                <button type="button" class="btn btn-primary" id="btnUploadBackup" style="border-radius: 10px; font-weight: 600; background-color: #7D266E; border-color: #7D266E;">
                     <i class="fas fa-upload mr-2"></i> Cargar Respaldo
                 </button>
             </div>
@@ -119,7 +119,7 @@
                     `,
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#2563EB',
+                    confirmButtonColor: '#7D266E',
                     cancelButtonColor: 'transparent',
                     confirmButtonText: 'CONFIRMAR Y SUBIR',
                     cancelButtonText: 'Cancelar',
