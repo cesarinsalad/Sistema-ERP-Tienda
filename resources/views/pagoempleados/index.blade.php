@@ -248,8 +248,15 @@
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
             doc.text("RIF: J-40270897-1", x, y+=7);
+            
+            doc.setFontSize(8);
+            var addressText = "CALLE SAN NICOLAS ENTRE EL BOULEVAR GOMEZ Y GUEVARA LOCAL S/N NRO 7 SECTOR CENTRO PORLAMAR NUEVA ESPARTA, ZONA POSTAL 6301";
+            var splitAddress = doc.splitTextToSize(addressText, pageWidth - 60);
+            doc.text(splitAddress, x, y+=5);
+            
             doc.setFontSize(10);
-            doc.text('Periodo: ' + (fromDate || 'N/A') + ' al ' + (toDate || 'N/A'), x, y+=6);
+            y += (splitAddress.length * 4) + 2;
+            doc.text('Periodo: ' + (fromDate || 'N/A') + ' al ' + (toDate || 'N/A'), x, y);
 
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
