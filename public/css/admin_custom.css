@@ -188,7 +188,11 @@ div.swal-premium-popup .swal2-title {
 div.swal-premium-popup .swal2-html-container {
     color: #475569 !important;
     font-size: 1.15rem !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0 !important;
+}
+
+div.swal-premium-popup .swal2-actions {
+    margin-top: 1rem !important;
 }
 
 button.swal2-confirm.swal-premium-btn,

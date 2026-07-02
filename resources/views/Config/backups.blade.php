@@ -111,7 +111,7 @@
                         <p class="text-muted mb-4" style="font-size: 1.15rem;">Al cargar este archivo, <strong class="text-danger">se sobrescribirá</strong> la base de datos actual. ¿Está seguro de continuar?</p>
                         <form action="{{ route('backups.upload') }}" method="POST" enctype="multipart/form-data" id="swalUploadForm">
                             @csrf
-                            <div class="form-group text-left mb-4">
+                            <div class="form-group text-left mb-0">
                                 <label for="swal_backup_file" class="font-weight-bold" style="color: #475569;">Seleccionar archivo (.sql):</label>
                                 <input type="file" name="backup_file" id="swal_backup_file" class="form-control-file" required accept=".sql,.gz,.txt" style="border: 2px dashed #CBD5E1; padding: 1rem; border-radius: 1rem; background: #F8FAFC; width: 100%;">
                             </div>
