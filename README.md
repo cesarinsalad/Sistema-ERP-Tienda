@@ -25,41 +25,46 @@ Este es un sistema de Planificación de Recursos Empresariales (ERP) diseñado p
 
 ---
 
-## 🏗️ Guía de Instalación (WSL + Docker)
+## 🏗️ Guía de Instalación (Docker Compose)
 
-Sigue estos pasos para configurar el entorno de desarrollo en tu máquina local.
+Sigue estos sencillos pasos para configurar el entorno de desarrollo usando Docker, que ya contiene todo lo necesario (Nginx, PHP-FPM, MySQL 8.0).
 
 ### 1. Requisitos Previos
-- Windows 10/11 con **WSL2** instalado (Ubuntu recomendado).
-- **Docker Desktop** con la integración de WSL2 activada.
-- **PHP 7.4+** y **Composer** instalados dentro de tu distro de WSL.
+- **Docker** y **Docker Compose** instalados en tu sistema.
 
 ### 2. Clonar y Configurar Variables de Entorno
 Clona el repositorio y crea tu archivo de configuración:
 ```bash
 cp .env.example .env
 ```
-Asegúrate de que las credenciales de la base de datos en `.env` coincidan con tu configuración de Docker:
+Asegúrate de que las credenciales de la base de datos en tu archivo `.env` coincidan con lo que se creará en Docker:
 ```env
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=db
 DB_PORT=3306
 DB_DATABASE=sistema_erp
 DB_USERNAME=root
 DB_PASSWORD=root
 ```
 
-### 3. Levantar la Base de Datos con Docker
-Si no tienes un contenedor de MySQL listo, puedes levantarlo rápidamente:
+### 3. Levantar Contenedores e Instalar Dependencias
+Levanta los contenedores en segundo plano (Nginx, PHP, MySQL) y asegúrate de que se construyan correctamente:
 ```bash
-docker run --name erp-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=sistema_erp -p 3306:3306-d mysql:8.0
+docker-compose up -d --build
+```
+Una vez que estén corriendo, instala las dependencias de Composer a través del contenedor `app`:
+```bash
+docker-compose exec app composer install
+```
+Instala las dependencias de Frontend (solo si vas a modificar recursos, es opcional si solo usarás el proyecto finalizado):
+```bash
+npm install && npm run dev
 ```
 
-### 4. Instalar Dependencias
-Dentro de la carpeta del proyecto en tu terminal de WSL:
+### 4. Permisos de Carpetas
+Dado que Docker montará los archivos en un volumen local, es importante darle permisos a las carpetas temporales para que Laravel pueda escribir allí:
 ```bash
-composer install
-npm install && npm run dev
+chmod -R 777 storage bootstrap/cache
 ```
 
 ### 5. Preparar la Base de Datos
@@ -68,25 +73,21 @@ Existen dos formas de preparar la base de datos, dependiendo de si quieres datos
 **Opción A: Instalación Completa (Con datos de prueba)**
 Esta opción generará cientos de registros ficticios (clientes, productos, órdenes) ideales para desarrollo y pruebas.
 ```bash
-php artisan key:generate
-php artisan migrate --seed
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate --seed
 ```
 
 **Opción B: Instalación Limpia (Solo administrador y configuraciones)**
 Esta opción es ideal para producción o para iniciar un negocio real. Solo creará el usuario Administrador y configuraciones básicas (monedas, métodos de pago).
 ```bash
-php artisan key:generate
-php artisan migrate --seed --class=BaseSeeder
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate --seed --class=BaseSeeder
 ```
 
 ### 6. Ejecutar el Programa
-Inicia el servidor de desarrollo de Laravel:
-```bash
-php artisan serve
-```
-El sistema estará disponible en: [http://localhost:8000](http://localhost:8000)
-
-> **Nota para usuarios de Docker Compose:** Si estás usando Docker Compose (recomendado), reemplaza los comandos `php artisan` por `docker-compose exec app php artisan`.
+¡Todo listo! No necesitas correr comandos adicionales. El servidor web Nginx configurado por Docker ya está sirviendo el sistema.
+Simplemente abre en tu navegador:
+[http://localhost:8000](http://localhost:8000)
 
 ---
 
