@@ -61,13 +61,7 @@ Instala las dependencias de Frontend (solo si vas a modificar recursos, es opcio
 npm install && npm run dev
 ```
 
-### 4. Permisos de Carpetas
-Dado que Docker montará los archivos en un volumen local, es importante darle permisos a las carpetas temporales para que Laravel pueda escribir allí:
-```bash
-chmod -R 777 storage bootstrap/cache
-```
-
-### 5. Preparar la Base de Datos
+### 4. Preparar la Base de Datos
 Existen dos formas de preparar la base de datos, dependiendo de si quieres datos de prueba o una instalación completamente limpia:
 
 **Opción A: Instalación Completa (Con datos de prueba)**
@@ -81,10 +75,11 @@ docker-compose exec app php artisan migrate --seed
 Esta opción es ideal para producción o para iniciar un negocio real. Solo creará el usuario Administrador y configuraciones básicas (monedas, métodos de pago).
 ```bash
 docker-compose exec app php artisan key:generate
-docker-compose exec app php artisan migrate --seed --class=BaseSeeder
+docker-compose exec app php artisan migrate
+docker-compose exec app php artisan db:seed --class=BaseSeeder
 ```
 
-### 6. Ejecutar el Programa
+### 5. Ejecutar el Programa
 ¡Todo listo! No necesitas correr comandos adicionales. El servidor web Nginx configurado por Docker ya está sirviendo el sistema.
 Simplemente abre en tu navegador:
 [http://localhost:8000](http://localhost:8000)

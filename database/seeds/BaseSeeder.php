@@ -11,18 +11,20 @@ class BaseSeeder extends Seeder
      */
     public function run()
     {
-        // 1. Create Base Admin
-        \App\User::create([
-            'name' => 'admin',
-            'email' => 'admin@gigi.com',
-            'password' => '12345678',
-            'role' => 'super_admin'
-        ]);
+        // 1. Create Base Admin (if not exists)
+        \App\User::firstOrCreate(
+            ['email' => 'admin@gigi.com'],
+            [
+                'name' => 'admin',
+                'password' => '12345678',
+                'role' => 'super_admin'
+            ]
+        );
 
         // 2. Base Exchangerate
-        \App\Exchangerate::create([
-            'value' => '450.00' 
-        ]);
+        \App\Exchangerate::firstOrCreate(
+            ['value' => '450.00']
+        );
 
         // 2.5 Base Payment Methods
         $metodos = [
@@ -33,7 +35,10 @@ class BaseSeeder extends Seeder
             ['nombre_metodo' => 'Zelle (USD)', 'ref' => true, 'moneda' => '$'],
         ];
         foreach ($metodos as $metodo) {
-            \App\Metodo_de_pago::create($metodo);
+            \App\Metodo_de_pago::firstOrCreate(
+                ['nombre_metodo' => $metodo['nombre_metodo']],
+                $metodo
+            );
         }
     }
 }
