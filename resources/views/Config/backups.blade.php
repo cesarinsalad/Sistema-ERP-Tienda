@@ -17,14 +17,14 @@
     <br>
     <div class="card mb-3">
         <div class="py-3 px-3 border-bottom d-flex justify-content-between">
-            <h4>Últimos Backups</h4>
+            <h4>Últimos Respaldos</h4>
 
             <div class="d-flex" style="gap: 10px;">
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Generar un nuevo respaldo de la base de datos">
                     <form action="{{ route('backups.store') }}" method="post">
                         @csrf
                         <button class="btn btn-success" type="submit" style="position:relative; border-radius: 10px; font-weight: 600;">
-                            <i class="fas fa-plus mr-2"></i> Generar Backup
+                            <i class="fas fa-plus mr-2"></i> Generar Respaldo
                         </button>
                     </form>
                 </span>

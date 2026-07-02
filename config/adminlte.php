@@ -299,7 +299,7 @@ return [
             'can'  => 'admin',
         ],
         [
-            'text' => 'Backups',
+            'text' => 'Respaldos',
             'url'  => '/backups',
             'icon' => 'fa fa-arrow-down',
             'can'  => 'admin',
