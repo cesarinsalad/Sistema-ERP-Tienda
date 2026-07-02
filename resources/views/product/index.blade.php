@@ -13,6 +13,10 @@
                             <p class="text-muted small m-0 mt-1"><i class="fas fa-boxes mr-1"></i> Gestión de existencias, precios y catálogo</p>
                         </div>
                         <div class="d-flex" style="gap: 12px;">
+                            <button onclick="generatePDF()" class="btn px-3 py-2 font-weight-bold" 
+                                    style="background: #EEE1ED; color: #7D266E; border-radius: 50rem; text-transform: uppercase; border: none;">
+                                <i class="far fa-file-pdf mr-2"></i> GENERAR PDF
+                            </button>
                             <a class="btn-premium-return" href="{{ route('articulo.inactivos') }}">
                                 <i class="fas fa-archive"></i> VER INACTIVOS
                             </a>
@@ -256,9 +260,18 @@
 @stop
 
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
+
+            // Auto logo detection for PDF
+            const imgLogo = document.createElement('img');
+            imgLogo.src = "{{ asset('imagenes/logo-gigi.png') }}";
+            imgLogo.id = 'img-logo';
+            imgLogo.className = 'd-none';
+            document.body.appendChild(imgLogo);
 
             $('.btn-add-stock').on('click', function() {
                 var id = $(this).data('id');
@@ -280,5 +293,97 @@
                 $('#addStockForm').find('input[name="fecha_compra"]').val(today);
             });
         });
+
+        function generatePDF() {
+            const search = $('input[name="search"]').val();
+            const category_id = $('select[name="category_id"]').val();
+            const brand_id = $('select[name="brand_id"]').val();
+            const stock = $('select[name="stock"]').val();
+
+            $.ajax({
+                url: "{{ route('articulo.pdfData') }}",
+                method: 'GET',
+                data: { search, category_id, brand_id, stock },
+                success: function(data) {
+                    if (!data || data.length === 0) {
+                        alert('No hay datos para generar el PDF con estos filtros.');
+                        return;
+                    }
+                    renderPDF(data);
+                },
+                error: function() {
+                    alert('Error al obtener los datos.');
+                }
+            });
+        }
+
+        function renderPDF(data) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            var x = 14, y = 20;
+
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GIGI FASHION IMPORT C.A.', x, y);
+            
+            const logo = document.getElementById('img-logo');
+            if (logo) doc.addImage(logo, 'PNG', pageWidth - 42, y-10, 28, 28);
+
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text("RIF: J-40270897-1", x, y+=7);
+            doc.setFontSize(10);
+            doc.text('Fecha de emisión: ' + new Date().toLocaleDateString(), x, y+=6);
+
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            y += 15;
+            doc.text("INVENTARIO DE PRODUCTOS", pageWidth / 2, y, { align: "center" });
+
+            const headers = [['Código', 'Producto', 'Marca', 'Categoría', 'Stock', 'Precio ($)']];
+            const rows = [];
+            let totalStock = 0;
+
+            data.forEach(prod => {
+                const brand = prod.brand ? prod.brand.name : 'N/A';
+                const categories = prod.category ? prod.category.map(c => c.name).join(', ') : 'N/A';
+                const precio = parseFloat(prod.precio) || 0;
+                totalStock += parseInt(prod.cantidad) || 0;
+
+                rows.push([
+                    prod.codigo, 
+                    prod.nombre, 
+                    brand,
+                    categories,
+                    prod.cantidad,
+                    '$' + precio.toFixed(2)
+                ]);
+            });
+
+            doc.autoTable({
+                head: headers, body: rows, startY: y + 10, theme: 'grid',
+                styles: { fontSize: 8, cellPadding: 3 },
+                headStyles: { fillColor: [117, 34, 109], textColor: 255 },
+                alternateRowStyles: { fillColor: [248, 250, 252] }
+            });
+
+            doc.text('Total Productos en Stock: ' + totalStock, 14, doc.lastAutoTable.finalY + 10);
+
+            // Add page numbers
+            const totalPages = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= totalPages; i++) {
+                doc.setPage(i);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(120);
+                const pWidth = doc.internal.pageSize.getWidth();
+                const pHeight = doc.internal.pageSize.getHeight();
+                const pageText = `Pág. ${i} de ${totalPages}`;
+                doc.text(pageText, pWidth - 14, pHeight - 10, { align: 'right' });
+            }
+
+            doc.save('inventario_' + new Date().getTime() + '.pdf');
+        }
     </script>
 @stop

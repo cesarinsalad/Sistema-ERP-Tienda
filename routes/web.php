@@ -15,6 +15,7 @@ Auth::routes();
 Route::middleware(['auth', 'can:admin'])->group(function () {
     // Productos e Inactivos (Definidos antes de los wildcards)
     Route::get('/articulo/inactivos', 'ProductController@inactivos')->name('articulo.inactivos');
+    Route::get('/articulo/pdf-data', 'ProductController@pdfData')->name('articulo.pdfData');
     Route::get('/clients/inactivos', 'ClientController@inactivos')->name('client.inactivos');
     Route::get('/vendors/inactivos', 'VendorController@inactivos')->name('vendors.inactivos');
     Route::get('/categories/inactivos', 'CategoryController@inactivos')->name('categories.inactivos');

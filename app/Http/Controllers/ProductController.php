@@ -254,4 +254,37 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Se ha agregado stock y registrado la compra exitosamente para ' . $articulo->nombre);
     }
+
+    public function pdfData(Request $request)
+    {
+        $query = Product::where('is_active', true)->with(['brand', 'category']);
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nombre', 'like', "%{$search}%")
+                  ->orWhere('codigo', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('brand_id')) {
+            $query->where('brand_id', $request->brand_id);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->whereHas('category', function($q) use ($request) {
+                $q->where('categories.id', $request->category_id);
+            });
+        }
+
+        if ($request->filled('stock')) {
+            if ($request->stock === 'low') {
+                $query->where('cantidad', '>', 0)->where('cantidad', '<=', 5);
+            } elseif ($request->stock === 'out') {
+                $query->where('cantidad', '<=', 0);
+            }
+        }
+
+        return response()->json($query->orderBy('id', 'desc')->get());
+    }
 }
