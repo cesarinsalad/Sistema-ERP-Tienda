@@ -157,3 +157,17 @@ button[onclick="generatePDF()"] {
     color: #7D266E !important;
     text-decoration: underline !important;
 }
+
+/* Fix empty padding/space when opening sidebar */
+.wrapper, .content-wrapper, body {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.main-sidebar {
+    bottom: 0 !important;
+}
+
+.main-footer {
+    margin-left: 0 !important;
+}
