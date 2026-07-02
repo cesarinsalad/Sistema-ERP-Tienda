@@ -63,10 +63,20 @@ npm install && npm run dev
 ```
 
 ### 5. Preparar la Base de Datos
-Genera la clave de la aplicación y ejecuta las migraciones con los datos iniciales:
+Existen dos formas de preparar la base de datos, dependiendo de si quieres datos de prueba o una instalación completamente limpia:
+
+**Opción A: Instalación Completa (Con datos de prueba)**
+Esta opción generará cientos de registros ficticios (clientes, productos, órdenes) ideales para desarrollo y pruebas.
 ```bash
 php artisan key:generate
 php artisan migrate --seed
+```
+
+**Opción B: Instalación Limpia (Solo administrador y configuraciones)**
+Esta opción es ideal para producción o para iniciar un negocio real. Solo creará el usuario Administrador y configuraciones básicas (monedas, métodos de pago).
+```bash
+php artisan key:generate
+php artisan migrate --seed --class=BaseSeeder
 ```
 
 ### 6. Ejecutar el Programa
@@ -75,6 +85,8 @@ Inicia el servidor de desarrollo de Laravel:
 php artisan serve
 ```
 El sistema estará disponible en: [http://localhost:8000](http://localhost:8000)
+
+> **Nota para usuarios de Docker Compose:** Si estás usando Docker Compose (recomendado), reemplaza los comandos `php artisan` por `docker-compose exec app php artisan`.
 
 ---
 
