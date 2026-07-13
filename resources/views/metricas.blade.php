@@ -474,6 +474,7 @@
         var to   = document.querySelector('input[name="toDate"]')   ? document.querySelector('input[name="toDate"]').value   : '';
         doc.setFontSize(10);
         doc.text("Periodo: " + (from || 'N/A') + " al " + (to || 'N/A'), x, y+=6);
+        doc.text("Fecha y hora de emisión: " + new Date().toLocaleString('es-VE'), x, y+=5);
 
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');

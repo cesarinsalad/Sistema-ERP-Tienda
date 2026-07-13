@@ -246,6 +246,7 @@
             doc.setFontSize(10);
             y += (splitAddress.length * 4) + 2;
             doc.text('Periodo: ' + (fromDate || 'N/A') + ' al ' + (toDate || 'N/A'), x, y);
+            doc.text('Fecha y hora de emisión: ' + new Date().toLocaleString('es-VE'), x, y+=5);
 
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');

@@ -341,7 +341,7 @@
             
             doc.setFontSize(10);
             y += (splitAddress.length * 4) + 2;
-            doc.text('Fecha de emisión: ' + new Date().toLocaleDateString(), x, y);
+            doc.text('Fecha y hora de emisión: ' + new Date().toLocaleString('es-VE'), x, y);
 
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
