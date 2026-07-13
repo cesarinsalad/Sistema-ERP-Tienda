@@ -232,7 +232,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                                <label class="text-muted small font-weight-bold text-uppercase mb-1">Costo Unitario ($)</label>
+                                <label class="text-muted small font-weight-bold text-uppercase mb-1">Importe Total ($)</label>
                                 <input type="number" step="0.01" min="0" name="costo_unitario" required class="form-control border-0 bg-light font-weight-bold text-dark text-center" style="border-radius: 10px; height: 45px; border: 2px solid #e2e8f0;" placeholder="Ej: 5.50">
                             </div>
                             <div class="col-md-6 form-group mb-3">
