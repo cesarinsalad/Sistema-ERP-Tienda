@@ -191,7 +191,6 @@
                         <div class="spinner-border text-danger" role="status"></div>
                         <p class="mt-2 text-muted">Cargando datos de la orden...</p>
                     </div>
-                    <div id="return-error" class="alert alert-danger hidden"></div>
                     
                     <form id="returnForm" class="hidden">
                         @csrf
@@ -391,8 +390,14 @@
                         });
                     },
                     error: function(err) {
+                        $('#returnModal').modal('hide');
                         $('#return-loading').addClass('hidden');
-                        $('#return-error').removeClass('hidden').text(err.responseJSON?.error || 'Error al cargar la orden.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Devolución no permitida',
+                            text: err.responseJSON?.error || 'Error al cargar la orden.',
+                            confirmButtonColor: '#7D266E'
+                        });
                     }
                 });
             });
