@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-6 mb-3">
                             <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Cédula</p>
-                            <h6 class="font-weight-normal text-dark m-0">{{ $order->client->cedula }}</h6>
+                            <h6 class="font-weight-normal text-dark m-0">{{ number_format($order->client->cedula, 0, ',', '.') }}</h6>
                         </div>
                         <div class="col-6 mb-3">
                             <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Teléfono</p>

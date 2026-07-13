@@ -44,7 +44,7 @@
                                 @foreach ($clients as $client)
                                 <tr>
                                     <td class="font-weight-bold text-muted">#{{ ++$i }}</td>
-                                    <td class="font-weight-600 text-purple">{{ $client->cedula }}</td>
+                                    <td class="font-weight-600 text-purple">{{ number_format($client->cedula, 0, ',', '.') }}</td>
                                     <td>
                                         <div class="font-weight-bold text-dark">{{ $client->nombres }} {{ $client->apellidos }}</div>
                                     </td>
