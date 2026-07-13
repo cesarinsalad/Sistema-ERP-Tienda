@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('admin/listorden/pdf-data', 'OrderController@pdfData')->name('listorden.pdfData');
     Route::resource('/listorden', 'OrderController');
+    Route::get('/ordenes/{id}/devolucion-info', 'OrderReturnController@getInfo')->name('ordenes.devolucion.info');
+    Route::post('/ordenes/{id}/procesar-devolucion', 'OrderReturnController@processReturn')->name('ordenes.devolucion.procesar');
 
     Route::get('admin/listadotasa', 'ExchangerateController@index')->name('listadotasa.index');
     Route::resource('/listadotasa', 'ExchangerateController');
