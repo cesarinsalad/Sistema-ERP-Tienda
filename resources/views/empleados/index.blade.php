@@ -70,7 +70,7 @@
                                     <th width="60px">ID</th>
                                     <th>Nombre</th>
                                     <th>Email Acceso</th>
-                                    <th>Documento</th>
+                                    <th>Cédula</th>
                                     <th>Cargo</th>
                                     <th>Sueldo</th>
                                     <th width="120px">Estado</th>
@@ -87,7 +87,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $empleado->user->email ?? 'N/A' }}</td>
-                                    <td>{{ $empleado->document }}</td>
+                                    <td>{{ is_numeric($empleado->document) ? number_format($empleado->document, 0, ',', '.') : $empleado->document }}</td>
                                     <td class="small text-muted" style="max-width: 150px;">
                                         {{ $empleado->position }}
                                     </td>

@@ -43,11 +43,11 @@
                                 </div>
                                 <div class="mb-4">
                                     <label class="text-muted small text-uppercase font-weight-bold mb-1">Cédula / ID</label>
-                                    <p class="h6 font-weight-600 text-dark">{{ $empleado->document }}</p>
+                                    <p class="h6 font-weight-600 text-dark">{{ is_numeric($empleado->document) ? number_format($empleado->document, 0, ',', '.') : $empleado->document }}</p>
                                 </div>
                                 <div class="mb-4">
                                     <label class="text-muted small text-uppercase font-weight-bold mb-1">Teléfono</label>
-                                    <p class="h6 font-weight-600 text-dark">{{ $empleado->phone ?: 'No registrado' }}</p>
+                                    <p class="h6 font-weight-600 text-dark">{{ $empleado->phone ? preg_replace('/^(\d{4})(\d{7})$/', '$1-$2', $empleado->phone) : 'No registrado' }}</p>
                                 </div>
                                 <div class="mb-0">
                                     <label class="text-muted small text-uppercase font-weight-bold mb-1">Sueldo Base</label>

@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Documento</p>
-                    <h6 class="font-weight-normal text-dark m-0" style="font-size: 1.1rem;">{{ $vendor->type_document }}-{{ $vendor->document }}</h6>
+                    <h6 class="font-weight-normal text-dark m-0" style="font-size: 1.1rem;">{{ $vendor->type_document }}-{{ $vendor->type_document == 'CI' && is_numeric($vendor->document) ? number_format($vendor->document, 0, ',', '.') : $vendor->document }}</h6>
                 </div>
                 <div class="col-md-6 mb-3">
                     <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Email</p>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Teléfono</p>
-                    <h6 class="font-weight-normal text-dark m-0" style="font-size: 1.1rem;">{{ $vendor->phone ?? 'N/A' }}</h6>
+                    <h6 class="font-weight-normal text-dark m-0" style="font-size: 1.1rem;">{{ $vendor->phone ? preg_replace('/^(\d{4})(\d{7})$/', '$1-$2', $vendor->phone) : 'N/A' }}</h6>
                 </div>
                 <div class="col-md-12 mb-3">
                     <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Descripción</p>

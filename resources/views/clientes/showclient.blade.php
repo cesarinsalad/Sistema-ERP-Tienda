@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Teléfono</p>
-                            <h6 class="font-weight-normal text-dark m-0">{{ $client->telefono ?: 'No especificado' }}</h6>
+                            <h6 class="font-weight-normal text-dark m-0">{{ $client->telefono ? preg_replace('/^(\d{4})(\d{7})$/', '$1-$2', $client->telefono) : 'No especificado' }}</h6>
                         </div>
                         <div class="col-md-12 mb-3">
                             <p class="text-muted small font-weight-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Dirección</p>

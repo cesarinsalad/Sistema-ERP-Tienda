@@ -77,7 +77,7 @@
                                     <td>
                                         <div class="font-weight-bold text-dark">{{ $client->nombres }} {{ $client->apellidos }}</div>
                                     </td>
-                                    <td class="text-muted font-weight-600">{{ $client->telefono }}</td>
+                                    <td class="text-muted font-weight-600">{{ preg_replace('/^(\d{4})(\d{7})$/', '$1-$2', $client->telefono) }}</td>
                                     <td>
                                         <span class="badge {{ $client->is_active ? 'badge-success' : 'badge-danger' }} px-2 py-1" style="border-radius: 6px; font-size: 0.75rem;">
                                             {{ $client->is_active ? 'ACTIVO' : 'INACTIVO' }}

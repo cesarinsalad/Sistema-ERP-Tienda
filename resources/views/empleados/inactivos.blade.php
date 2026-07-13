@@ -58,7 +58,7 @@
                                     <th width="60px">ID</th>
                                     <th>Nombre</th>
                                     <th>Email Acceso</th>
-                                    <th>Documento</th>
+                                    <th>Cédula</th>
                                     <th>Cargo</th>
                                     <th>Sueldo</th>
                                     <th width="100px">Estado</th>
@@ -73,7 +73,7 @@
                                         <div class="font-weight-bold text-dark">{{ $empleado->user->name ?? 'Usuario N/A' }}</div>
                                     </td>
                                     <td class="text-muted small">{{ $empleado->user->email ?? 'N/A' }}</td>
-                                    <td class="font-weight-600 text-purple">{{ $empleado->document }}</td>
+                                    <td class="font-weight-600 text-purple">{{ is_numeric($empleado->document) ? number_format($empleado->document, 0, ',', '.') : $empleado->document }}</td>
                                     <td>
                                         <span class="badge px-3 py-2" style="background: #F1F5F9; color: #475569; border-radius: 8px;">
                                             {{ strtoupper($empleado->position) }}

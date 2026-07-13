@@ -71,7 +71,7 @@
                                     <td>
                                         <div class="font-weight-bold text-dark" style="font-size: 1.05rem;">{{ $vendor->name }}</div>
                                     </td>
-                                    <td class="font-weight-600 text-purple">{{ $vendor->type_document }}-{{ $vendor->document }}</td>
+                                    <td class="font-weight-600 text-purple">{{ $vendor->type_document }}-{{ $vendor->type_document == 'CI' && is_numeric($vendor->document) ? number_format($vendor->document, 0, ',', '.') : $vendor->document }}</td>
                                     <td class="text-muted small">{{ \Illuminate\Support\Str::limit($vendor->description, 50) }}</td>
                                     <td class="text-center">
                                         <span class="badge px-3 py-2" style="background: #F1F5F9; color: #475569; border-radius: 8px; font-weight: 700;">

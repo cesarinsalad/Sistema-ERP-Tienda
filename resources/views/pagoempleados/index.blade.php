@@ -94,7 +94,7 @@
                                 <tr>
                                     <th width="60px">ID</th>
                                     <th>Empleado</th>
-                                    <th>Documento</th>
+                                    <th>Cédula</th>
                                     <th class="text-right">Monto ($)</th>
                                     <th>Método</th>
                                     <th>Referencia</th>
@@ -109,7 +109,7 @@
                                     <td>
                                         <div class="font-weight-bold text-dark">{{ $pago->empleado->user->name ?? 'Empleado N/A' }}</div>
                                     </td>
-                                    <td class="text-purple font-weight-600">{{ $pago->empleado->document ?? 'N/A' }}</td>
+                                    <td class="text-purple font-weight-600">{{ $pago->empleado && is_numeric($pago->empleado->document) ? number_format($pago->empleado->document, 0, ',', '.') : ($pago->empleado->document ?? 'N/A') }}</td>
                                     <td class="text-right">
                                         <span class="font-weight-bold text-success" style="font-size: 1.1rem;">
                                             ${{ number_format($pago->amount, 2) }}
