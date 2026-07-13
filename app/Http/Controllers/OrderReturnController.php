@@ -8,6 +8,7 @@ use App\Order;
 use App\Product;
 use App\Product_order;
 use App\Metodo_pago_orden;
+use App\Metodo_de_pago;
 use App\OrderReturn;
 use App\OrderReturnItem;
 use Carbon\Carbon;
@@ -175,11 +176,17 @@ class OrderReturnController extends Controller
                 $order->save();
 
                 if ($difference > 0) {
+                    $montoPago = $difference;
+                    $metodo = Metodo_de_pago::find($request->payment_method_id);
+                    if ($metodo && $metodo->moneda == 'Bs') {
+                        $montoPago = $difference * $order->tasa->value;
+                    }
+
                     Metodo_pago_orden::create([
                         'id_orden' => $order->id,
                         'id_metodo_pago' => $request->payment_method_id,
-                        'monto_pago_orden' => $difference,
-                        'reference' => 'Cambio dif.'
+                        'monto_pago_orden' => $montoPago,
+                        'reference' => 'Dev: ' . ($request->reference ?? 'Cambio dif.')
                     ]);
                 }
             }

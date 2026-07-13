@@ -261,16 +261,15 @@
                                     <select id="return_payment_method" class="form-control bg-white border-0 font-weight-bold" style="height: 45px; border-radius: 10px;">
                                         <option value="">Seleccione...</option>
                                         @foreach($paymentMethods as $pm)
-                                            <option value="{{ $pm->id }}">{{ $pm->nombre_metodo }} ({{ $pm->moneda }})</option>
+                                            <option value="{{ $pm->id }}" data-name="{{ strtolower($pm->nombre_metodo) }}">{{ $pm->nombre_metodo }} ({{ $pm->moneda }})</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group mt-3 mb-0 hidden" id="reference_container">
+                                    <label class="small font-weight-bold text-uppercase text-muted">Referencia</label>
+                                    <input type="text" id="return_reference" class="form-control bg-white border-0" placeholder="Número de referencia..." style="height: 45px; border-radius: 10px;">
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="form-group mb-0">
-                            <label class="text-muted small font-weight-bold text-uppercase mb-2">Motivo / Notas Adicionales (Opcional)</label>
-                            <textarea id="return_reason" class="form-control bg-light border-0" rows="2" style="border-radius: 10px;" placeholder="Detalle por qué se devuelve el producto..."></textarea>
                         </div>
                     </form>
                 </div>
@@ -363,24 +362,24 @@
 
             $('.return-btn').click(function(e) {
                 e.preventDefault();
-                const orderId = $(this).data('order-id');
-                $('#return_order_id').val(orderId);
+                const btn = $(this);
+                const orderId = btn.data('order-id');
+                const originalHtml = btn.html();
                 
-                $('#returnModal').modal('show');
-                $('#return-loading').removeClass('hidden');
-                $('#returnForm').addClass('hidden');
-                $('#btn-submit-return').addClass('hidden');
-                $('#return-error').addClass('hidden');
+                // Show loading state on button
+                btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
                 
                 $.ajax({
                     url: `/ordenes/${orderId}/devolucion-info`,
                     type: 'GET',
                     success: function(res) {
-                        currentOrder = res.order;
-                        $('#return-loading').addClass('hidden');
-                        $('#returnForm').removeClass('hidden');
-                        $('#btn-submit-return').removeClass('hidden');
+                        // Restore button
+                        btn.prop('disabled', false).html(originalHtml);
                         
+                        currentOrder = res.order;
+                        $('#return_order_id').val(orderId);
+                        
+                        // Populate products
                         let productSelect = $('#return_product_id');
                         productSelect.empty();
                         productSelect.append('<option value="">Seleccione un producto...</option>');
@@ -388,10 +387,25 @@
                             const unitPrice = parseFloat(p.pivot.precio) / parseInt(p.pivot.quantity);
                             productSelect.append(`<option value="${p.id}" data-qty="${p.pivot.quantity}" data-price="${unitPrice}">${p.nombre} (Disp: ${p.pivot.quantity})</option>`);
                         });
+                        
+                        // Reset forms and show modal
+                        $('#returnForm')[0].reset();
+                        $('#different_item_container').addClass('hidden');
+                        $('#difference_container').addClass('hidden');
+                        $('#selected_new_product_info').addClass('hidden');
+                        $('#new_product_id').val('');
+                        $('#new_product_price').val('');
+                        
+                        $('#return-loading').addClass('hidden');
+                        $('#returnForm').removeClass('hidden');
+                        $('#btn-submit-return').removeClass('hidden');
+                        
+                        $('#returnModal').modal('show');
                     },
                     error: function(err) {
-                        $('#returnModal').modal('hide');
-                        $('#return-loading').addClass('hidden');
+                        // Restore button
+                        btn.prop('disabled', false).html(originalHtml);
+                        
                         Swal.fire({
                             icon: 'error',
                             title: 'Devolución no permitida',
@@ -531,6 +545,17 @@
                 }
             }
 
+            $('#return_payment_method').change(function() {
+                const name = $(this).find('option:selected').data('name') || '';
+                if (name.includes('movil') || name.includes('móvil') || name.includes('transferencia') || name.includes('zelle')) {
+                    $('#reference_container').removeClass('hidden');
+                    $('#return_reference').prop('required', true);
+                } else {
+                    $('#reference_container').addClass('hidden');
+                    $('#return_reference').prop('required', false).val('');
+                }
+            });
+
             $('#btn-submit-return').click(function() {
                 const orderId = $('#return_order_id').val();
                 
@@ -544,13 +569,15 @@
                     return_type: $('#return_type').val(),
                     product_id: $('#return_product_id').val(),
                     quantity: $('#return_quantity').val(),
-                    return_to_stock: $('#return_to_stock').is(':checked') ? 1 : 0,
-                    reason: $('#return_reason').val()
+                    return_to_stock: $('#return_to_stock').is(':checked') ? 1 : 0
                 };
 
                 if (data.return_type === 'different_item') {
                     data.new_product_id = $('#new_product_id').val();
                     data.payment_method_id = $('#return_payment_method').val();
+                    if ($('#reference_container').is(':not(.hidden)')) {
+                        data.reference = $('#return_reference').val();
+                    }
                 }
 
                 Swal.fire({

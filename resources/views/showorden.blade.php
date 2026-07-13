@@ -142,8 +142,11 @@
                                     <tr>
                                         <td class="align-middle font-weight-bold text-secondary">
                                             {{ $pMethod->nombre_metodo }}
+                                            @if(Str::startsWith($pMethod->pivot->reference, 'Dev:'))
+                                                <span class="badge ml-2" style="font-size: 0.7rem; background-color: #FEF3C7; color: #92400E; border-radius: 6px;"><i class="fas fa-undo-alt mr-1"></i>Devolución</span>
+                                            @endif
                                             @if(!empty($pMethod->pivot->reference))
-                                                <br><span class="text-muted font-weight-normal" style="font-size: 0.8rem;">Ref: {{ $pMethod->pivot->reference }}</span>
+                                                <br><span class="text-muted font-weight-normal" style="font-size: 0.8rem;">Ref: {{ str_replace('Dev: ', '', $pMethod->pivot->reference) }}</span>
                                             @endif
                                         </td>
                                         <td class="align-middle text-right font-weight-bold text-success">
